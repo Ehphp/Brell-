@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 </head>
 
 <body>
@@ -57,16 +58,10 @@
         <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
         <p class="form-note">Niente app obbligatoria. Niente registrazione. Solo ombrelli.</p>
       </div>
-      <div  class = brelloSearcher> 
-          <input name="città" type="text" placeholder="Es. Alatri" required>        
-          <div class="map-container">
-          <iframe
-          src="https://www.google.com/maps/embed?pb=..."
-          width="100%" height="300" style="border:0;"
-          allowfullscreen loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade">
-          </iframe>
-        </div>
+      <div class="g-6 card brello-searcher">
+        <label for="city-search">Città</label>
+        <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
+        <div id="map" class="map-container"></div>
       </div>
     
       
@@ -144,6 +139,7 @@
     <div class="toast__inner" id="toast"></div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
