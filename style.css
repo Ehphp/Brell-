@@ -60,6 +60,17 @@ footer {
     linear-gradient(-135deg,  var(--viola) 0% 10%, var(--yellow) 10% 58%, var(--teal)58% 100%);
 }
 
+#come-funziona,
+#come-funziona-inserzionisti {
+  display:grid;
+  place-items:center;
+}
+
+#come-funziona .wrap,
+#come-funziona-inserzionisti .wrap {
+  margin-top:0;
+}
+
 /* Sfondo tipo C */
 
 #inserzionisti {
