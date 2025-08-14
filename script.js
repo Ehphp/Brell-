@@ -128,6 +128,32 @@ document.getElementById('form-utente').addEventListener('submit', e => {
   toast('Fatto! Ti avviseremo quando arriviamo.');
 });
 
+// Mappa dinamica
+const mapEl = document.getElementById('map');
+if (mapEl && window.L) {
+  const map = L.map(mapEl).setView([41.8719, 12.5674], 6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap'
+  }).addTo(map);
+
+  const cityInput = document.getElementById('city-search');
+  cityInput.addEventListener('change', () => {
+    const q = cityInput.value.trim();
+    if (!q) return;
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q + ', Italia')}`)
+      .then(r => r.json())
+      .then(res => {
+        if (res.length) {
+          const { lat, lon } = res[0];
+          map.setView([lat, lon], 13);
+        } else {
+          toast('Città non trovata');
+        }
+      });
+  });
+}
+
 // Anno dinamico nel footer
 document.getElementById('year').textContent = new Date().getFullYear();
 

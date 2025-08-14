@@ -191,6 +191,20 @@ p{margin:0 0 12px}
 #g6ComeFunziona span {
     color: var(--cream);
 }
+
+.brello-searcher{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.map-container{
+  width:100%;
+  height:300px;
+  border-radius:var(--radius);
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
 /* FORM */
 form{display:grid; gap:12px}
 label{font-weight:800}
