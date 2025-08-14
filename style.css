@@ -1,0 +1,271 @@
+:root{
+  --teal:#0E8C8F;
+  --red:#E2443A;
+  --yellow:#F3B300;
+  --viola:#422040;
+  --green:#04E824;
+  --rosa:#C33149;
+  --cream:#FFF1E3;
+  --ink:#0E1A1B;
+
+  --shadow: 0 10px 30px rgba(0,0,0,.16);
+  --radius:14px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:"Nunito", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color:var(--cream);
+  
+  overflow-x:hidden;
+}
+/* Applica sfondo a ogni blocco principale */
+/* Sfondo tipo A */
+header {
+  background:
+    radial-gradient(600px 600px at 120% -10%, var(--yellow) 0 95%, transparent 36%),
+    linear-gradient(
+      132deg,
+      var(--viola) 0 15%,
+      var(--teal) 15% 50%,
+      var(--red) 50% 100%
+    );
+}
+
+/* Sfondo tipo A1 */
+footer {
+  background:
+    radial-gradient(1000px 1000px at 120% 110%, var(--yellow) 0 95%, transparent 0%),
+    linear-gradient(
+      135deg,
+      var(--teal) 0 15%,
+      var(--green) 15% 20%,
+      var(--rosa) 20% 50%,
+      var(--viola) 50% 100%
+    );
+}
+
+/* Sfondo tipo B */
+#come-funziona {
+  background:
+    radial-gradient(600px 600px at -20% 110%, var(--yellow) 0 35%, transparent 36%),
+    linear-gradient(-135deg,  var(--teal)0 58%, var(--yellow) 58% 100%);
+}
+
+/* Sfondo tipo C */
+
+#inserzionisti {
+  background:
+    linear-gradient(128deg,var(--yellow) 0 11%,var(--rosa)  11% 50%, var(--teal) 20% 80%, var(--green) 80% 100%);}
+/* NAV */
+.nav{
+  position:fixed; inset-inline:0; top:0; z-index:10;
+  display:flex; gap:20px; align-items:center; justify-content:space-between;
+  padding:16px 22px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--cream);
+
+}
+.brand svg{
+  width:34px; height:34px; flex:0 0 auto;
+  filter: drop-shadow(0 2px 0 rgba(105, 101, 101, 0.8));
+
+}
+
+.brand strong{
+  font-weight:800; letter-spacing:.2px; font-size:1.1rem;
+    filter: drop-shadow(0 2px 0 rgba(0,0,0,.3));
+
+}
+.link{
+  color:var(--cream); text-decoration:none; font-weight:700; opacity:.9;
+  padding:.4rem .7rem; border-radius:999px; transition:.2s;
+}
+.link:hover{
+  background-color:rgba(255,241,227,.15)
+}
+.cta{
+  background:var(--cream); color:var(--ink); border-radius:999px;
+  padding:.55rem .95rem; font-weight:800;
+  box-shadow:var(--shadow); border:0; cursor:pointer; transition:.2s transform}
+.cta:hover{transform:translateY(-1px)}
+
+/* HERO */
+.hero{
+  min-height:100svh;
+  display:grid; place-items:center;
+  padding:120px 22px 80px;
+  text-align:center;
+}
+.badge{
+  display:inline-flex; gap:8px; align-items:center;
+  font-weight:800; background:rgba(255,241,227,.12);
+  padding:8px 14px; border-radius:999px;
+  border:1px solid rgba(255,241,227,.22)
+}
+.dot{
+  width:10px;height:10px;border-radius:50%;
+  background:var(--green);display:inline-block
+}
+.title{
+  font-weight:900; line-height:1.02; margin:18px auto 10px;
+  max-width:18ch;
+  font-size:clamp(2.1rem, 4.6vw + .6rem, 5rem);
+  text-shadow:0 6px 0 rgba(0,0,0,.08);
+}
+.subtitle{
+  font-size:clamp(1.05rem, 1.2vw + .6rem, 1.4rem);
+  max-width:42ch; margin:0 auto 28px; opacity:.96
+}
+.cta-row{
+  display:flex; gap:14px; flex-wrap:wrap; justify-content:center
+}
+.btn{
+  border:0; cursor:pointer; font-weight:900; letter-spacing:.2px;
+  padding:14px 20px; border-radius:999px; transition:.25s; box-shadow:var(--shadow);
+}
+.btn--red{background:var(--red); color:var(--cream)}
+.btn--light{background:var(--cream); color:var(--ink)}
+.btn:hover{transform:translateY(-2px)}
+.micro{opacity:.8; margin-top:8px; font-size:.9rem}
+
+/* SEZIONI */
+  
+section{padding:80px 22px; min-height:80svh;  }
+.wrap{max-width:1100px; margin:0 auto; margin-top:10vh}
+.card{
+  background:rgba(255,241,227,.08); border:1px solid rgba(255,241,227,.18);
+  border-radius:var(--radius); padding:22px; backdrop-filter:saturate(120%) blur(2px)
+}
+.grid{
+  display:grid; gap:18px;
+  grid-template-columns:repeat(12, 1fr)
+}
+.g-6{grid-column:span 12}
+@media(min-width:900px){
+  .g-6{grid-column:span 6}
+}
+h2{
+  font-size:clamp(1.6rem,2.2vw + .6rem,2.6rem);
+  margin:0 0 18px; font-weight:900
+}
+p{margin:0 0 12px}
+
+#g6ComeFunziona {
+    background:rgba(255, 255, 255, 0.5); border:1px solid rgba(255,241,227, 0.);
+    color: #974291;
+}
+#g6ComeFunziona h2 {
+    color: #431a40;
+}
+
+#g6ComeFunziona span {
+    color: var(--cream);
+}
+/* FORM */
+form{display:grid; gap:12px}
+label{font-weight:800}
+input, select, textarea{
+  width:100%; padding:12px 14px;
+  border-radius:10px; border:1px solid rgba(255,241,227,.35);
+  background:rgba(255,241,227,.9); color:#1a1a1a; font-weight:700;
+}
+input::placeholder, textarea::placeholder{color:#6b6b6b}
+.form-note{font-size:.9rem; opacity:.85}
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:999px;
+  background: color-mix(in srgb, var(--green) 80%, transparent);
+  border:1px solid rgba(255,241,227,.2)
+}
+
+/* TOAST */
+.toast{
+  position:fixed; inset-inline:0; bottom:20px;
+  display:grid; place-items:center; pointer-events:none; z-index:20;
+}
+.toast__inner{
+  background:var(--cream); color:var(--ink);
+  border-radius:999px; padding:10px 16px;
+  font-weight:800; opacity:0; transform:translateY(8px);
+  transition:.25s; box-shadow:var(--shadow)
+}
+.toast--show .toast__inner{opacity:1; transform:none}
+
+/* FOOTER */
+footer{
+  padding:40px 22px 80px; text-align:center; opacity:.9
+}
+footer a{color:var(--cream)}
+
+
+/* Overlay */
+#umbrella-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;      /* non blocca i click */
+  z-index: 9999;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+
+#umbrella-rain.hidden { opacity: 0; }
+
+/* Goccia (traiettoria verticale) */
+#umbrella-rain .drop {
+  position: absolute;
+  top: -12vh;
+  will-change: transform;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Oscillazione orizzontale */
+#umbrella-rain .sway {
+  will-change: transform;
+  animation-name: sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Rotazione */
+#umbrella-rain .spin {
+  will-change: transform;
+  animation-name: spin;
+  animation-fill-mode: both;
+}
+
+/* Icona */
+#umbrella-rain svg {
+  display: block;
+  width: var(--size, 18px);
+  height: var(--size, 18px);
+  color: var(--col, var(--yellow));
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.15));
+}
+
+/* Riduci movimento: disattiva interamente */
+@media (prefers-reduced-motion: reduce) {
+  #umbrella-rain { display: none !important; }
+}
+
+/* Keyframes */
+@keyframes fall {
+  from { transform: translateY(-120px); }
+  to   { transform: translateY(110vh); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(var(--sway, 18px)); }
+}
+
+@keyframes spin {
+  to { transform: rotate(var(--spin, 180deg)); }
+}
+
