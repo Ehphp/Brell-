@@ -53,6 +53,12 @@ footer {
     radial-gradient(600px 600px at -20% 110%, var(--yellow) 0 35%, transparent 36%),
     linear-gradient(-135deg,  var(--teal)0 58%, var(--yellow) 58% 100%);
 }
+/* Sfondo tipo B1 */
+#come-funziona-inserzionisti {
+  background:
+    radial-gradient(600px 600px at -20% 110%, var(--yellow) 0 35%, transparent 36%),
+    linear-gradient(-135deg,  var(--viola) 0% 10%, var(--yellow) 10% 58%, var(--teal)58% 100%);
+}
 
 /* Sfondo tipo C */
 
@@ -142,7 +148,7 @@ section{padding:80px 22px; min-height:80svh;  }
 }
 .grid{
   display:grid; gap:18px;
-  grid-template-columns:repeat(12, 1fr)
+  grid-template-columns:repeat(14, 1fr)
 }
 .g-6{grid-column:span 12}
 @media(min-width:900px){
