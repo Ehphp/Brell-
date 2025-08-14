@@ -62,8 +62,9 @@ footer {
 
 #come-funziona,
 #come-funziona-inserzionisti {
-  display:grid;
-  place-items:center;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 #come-funziona .wrap,
@@ -113,7 +114,10 @@ footer {
 /* HERO */
 .hero{
   min-height:100svh;
-  display:grid; place-items:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
   padding:120px 22px 80px;
   text-align:center;
 }
@@ -158,12 +162,17 @@ section{padding:80px 22px; min-height:80svh;  }
   border-radius:var(--radius); padding:22px; backdrop-filter:saturate(120%) blur(2px)
 }
 .grid{
-  display:grid; gap:18px;
-  grid-template-columns:repeat(14, 1fr)
+  display:flex;
+  flex-wrap:wrap;
+  gap:18px;
 }
-.g-6{grid-column:span 12}
+.g-6{
+  flex:1 1 100%;
+}
 @media(min-width:900px){
-  .g-6{grid-column:span 6}
+  .g-6{
+    flex:1 1 calc(50% - 9px);
+  }
 }
 h2{
   font-size:clamp(1.6rem,2.2vw + .6rem,2.6rem);
