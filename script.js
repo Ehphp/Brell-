@@ -11,22 +11,6 @@ document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
   });
 });
 
-// Assicura che le sezioni "Come funziona" occupino insieme il 100% dell'altezza del viewport
-function adjustHowItWorks() {
-  const prima = document.getElementById('come-funziona');
-  const seconda = document.getElementById('come-funziona-inserzionisti');
-  if (!prima || !seconda) return;
-  const vh = window.innerHeight;
-  const style = getComputedStyle(prima);
-  const hPrima =
-    prima.getBoundingClientRect().height +
-    parseFloat(style.marginTop) +
-    parseFloat(style.marginBottom);
-  const disponibile = Math.max(vh - hPrima, 0);
-  seconda.style.minHeight = disponibile + 'px';
-}
-window.addEventListener('load', adjustHowItWorks);
-window.addEventListener('resize', adjustHowItWorks);
 
 // CTA che aprono il form corretto con highlight
 document.querySelectorAll('[data-open]').forEach(btn => {
