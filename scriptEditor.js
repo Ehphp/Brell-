@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const box = new THREE.Box3().setFromObject(pivot);
             const distance = box.getSize(new THREE.Vector3()).length();
             camera.position.set(distance * 0.5, 0, distance * 0.5);
+
             controls.disconnect();
             controls.update();
 
@@ -89,43 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //#endregion event listener
 
     const scene = new THREE.Scene();
-    // crea un canvas quadrato
-    const canvas = document.createElement('canvas');
-    canvas.width = 512;
-    canvas.height = 512;
-    const ctx = canvas.getContext('2d');
-
-    // crea gradiente conico con sintassi CSS
-    ctx.fillStyle = 'conic-gradient(from 90deg, red 0deg, red 120deg, teal 120deg, teal 240deg, yellow 240deg, yellow 360deg)';
-
-    // ⚠️ Il problema: i Canvas 2D non supportano nativamente "conic-gradient" come fillStyle
-    // quindi dobbiamo farlo "a mano"
-
-    // Colori
-    const colors = [
-        { color: '#0E8C8F', start: 0, end: 340 },
-         { color: '#03696bff', start: 340, end: 360 }
-    ];
-
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
-    const radius = Math.min(cx, cy);
-
-    colors.forEach(seg => {
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, radius, seg.start * Math.PI / 180, seg.end * Math.PI / 180);
-        ctx.closePath();
-        ctx.fillStyle = seg.color;
-        ctx.fill();
-    });
-
-    // crea texture e assegna come sfondo
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.needsUpdate = true;
-    scene.background = texture;
-
-
 
     //init scena
     const pivot = new THREE.Group();
@@ -138,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     const light = new THREE.AmbientLight(0xffffff, 0.5);
-    light.position.set(5, 10, 7.5);
+    light.position.set(-5, 10, 7.5);
     scene.add(light);
 
     const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
@@ -314,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
             controls.target.copy(pivot.position);
             controls.update();
             const distance = box.getSize(new THREE.Vector3()).length();
-            camera.position.set(distance * 0.5, 0, distance * 0.5);
+            camera.position.set(distance * 0.0005, 0, distance * 0.4);
             camera.lookAt(pivot.position);
 
             const material = new THREE.MeshPhysicalMaterial({
@@ -398,6 +362,12 @@ document.addEventListener("DOMContentLoaded", () => {
             //   });
             // });
             window.addEventListener("resize", onWindowResize, false);
+            window.addEventListener('resize', () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                scene.background = makeConicTextureForBackground(renderer); // rigenera con nuovo aspect
+            });
+
+
             animate();
         },
         undefined,
@@ -441,12 +411,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
 
+    // uso:
+    scene.background = makeConicTextureForBackground(renderer);
+
     //L'anisotropic filtering migliora la qualità delle texture viste con angoli obliqui
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
     cocaColaTexture.anisotropy = maxAnisotropy;
 
     const controls = new OrbitControls(camera, renderer.domElement);
-
+    controls.enableZoom = false;
 
     controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: null };
     controls.update();
@@ -532,6 +505,35 @@ function handleFileUpload(file) {
     reader.readAsDataURL(file);
 }
 //#endregion DRAG AND DROP
+function makeConicTextureForBackground(renderer) {
+    const size = new THREE.Vector2();
+    renderer.getSize(size);
+    const W = size.x, H = size.y;
+
+    const cvs = document.createElement('canvas');
+    cvs.width = W;
+    cvs.height = H;
+    const ctx = cvs.getContext('2d');
+
+    const cx = W / 2, cy = H / 2;
+    const r = Math.min(cx, cy);
+
+    // fattore di compensazione: Three stira la texture a riempire W x H
+    // quindi noi "stringiamo" X in fase di disegno
+    const scaleX = H / W;
+
+
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scaleX, 1);      // <<--- compensazione aspect
+
+    ctx.restore();
+
+    const tex = new THREE.CanvasTexture(cvs);
+    tex.needsUpdate = true;
+    return tex;
+}
 
 function checkFullScreen() {
     const columnLeft = document.getElementById("hero");
@@ -557,4 +559,22 @@ function checkFullScreen() {
 
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
