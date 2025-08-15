@@ -1,0 +1,560 @@
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+//import ColorPicker from "simple-color-picker";
+//import { VertexNormalsHelper } from '/node_modules/three-js/addons/helpers/VertexNormalsHelper.js';
+
+//simple-color-picker
+// let color = "#FF0000";
+// const colorPicker = new ColorPicker({
+//   color: "#FF0000",
+//   background: "#454545",
+//   el: document.getElementById("panel-control"),
+//   width: 300,
+//   height: 200,
+//   window: document.getElementById("panel-control").contentWindow,
+// });
+// colorPicker.onChange((newColor) => {
+//   color = new THREE.Color(newColor);
+// });
+
+let textureLoader;
+let isFullScreen = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    //TODO  bisogna inizializzare correttamente i valori perchè adesso sono tutti decentrati.
+    const offsetXSlider = document.getElementById('texture-offset-x');
+    const offsetYSlider = document.getElementById('texture-offset-y');
+    const scaleXSlider = document.getElementById('texture-scale-x');
+    const scaleYSlider = document.getElementById('texture-scale-y');
+
+    const offsetXValue = document.getElementById('offset-x-value');
+    const offsetYValue = document.getElementById('offset-y-value');
+    const scaleXValue = document.getElementById('scale-x-value');
+    const scaleYValue = document.getElementById('scale-y-value')
+
+    const hero2 = document.getElementById("hero2")
+
+    const resizeObserver = new ResizeObserver(() => {
+        requestAnimationFrame(() => {
+            onWindowResize(hero2);
+        });
+    });
+    //resizeObserver.observe(hero2);
+
+    const textureUpload = document.getElementById('panel-input');
+    const toggleButton = document.getElementById("toggle-fullscreen");
+    const saveButton = document.getElementById("toggle-save");
+
+    //#region event listener
+    textureUpload.addEventListener('change', fileInputHandler);
+
+    //non si può interagire con la scena se non è in fullscreen
+    toggleButton.addEventListener("click", () => {
+        isFullScreen = !isFullScreen;
+        if (isFullScreen) {
+            model.rotation.set(0, 0, 0);
+            controls.connect();
+            controls.update();
+        } else {
+            model.rotation.set(-1, 0, 0);
+            const box = new THREE.Box3().setFromObject(pivot);
+            const distance = box.getSize(new THREE.Vector3()).length();
+            camera.position.set(distance * 0.5, 0, distance * 0.5);
+            controls.disconnect();
+            controls.update();
+
+        }
+        checkFullScreen(camera, renderer);
+    });
+
+    saveButton.addEventListener("click", () => {
+        let json = model.toJSON();
+        json = JSON.stringify(json);
+        json = btoa(json);
+        fetch("https://localhost:7147/api/Umbrella", {
+            method: "POST",
+            body: JSON.stringify({ GlbFile: json, Name: "umbrella0.1" }),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then((response) => {
+            if (response.ok) {
+                console.log("modello GLB inviato con successo al servder");
+            } else {
+                console.error("Errore nell'invio del file GLB al server")
+            }
+        }).catch((error) => console.error("Errore di rete", error))
+    });
+    //#endregion event listener
+
+    const scene = new THREE.Scene();
+    // crea un canvas quadrato
+    const canvas = document.createElement('canvas');
+    canvas.width = 512;
+    canvas.height = 512;
+    const ctx = canvas.getContext('2d');
+
+    // crea gradiente conico con sintassi CSS
+    ctx.fillStyle = 'conic-gradient(from 90deg, red 0deg, red 120deg, teal 120deg, teal 240deg, yellow 240deg, yellow 360deg)';
+
+    // ⚠️ Il problema: i Canvas 2D non supportano nativamente "conic-gradient" come fillStyle
+    // quindi dobbiamo farlo "a mano"
+
+    // Colori
+    const colors = [
+        { color: '#0E8C8F', start: 0, end: 340 },
+         { color: '#03696bff', start: 340, end: 360 }
+    ];
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height / 2;
+    const radius = Math.min(cx, cy);
+
+    colors.forEach(seg => {
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, seg.start * Math.PI / 180, seg.end * Math.PI / 180);
+        ctx.closePath();
+        ctx.fillStyle = seg.color;
+        ctx.fill();
+    });
+
+    // crea texture e assegna come sfondo
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.needsUpdate = true;
+    scene.background = texture;
+
+
+
+    //init scena
+    const pivot = new THREE.Group();
+    scene.add(pivot);
+    const camera = new THREE.PerspectiveCamera(
+        75,
+        hero2.clientWidth / hero2.clientHeight,
+        0.1,
+        500
+    );
+
+    const light = new THREE.AmbientLight(0xffffff, 0.5);
+    light.position.set(5, 10, 7.5);
+    scene.add(light);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.5);
+    directionalLight.position.set(1, 5, 1);
+    scene.add(directionalLight);
+
+    const directionalLight2 = new THREE.DirectionalLight(0xffffff, 2.5);
+    directionalLight2.position.set(0, -5, 0);
+    scene.add(directionalLight2);
+
+    //RECUPERO E CARICAMENTO  MODELLO
+    //RIMANE QUA PER I VARI TEST
+    const loader = new GLTFLoader();
+    //const loader = new THREE.ObjectLoader();
+    let model;
+    const clickableMesh = [];
+    let gettedModelJson;
+
+
+    // //-----------------------> AXIS HELPER
+    // const originHelper = new THREE.AxesHelper(10);
+    // originHelper.setColors("red", "green", "blue");
+    // scene.add(originHelper); //AXIS
+    //   fetch("https://localhost:7147/api/Umbrella/29").then((response) => {
+    //     if (response.ok) {
+    //       return response.json();
+    //     } else {
+    //       throw new Error('Network response was not ok: ' + response.statusText);
+    //     }
+    //   })
+    //     .then((data) => {
+    //       //decodifichiamo il base64
+    //       gettedModelJson = atob(data.glb_file);
+
+    //       gettedModelJson = JSON.parse(gettedModelJson);
+    //       loader.parse(
+    //         gettedModelJson,
+    //         function (gltf) {
+    //           model = gltf;
+    //           model.scale.set(1, 1, 1);
+    //           pivot.add(model);
+
+    //           //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
+    //           const box = new THREE.Box3().setFromObject(pivot);
+    //           const center = box.getCenter(new THREE.Vector3());
+
+    //           pivot.position.sub(center);
+    //           //anche il pivot è al centro della scena
+    //           pivot.position.set(0, -1, 0);
+    //           model.rotation.set(-1, 0, 0);
+
+
+    //           //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
+    //           controls.target.copy(pivot.position);
+    //           // controls.enablePan = false;
+    //           controls.update();
+    //           controls.disconnect();
+
+    //           const distance = box.getSize(new THREE.Vector3()).length();
+    //           camera.position.set(distance * 0.5, 0, distance * 0.5);
+    //           camera.lookAt(pivot.position);
+
+    //           const material = new THREE.MeshPhysicalMaterial({
+    //             normalMap: normalTexture,
+    //             metalnessMap: metallicTexture,
+    //             roughnessMap: roughnessTexture,
+    //             specularColor: new THREE.Color(0.2, 0.2, 0.2),
+    //             ior: 1,
+    //             opacity: 1,
+    //             normalScale: new THREE.Vector2(0.1, 0.1),
+    //             color: new THREE.Color(
+    //               0.002005289774388075,
+    //               0.0032031454611569643,
+    //               0.03243967518210411
+    //             ),
+    //             side: THREE.DoubleSide
+    //           });
+
+    //           // applica texture al materiale del modello 
+    //           model.traverse((node) => {
+
+    //             if (node.isMesh) {
+
+    //               let isFree;
+
+    //               if (node.userData.free == false || node.userData.free) {
+    //                 isFree = false
+    //               } else {
+    //                 isFree = true;
+    //               }
+
+    //               if (node.name !== "Scene" && node.name !== "Plane001" &&
+    //                 node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico" && isFree) {
+    //                 clickableMesh.push(node);
+
+    //                 const material2 = material.clone();
+    //                 material2.map = cocaColaTexture;
+
+    //                 node.geometry.computeBoundingBox();
+
+    //                 //genera le coordinate UV della mesh per l'applicazione delle texture
+    //                 //TODO  ancora non ho capito perchè non se non calcolo gli uv non usa quelli esportati dal modello
+    //                 const bbox = node.geometry.boundingBox;
+    //                 const size = new THREE.Vector3();
+    //                 bbox.getSize(size);
+
+    //                 const uvAttribute = new Float32Array(node.geometry.attributes.position.count * 2);
+
+    //                 for (let i = 0; i < node.geometry.attributes.position.count; i++) {
+    //                   const x = node.geometry.attributes.position.getX(i);
+    //                   const y = node.geometry.attributes.position.getY(i);
+
+    //                   uvAttribute[i * 2] = (x - bbox.min.x) / size.x;
+    //                   uvAttribute[i * 2 + 1] = (y - bbox.min.y) / size.y;
+    //                 }
+
+    //                 node.geometry.setAttribute('uv', new THREE.BufferAttribute(uvAttribute, 2));
+
+    //                 node.material.needsUpdate = true;
+
+    //                 node.material = material;
+    //                 if (node.name === 'top_middle002') {
+    //                   node.material = material2;
+    //                   node.material.color = new THREE.Color(1, 1, 1)
+    //                 }
+    //               }
+    //             }
+    //           });
+
+    //           //SCOMMENTARE PER SLIDER
+    //           // const meshSize = box.getSize(new THREE.Vector3());
+    //           // [offsetXSlider, offsetYSlider, scaleXSlider, scaleYSlider].forEach(slider => {
+    //           //   slider.addEventListener('input', () => {
+    //           //     const mesh = clickableMesh.find(c => c.name === 'top_middle002');
+    //           //     if (mesh && mesh.material.map) {
+    //           //       updateTextureScale(mesh.material, meshSize);
+    //           //       updateTextureProperties(mesh.material);
+    //           //     }
+    //           //   });
+    //           // });
+    //           animate();
+    //         },
+    //         undefined,
+    //         function (error) {
+    //           console.error(error);
+    //         }
+    //       );
+    //       console.log("Modello GLB inviato con successo al server");
+    //     }).catch((error) => console.error("Errore di rete", error))
+
+    const normalTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_normal-ogl.png");
+    const metallicTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_metallic.png");
+    const roughnessTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_roughness.png");
+    const cocaColaTexture = new THREE.TextureLoader().load("public/3d_model/xxx.png");
+
+    //PER IL MOMENTO RIMANE QUA PERCHÈ ANCORA MI SERVE PER FARE I VARI TEST
+    loader.load(
+        "public/3d_model/umbrella.glb",
+        function (gltf) {
+            model = gltf.scene;
+            model.scale.set(1, 1, 1);
+            pivot.add(model);
+            scene.add(pivot);
+
+            //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
+
+            model.position.sub(center);
+            //anche il pivot è al centro della scena
+            pivot.position.set(0, -1, 0);
+            //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
+            controls.target.copy(pivot.position);
+            controls.update();
+            const distance = box.getSize(new THREE.Vector3()).length();
+            camera.position.set(distance * 0.5, 0, distance * 0.5);
+            camera.lookAt(pivot.position);
+
+            const material = new THREE.MeshPhysicalMaterial({
+                normalMap: normalTexture,
+                metalnessMap: metallicTexture,
+                roughnessMap: roughnessTexture,
+                specularColor: new THREE.Color(0.2, 0.2, 0.2),
+                ior: 1,
+                opacity: 1,
+                normalScale: new THREE.Vector2(0.1, 0.1),
+                color: new THREE.Color(
+                    0.002005289774388075,
+                    0.0032031454611569643,
+                    0.03243967518210411
+                ),
+                side: THREE.DoubleSide
+            });
+
+            // applica texture al materiale del modello 
+            model.traverse((node) => {
+
+                if (node.isMesh) {
+
+                    let isFree;
+
+                    if (node.userData.free == false || node.userData.free) {
+                        isFree = false
+                    } else {
+                        isFree = true;
+                    }
+
+                    if (node.name !== "Scene" && node.name !== "Plane001" &&
+                        node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico" && isFree) {
+                        clickableMesh.push(node);
+
+                        const material2 = material.clone();
+                        material2.map = cocaColaTexture;
+
+                        node.geometry.computeBoundingBox();
+
+                        //genera le coordinate UV della mesh per l'applicazione delle texture
+                        //TODO  ancora non ho capito perchè non se non calcolo gli uv non usa quelli esportati dal modello
+                        const bbox = node.geometry.boundingBox;
+                        const size = new THREE.Vector3();
+                        bbox.getSize(size);
+
+                        const uvAttribute = new Float32Array(node.geometry.attributes.position.count * 2);
+
+                        for (let i = 0; i < node.geometry.attributes.position.count; i++) {
+                            const x = node.geometry.attributes.position.getX(i);
+                            const y = node.geometry.attributes.position.getY(i);
+
+                            uvAttribute[i * 2] = (x - bbox.min.x) / size.x;
+                            uvAttribute[i * 2 + 1] = (y - bbox.min.y) / size.y;
+                        }
+
+                        node.geometry.setAttribute('uv', new THREE.BufferAttribute(uvAttribute, 2));
+
+                        node.material.needsUpdate = true;
+
+                        node.material = material;
+                        if (node.name === 'top_middle002') {
+                            node.material = material2;
+                            node.material.color = new THREE.Color(1, 1, 1)
+                        }
+                        // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
+                        // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
+                    }
+                }
+            });
+
+            //SCOMMENTARE PER SLIDER
+            // const meshSize = box.getSize(new THREE.Vector3());
+            // [offsetXSlider, offsetYSlider, scaleXSlider, scaleYSlider].forEach(slider => {
+            //   slider.addEventListener('input', () => {
+            //     const mesh = clickableMesh.find(c => c.name === 'top_middle002');
+            //     if (mesh && mesh.material.map) {
+            //       updateTextureScale(mesh.material, meshSize);
+            //       updateTextureProperties(mesh.material);
+            //     }
+            //   });
+            // });
+            window.addEventListener("resize", onWindowResize, false);
+            animate();
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
+
+
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+
+    window.addEventListener("mousedown", onMouseClick, false);
+
+    function onMouseClick(event) {
+        if (!isFullScreen) return;
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        // trova gli oggetti intercettati dal raycaster(linea immaginaria che parte dal cursore verso l'oggetto attraversando lo spazio 3d )
+        const intersects = raycaster.intersectObjects(clickableMesh, true); // il true permette di testare gli spicchi(figlio)
+
+        if (intersects.length > 0) {
+            const selectedObject = intersects[0].object;
+
+            console.log("Hai cliccato sull'oggetto:", selectedObject);
+            const newMaterial = selectedObject.material.clone();
+            newMaterial.map = textureLoader;
+            newMaterial.color = new THREE.Color(1, 1, 1);
+            selectedObject.material = newMaterial;
+            selectedObject.userData.free = false;
+
+            selectedObject.material.needsUpdate = true;
+            model.children.find(c => { if (c.name == selectedObject.name) c = selectedObject })
+        }
+    }
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(hero2.clientWidth, hero2.clientHeight);
+    document.getElementById("hero2").appendChild(renderer.domElement);
+
+    //L'anisotropic filtering migliora la qualità delle texture viste con angoli obliqui
+    const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
+    cocaColaTexture.anisotropy = maxAnisotropy;
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+
+
+    controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: null };
+    controls.update();
+
+    function animate() {
+        requestAnimationFrame(animate);
+        isFullScreen == true ? null : pivot.rotation.y += 0.01
+
+        renderer.render(scene, camera);
+    }
+
+    function onWindowResize() {
+        const container = document.getElementById("hero2")
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    }
+});
+//#region SLIDER
+//SLIDER
+function updateTextureScale(material, meshSize) {
+    const width = parseFloat(scaleXSlider.value); // Dimensione fisica desiderata
+    const height = parseFloat(scaleYSlider.value);
+
+    // Calcola il repeat necessario per adattare la texture
+    material.map.repeat.set(
+        meshSize.x / width,
+        meshSize.y / height
+    );
+    material.map.needsUpdate = true;
+
+    // Aggiorna i valori mostrati
+    scaleXValue.textContent = width.toFixed(2);
+    scaleYValue.textContent = height.toFixed(2);
+}
+function updateTextureProperties(material) {
+    material.map.offset.set(
+        parseFloat(offsetXSlider.value),
+        parseFloat(offsetYSlider.value)
+    );
+
+    material.map.needsUpdate = true;
+
+    // Aggiorna i valori mostrati
+    offsetXValue.textContent = offsetXSlider.value;
+    offsetYValue.textContent = offsetYSlider.value;
+}
+//#endregion SLIDER
+
+//#region DRAG AND DROP
+function dragoverHandler(ev) {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+    document.getElementById("panel-control").classList.add("dragover");
+}
+
+function dropHandler(ev) {
+    ev.preventDefault();
+    document.getElementById("panel-control").classList.remove("dragover");
+    const file = ev.dataTransfer.files[0];
+    if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+        handleFileUpload(file);
+    } else {
+        alert("Please upload a valid PNG or JPEG file.");
+    }
+}
+function fileInputHandler(event) {
+    const file = event.target.files[0];
+    if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
+        handleFileUpload(file);
+    } else {
+        alert("Please upload a valid PNG or JPEG file.");
+    }
+}
+
+function handleFileUpload(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const imageUrl = e.target.result;
+        textureLoader = new THREE.TextureLoader().load(imageUrl);
+    };
+    reader.readAsDataURL(file);
+}
+//#endregion DRAG AND DROP
+
+function checkFullScreen() {
+    const columnLeft = document.getElementById("hero");
+    const columnRight = document.getElementById("hero2");
+    const panelControl = document.getElementById("panel-control");
+    const saveButton = document.getElementById("toggle-save");
+    if (!isFullScreen) {
+        //view element
+        columnLeft.style.display = "40vw";
+        columnRight.style.width = "60vw";
+        panelControl.style.display = "none";
+        // saveButton.style.display = "none";
+    } else {
+        //hide element
+        columnLeft.style.width = "0vw";
+        columnRight.style.width = "100vw";
+        panelControl.style.display = "block";
+        // saveButton.style.display = "block";
+        // saveButton.style.zIndex = "1000";
+        // saveButton.style.position = "relative";
+        // saveButton.style.top = "650px";
+        // saveButton.style.left = "75px";
+
+
+    }
+}
