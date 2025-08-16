@@ -2,7 +2,10 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 //import { VertexNormalsHelper } from '/node_modules/three-js/addons/helpers/VertexNormalsHelper.js';
-
+import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
 let textureLoader;
 
@@ -48,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const camera = new THREE.PerspectiveCamera(
         75,
         hero2.clientWidth / hero2.clientHeight,
-        0.1,
-        500
+        0.65,
+        100
     );
 
     const light = new THREE.AmbientLight(0xffffff, 0.5);
@@ -282,23 +285,14 @@ document.addEventListener("DOMContentLoaded", () => {
                             node.material = material2;
                             node.material.color = new THREE.Color(1, 1, 1)
                         }
-                        
+
                         // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
                         // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
-                        
-                        // edge hilight
-                        const edges = new THREE.EdgesGeometry(node.geometry, 15 );
-                        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xf3b300});
-                        const wireframe = new THREE.LineSegments(edges, lineMaterial);
-                        wireframe.raycast = () => {}; // make raycaster not intercet this geometry
-                        wireframe.visible = false;
-                        node.add(wireframe);
-                        node.userData.wireframe = wireframe;
                     }
                 }
             });
             console.log('MODELLO', model);
-            
+
             window.addEventListener("resize", onWindowResize, false);
             animate();
         },
@@ -313,12 +307,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
-    window.addEventListener("mousedown", onMouseClick, false);
-
-    let highlightedObject = null;
-
     function onMouseMove(event) {
-        console.log('we are in');
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -327,23 +316,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const intersects = raycaster.intersectObjects(clickableMesh, true);
 
         const newObject = intersects.length > 0 ? intersects[0].object : null;
+        outlinePass.selectedObjects = newObject ? [newObject] : [];
 
-        // Se l'oggetto evidenziato è cambiato
-        if (highlightedObject !== newObject) {
-            // Rimuovi l'highlight dal vecchio oggetto
-            if (highlightedObject && highlightedObject.userData.wireframe) {
-                highlightedObject.userData.wireframe.visible = false;
-            }
-
-            // Evidenzia il nuovo oggetto
-            highlightedObject = newObject;
-            if (highlightedObject && highlightedObject.userData.wireframe) {
-                highlightedObject.userData.wireframe.visible = true;
-            }
-        }
     }
 
     function onMouseClick(event) {
+        pivot.rotation.y += 0.01
+
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -366,12 +345,40 @@ document.addEventListener("DOMContentLoaded", () => {
             model.children.find(c => { if (c.name == selectedObject.name) c = selectedObject })
         }
     }
+
+
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
 
+    //#region COMPOSER - OUTLINE EFFECT
+    const size = new THREE.Vector2(hero2.clientWidth, hero2.clientHeight);
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+
+    const outlinePass = new OutlinePass(
+        size,
+        scene,
+        camera
+    );
+
+    outlinePass.visibleEdgeColor.set(0xffffff);
+    outlinePass.hiddenEdgeColor.set(0x000000);
+    outlinePass.edgeThickness = 1.5;
+    outlinePass.edgeGlow = 0.7;
+    outlinePass.edgeStrength = 2.0;
+    outlinePass.pulsePeriod = 3;
+
+    composer.addPass(outlinePass);
+
+    const outputPass = new OutputPass();
+    composer.addPass(outputPass);
+    //#endregion
+
     scene.background = null; //null for transparent
     renderer.domElement.addEventListener('mousemove', onMouseMove, false);
+    renderer.domElement.addEventListener("mousedown", onMouseClick, false);
 
     //L'anisotropic filtering migliora la qualità delle texture viste con angoli obliqui
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -385,9 +392,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function animate() {
         requestAnimationFrame(animate);
-        pivot.rotation.y += 0.01
+        pivot.rotation.y += 0.00
 
-        renderer.render(scene, camera);
+        composer.render();
     }
 
     function onWindowResize() {
@@ -396,6 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.updateProjectionMatrix();
 
         renderer.setSize(container.clientWidth, container.clientHeight);
+        composer.setSize(container.clientWidth, container.clientHeight);
     }
 });
 
