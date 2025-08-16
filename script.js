@@ -192,14 +192,14 @@ document.getElementById('year').textContent = new Date().getFullYear();
     let maxEnd = 0;
 
     for (let i = 0; i < COUNT; i++) {
-      const delay   = Math.random() * 0.4;          // 0–0.8s
-      const dur     = 2.8 + Math.random() * 2.2;    // 2.8–5.0s
+      const delay = Math.random() * 0.4;          // 0–0.8s
+      const dur = 2.8 + Math.random() * 2.2;    // 2.8–5.0s
       const swayDur = 2 + Math.random() * 2;        // 2–4s
-      const size    = 32 + Math.random() * 16;      // 12–28px
-      const sway    = (Math.random()*40 - 20) + 'px';
-      const spinDeg = (Math.random()<0.5?-1:1) * (120 + Math.random()*180);
-      const color   = COLORS[i % COLORS.length];
-      const leftvw  = Math.random() * 100;
+      const size = 32 + Math.random() * 16;      // 12–28px
+      const sway = (Math.random() * 40 - 20) + 'px';
+      const spinDeg = (Math.random() < 0.5 ? -1 : 1) * (120 + Math.random() * 180);
+      const color = COLORS[i % COLORS.length];
+      const leftvw = Math.random() * 100;
 
       const drop = document.createElement('div');
       drop.className = 'drop';
@@ -245,6 +245,96 @@ document.getElementById('year').textContent = new Date().getFullYear();
       if (!force && ONCE_PER_SESSION) sessionStorage.setItem('brelloIntroDone', '1');
     }, (maxEnd + 0.8) * 1000);
   }
+
+
+
+
+  // START Test sfondo animato 
+  const elFunziona = document.querySelector('#come-funziona');
+  if (elFunziona) {
+    let tickingFunziona = false;
+
+    const clampFunziona = (n, a, b) => Math.max(a, Math.min(b, n));
+    const easeInOutCubicFunziona = t =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    function updateComeFunziona() {
+      const rect = elFunziona.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const center = rect.top + rect.height / 2;
+
+      const S = vh * 0.80; // start
+      const R = vh * 0.20; // end
+
+      let p = (center - S) / (R - S); // <— direzione invertita
+      p = clampFunziona(p, 0, 1);
+
+      const pe = easeInOutCubicFunziona(p);
+      elFunziona.style.setProperty('--p', pe.toFixed(4));
+    }
+
+    function onScrollFunziona() {
+      if (!tickingFunziona) {
+        tickingFunziona = true;
+        requestAnimationFrame(() => {
+          updateComeFunziona();
+          tickingFunziona = false;
+        });
+      }
+    }
+
+    // init + listeners
+    updateComeFunziona();
+    window.addEventListener('scroll', onScrollFunziona, { passive: true });
+    window.addEventListener('resize', onScrollFunziona);
+  }
+
+  // //655555555555555555555555555555555
+
+  const elSx = document.querySelector('.chiSiamoSx');
+  if (elSx) {
+    let tickingSx = false;
+
+    const clampSx = (n, a, b) => Math.max(a, Math.min(b, n));
+    const easeInOutCubicSx = t =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+    function updateChiSiamoSx() {
+      const rect = elSx.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const center = rect.top + rect.height / 2;
+
+      const S = vh + rect.height * 0.8;   // start quando il centro è ben sotto la viewport
+      const R = -rect.height * 0.2;       // end quando il centro è ben sopra la viewport
+
+      // direzione: 0→1 mentre SCENDI
+      let p = 1- (S - center) / (S - R);
+      p = clampSx(p, 0, 1);
+
+      const pe = easeInOutCubicSx(p);
+      elSx.style.setProperty('--p-sx', pe.toFixed(4));
+    }
+
+    function onScrollSx() {
+      if (!tickingSx) {
+        tickingSx = true;
+        requestAnimationFrame(() => {
+          updateChiSiamoSx();
+          tickingSx = false;
+        });
+      }
+    }
+
+    updateChiSiamoSx();
+    window.addEventListener('scroll', onScrollSx, { passive: true });
+    window.addEventListener('resize', onScrollSx);
+  }
+
+  // END testSfondo animato
+
+
+
+
 
   // Autoplay al load (una volta per sessione)
   window.addEventListener('load', () => playRain());
