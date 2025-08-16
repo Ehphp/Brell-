@@ -16,13 +16,6 @@
   box-sizing: border-box
 }
 
-html,
-body {
-  height: 100%;
-  overflow-x: hidden;
-  width: 100%;
-}
-
 body {
   margin: 0;
   font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -104,12 +97,7 @@ height: 70vh;
 }
 
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
   color: var(--cream);
-
 }
 
 .brand svg {
@@ -117,7 +105,6 @@ height: 70vh;
   height: 34px;
   flex: 0 0 auto;
   filter: drop-shadow(0 2px 0 rgba(105, 101, 101, 0.8));
-
 }
 
 .brand strong {
@@ -125,7 +112,6 @@ height: 70vh;
   letter-spacing: .2px;
   font-size: 1.1rem;
   filter: drop-shadow(0 2px 0 rgba(0, 0, 0, .3));
-
 }
 
 .link {
@@ -249,7 +235,6 @@ section {
   min-height: 80svh;
 }
 #come-funziona{
-  min-height: 70vh;
   display: flex;
   padding: 0px 0px 0px 0px;
 }
@@ -257,7 +242,6 @@ section {
 .wrap {
   max-width: 1800px;
   margin: 0 auto;
-  /* margin-top: 10vh */
 }
 .editor_Container{
   min-height: 70vh;

@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const textureUpload = document.getElementById('panel-input');
     const saveButton = document.getElementById("toggle-save");
 
+    const normalTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_normal-ogl.png");
+    const metallicTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_metallic.png");
+    const roughnessTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_roughness.png");
+    const cocaColaTexture = new THREE.TextureLoader().load("3d_model/xxx.png");
+
     //#region event listener
     textureUpload.addEventListener('change', fileInputHandler);
 
@@ -191,14 +196,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //     }).catch((error) => console.error("Errore di rete", error))
     //#endregion
 
-    const normalTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_normal-ogl.png");
-    const metallicTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_metallic.png");
-    const roughnessTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_roughness.png");
-    const cocaColaTexture = new THREE.TextureLoader().load("public/3d_model/xxx.png");
-
     //PER IL MOMENTO RIMANE QUA PERCHÈ ANCORA MI SERVE PER FARE I VARI TEST
     loader.load(
-        "public/3d_model/umbrella.glb",
+        "3d_model/umbrella.glb",
         function (gltf) {
             model = gltf.scene;
             model.scale.set(1, 1, 1);
