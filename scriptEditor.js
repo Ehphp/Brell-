@@ -1,73 +1,20 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-//import ColorPicker from "simple-color-picker";
 //import { VertexNormalsHelper } from '/node_modules/three-js/addons/helpers/VertexNormalsHelper.js';
 
-//simple-color-picker
-// let color = "#FF0000";
-// const colorPicker = new ColorPicker({
-//   color: "#FF0000",
-//   background: "#454545",
-//   el: document.getElementById("panel-control"),
-//   width: 300,
-//   height: 200,
-//   window: document.getElementById("panel-control").contentWindow,
-// });
-// colorPicker.onChange((newColor) => {
-//   color = new THREE.Color(newColor);
-// });
 
 let textureLoader;
 let isFullScreen = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    //TODO  bisogna inizializzare correttamente i valori perchè adesso sono tutti decentrati.
-    const offsetXSlider = document.getElementById('texture-offset-x');
-    const offsetYSlider = document.getElementById('texture-offset-y');
-    const scaleXSlider = document.getElementById('texture-scale-x');
-    const scaleYSlider = document.getElementById('texture-scale-y');
 
-    const offsetXValue = document.getElementById('offset-x-value');
-    const offsetYValue = document.getElementById('offset-y-value');
-    const scaleXValue = document.getElementById('scale-x-value');
-    const scaleYValue = document.getElementById('scale-y-value')
-
-    const hero2 = document.getElementById("hero2")
-
-    const resizeObserver = new ResizeObserver(() => {
-        requestAnimationFrame(() => {
-            onWindowResize(hero2);
-        });
-    });
-    //resizeObserver.observe(hero2);
-
+    const hero2 = document.getElementById("hero2");
     const textureUpload = document.getElementById('panel-input');
-    const toggleButton = document.getElementById("toggle-fullscreen");
     const saveButton = document.getElementById("toggle-save");
 
     //#region event listener
     textureUpload.addEventListener('change', fileInputHandler);
-
-    //non si può interagire con la scena se non è in fullscreen
-    toggleButton.addEventListener("click", () => {
-        isFullScreen = !isFullScreen;
-        if (isFullScreen) {
-            model.rotation.set(0, 0, 0);
-            controls.connect();
-            controls.update();
-        } else {
-            model.rotation.set(-1, 0, 0);
-            const box = new THREE.Box3().setFromObject(pivot);
-            const distance = box.getSize(new THREE.Vector3()).length();
-            camera.position.set(distance * 0.5, 0, distance * 0.5);
-
-            controls.disconnect();
-            controls.update();
-
-        }
-        checkFullScreen(camera, renderer);
-    });
 
     saveButton.addEventListener("click", () => {
         let json = model.toJSON();
@@ -115,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //RECUPERO E CARICAMENTO  MODELLO
     //RIMANE QUA PER I VARI TEST
-    const loader = new GLTFLoader();
+    const loader = new GLTFLoader(); 
     //const loader = new THREE.ObjectLoader();
     let model;
     const clickableMesh = [];
@@ -126,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // const originHelper = new THREE.AxesHelper(10);
     // originHelper.setColors("red", "green", "blue");
     // scene.add(originHelper); //AXIS
+    //#region FETCH MODEL FROM SERVER
     //   fetch("https://localhost:7147/api/Umbrella/29").then((response) => {
     //     if (response.ok) {
     //       return response.json();
@@ -232,17 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //             }
     //           });
 
-    //           //SCOMMENTARE PER SLIDER
-    //           // const meshSize = box.getSize(new THREE.Vector3());
-    //           // [offsetXSlider, offsetYSlider, scaleXSlider, scaleYSlider].forEach(slider => {
-    //           //   slider.addEventListener('input', () => {
-    //           //     const mesh = clickableMesh.find(c => c.name === 'top_middle002');
-    //           //     if (mesh && mesh.material.map) {
-    //           //       updateTextureScale(mesh.material, meshSize);
-    //           //       updateTextureProperties(mesh.material);
-    //           //     }
-    //           //   });
-    //           // });
     //           animate();
     //         },
     //         undefined,
@@ -252,6 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //       );
     //       console.log("Modello GLB inviato con successo al server");
     //     }).catch((error) => console.error("Errore di rete", error))
+    //#endregion
 
     const normalTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_normal-ogl.png");
     const metallicTexture = new THREE.TextureLoader().load("public/3d_model/outdoor-polyester-fabric_metallic.png");
@@ -350,17 +288,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
 
-            //SCOMMENTARE PER SLIDER
-            // const meshSize = box.getSize(new THREE.Vector3());
-            // [offsetXSlider, offsetYSlider, scaleXSlider, scaleYSlider].forEach(slider => {
-            //   slider.addEventListener('input', () => {
-            //     const mesh = clickableMesh.find(c => c.name === 'top_middle002');
-            //     if (mesh && mesh.material.map) {
-            //       updateTextureScale(mesh.material, meshSize);
-            //       updateTextureProperties(mesh.material);
-            //     }
-            //   });
-            // });
             window.addEventListener("resize", onWindowResize, false);
             window.addEventListener('resize', () => {
                 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -439,54 +366,8 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer.setSize(container.clientWidth, container.clientHeight);
     }
 });
-//#region SLIDER
-//SLIDER
-function updateTextureScale(material, meshSize) {
-    const width = parseFloat(scaleXSlider.value); // Dimensione fisica desiderata
-    const height = parseFloat(scaleYSlider.value);
-
-    // Calcola il repeat necessario per adattare la texture
-    material.map.repeat.set(
-        meshSize.x / width,
-        meshSize.y / height
-    );
-    material.map.needsUpdate = true;
-
-    // Aggiorna i valori mostrati
-    scaleXValue.textContent = width.toFixed(2);
-    scaleYValue.textContent = height.toFixed(2);
-}
-function updateTextureProperties(material) {
-    material.map.offset.set(
-        parseFloat(offsetXSlider.value),
-        parseFloat(offsetYSlider.value)
-    );
-
-    material.map.needsUpdate = true;
-
-    // Aggiorna i valori mostrati
-    offsetXValue.textContent = offsetXSlider.value;
-    offsetYValue.textContent = offsetYSlider.value;
-}
-//#endregion SLIDER
 
 //#region DRAG AND DROP
-function dragoverHandler(ev) {
-    ev.preventDefault();
-    ev.dataTransfer.dropEffect = "copy";
-    document.getElementById("panel-control").classList.add("dragover");
-}
-
-function dropHandler(ev) {
-    ev.preventDefault();
-    document.getElementById("panel-control").classList.remove("dragover");
-    const file = ev.dataTransfer.files[0];
-    if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
-        handleFileUpload(file);
-    } else {
-        alert("Please upload a valid PNG or JPEG file.");
-    }
-}
 function fileInputHandler(event) {
     const file = event.target.files[0];
     if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
@@ -518,8 +399,6 @@ function makeConicTextureForBackground(renderer) {
     const cx = W / 2, cy = H / 2;
     const r = Math.min(cx, cy);
 
-    // fattore di compensazione: Three stira la texture a riempire W x H
-    // quindi noi "stringiamo" X in fase di disegno
     const scaleX = H / W;
 
 
@@ -533,46 +412,6 @@ function makeConicTextureForBackground(renderer) {
     const tex = new THREE.CanvasTexture(cvs);
     tex.needsUpdate = true;
     return tex;
-}
-
-function checkFullScreen() {
-    const columnLeft = document.getElementById("hero");
-    const columnRight = document.getElementById("hero2");
-    const panelControl = document.getElementById("panel-control");
-    const saveButton = document.getElementById("toggle-save");
-    if (!isFullScreen) {
-        //view element
-        columnLeft.style.display = "40vw";
-        columnRight.style.width = "60vw";
-        panelControl.style.display = "none";
-        // saveButton.style.display = "none";
-    } else {
-        //hide element
-        columnLeft.style.width = "0vw";
-        columnRight.style.width = "100vw";
-        panelControl.style.display = "block";
-        // saveButton.style.display = "block";
-        // saveButton.style.zIndex = "1000";
-        // saveButton.style.position = "relative";
-        // saveButton.style.top = "650px";
-        // saveButton.style.left = "75px";
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
