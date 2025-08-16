@@ -5,7 +5,6 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 
 let textureLoader;
-let isFullScreen = false;
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -67,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //RECUPERO E CARICAMENTO  MODELLO
     //RIMANE QUA PER I VARI TEST
-    const loader = new GLTFLoader(); 
+    const loader = new GLTFLoader();
     //const loader = new THREE.ObjectLoader();
     let model;
     const clickableMesh = [];
@@ -278,16 +277,28 @@ document.addEventListener("DOMContentLoaded", () => {
                         node.material.needsUpdate = true;
 
                         node.material = material;
+
                         if (node.name === 'top_middle002') {
                             node.material = material2;
                             node.material.color = new THREE.Color(1, 1, 1)
                         }
+                        
                         // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
                         // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
+                        
+                        // edge hilight
+                        const edges = new THREE.EdgesGeometry(node.geometry, 15 );
+                        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xf3b300});
+                        const wireframe = new THREE.LineSegments(edges, lineMaterial);
+                        wireframe.raycast = () => {}; // make raycaster not intercet this geometry
+                        wireframe.visible = false;
+                        node.add(wireframe);
+                        node.userData.wireframe = wireframe;
                     }
                 }
             });
-
+            console.log('MODELLO', model);
+            
             window.addEventListener("resize", onWindowResize, false);
             animate();
         },
@@ -304,8 +315,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener("mousedown", onMouseClick, false);
 
+    let highlightedObject = null;
+
+    function onMouseMove(event) {
+        console.log('we are in');
+        const rect = renderer.domElement.getBoundingClientRect();
+        mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(mouse, camera);
+        const intersects = raycaster.intersectObjects(clickableMesh, true);
+
+        const newObject = intersects.length > 0 ? intersects[0].object : null;
+
+        // Se l'oggetto evidenziato è cambiato
+        if (highlightedObject !== newObject) {
+            // Rimuovi l'highlight dal vecchio oggetto
+            if (highlightedObject && highlightedObject.userData.wireframe) {
+                highlightedObject.userData.wireframe.visible = false;
+            }
+
+            // Evidenzia il nuovo oggetto
+            highlightedObject = newObject;
+            if (highlightedObject && highlightedObject.userData.wireframe) {
+                highlightedObject.userData.wireframe.visible = true;
+            }
+        }
+    }
+
     function onMouseClick(event) {
-        if (!isFullScreen) return;
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -333,6 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("hero2").appendChild(renderer.domElement);
 
     scene.background = null; //null for transparent
+    renderer.domElement.addEventListener('mousemove', onMouseMove, false);
 
     //L'anisotropic filtering migliora la qualità delle texture viste con angoli obliqui
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -346,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function animate() {
         requestAnimationFrame(animate);
-        isFullScreen == true ? null : pivot.rotation.y += 0.01
+        pivot.rotation.y += 0.01
 
         renderer.render(scene, camera);
     }
