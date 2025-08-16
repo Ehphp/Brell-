@@ -289,12 +289,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             window.addEventListener("resize", onWindowResize, false);
-            window.addEventListener('resize', () => {
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                scene.background = makeConicTextureForBackground(renderer); // rigenera con nuovo aspect
-            });
-
-
             animate();
         },
         undefined,
@@ -334,12 +328,11 @@ document.addEventListener("DOMContentLoaded", () => {
             model.children.find(c => { if (c.name == selectedObject.name) c = selectedObject })
         }
     }
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
 
-    // uso:
-    scene.background = makeConicTextureForBackground(renderer);
+    scene.background = null; //null for transparent
 
     //L'anisotropic filtering migliora la qualità delle texture viste con angoli obliqui
     const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
@@ -386,34 +379,3 @@ function handleFileUpload(file) {
     reader.readAsDataURL(file);
 }
 //#endregion DRAG AND DROP
-function makeConicTextureForBackground(renderer) {
-    const size = new THREE.Vector2();
-    renderer.getSize(size);
-    const W = size.x, H = size.y;
-
-    const cvs = document.createElement('canvas');
-    cvs.width = W;
-    cvs.height = H;
-    const ctx = cvs.getContext('2d');
-
-    const cx = W / 2, cy = H / 2;
-    const r = Math.min(cx, cy);
-
-    const scaleX = H / W;
-
-
-
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(scaleX, 1);      // <<--- compensazione aspect
-
-    ctx.restore();
-
-    const tex = new THREE.CanvasTexture(cvs);
-    tex.needsUpdate = true;
-    return tex;
-}
-
-
-
-
