@@ -24,17 +24,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Applica sfondo a ogni blocco principale */
-/* Sfondo tipo A */
-header {
-  background:
-    radial-gradient(600px 600px at 120% -10%, var(--yellow) 0 95%, transparent 36%),
-    linear-gradient(132deg,
-      var(--viola) 0 15%,
-      var(--teal) 15% 50%,
-      var(--red) 50% 100%);
-}
-
 /* Sfondo tipo A1 */
 footer {
   background:
@@ -47,7 +36,7 @@ footer {
 }
 
 /* Sfondo tipo B */
-#come-funziona {
+#mapContainer {
   height: 70vh;
 
   /* progress [0..1], aggiornato via JS */
@@ -63,79 +52,65 @@ footer {
       var(--yellow) var(--stop) 100%);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  #come-funziona {
-    --p: 0;
-  }
-
-  /* niente animazione, resta allo stato iniziale */
-}
-
+/* ====== TUE REGOLE (già presenti) ====== */
 #chiSiamo {
-  padding: 0;
-  margin: 0;
+  height: fit-content;
+  padding: auto; /* (tip: non ha effetto: valuta padding: 0 16px;) */
   display: flex;
-    --p-sx: 0;
+  align-items: baseline;
+  justify-content: center;
 
-  /* usi la var per spostare i “stop” */
-  --stop1: calc(2% + (var(--p-sx) * 10%));
-  /* da 20 a 30% */
-  --stop2: calc(40% + (var(--p-sx) * 7%));
-  /* da 50 a 70% */
-  --stop3: calc(70% - var(--p-sx) * 5%);
-  /* esempio: 75–85% */
-
-  background: linear-gradient(135deg,
-      var(--green) 0 var(--stop1),
-      var(--teal) var(--stop1) var(--stop2),
-      var(--yellow) var(--stop2) var(--stop3),
-      var(--red) var(--stop3) 100%);
+  background:
+    radial-gradient(var(--r) var(--r) at 50% 50%,
+      var(--rosa) 0 95%, transparent 36%),
+    linear-gradient(132deg,
+      var(--viola) 0 5%,
+      var(--teal) 5% 50%,
+      var(--yellow) 50% 100%);
 }
 
-.chiSiamoSx {
+#chiSiamo svg { height: 9vh; }
 
-  height: 70vh;
-
-  /* progress dedicato a questa section */
-
-}
-
-/* Riduci effetti se l’utente preferisce meno animazioni */
-@media (prefers-reduced-motion: reduce) {
-  .chiSiamoSx {
-    --p: 1;
-  }
-
-}
-.cardPag2{
+.cardPag2 {
   background: rgba(255, 241, 227, .4);
   border: 1px solid rgba(255, 241, 227, .18);
   border-radius: var(--radius);
-  padding: 22px;
   backdrop-filter: saturate(120%) blur(2px);
-  margin: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px;
+  margin: 42px;
+  height: 60vh;
+  width: 35vh;
 }
+
+
+
 /* Sfondo tipo B1 */
-#come-funziona-inserzionisti {
+#editorBrello {
+  --g-x: 100%;
+  --g-y: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
   background-color: var(--yellow);
-  background: conic-gradient(from 90deg, var(--red) 0deg, var(--red) 120deg, var(--teal) 120deg, var(--teal) 240deg, var(--yellow) 240deg, var(--yellow) 360deg);
+  background:
+    conic-gradient(from 90deg at var(--g-x) var(--g-y),
+      var(--red) 0deg, var(--red) 120deg,
+      var(--teal) 120deg, var(--teal) 240deg,
+      var(--yellow) 240deg, var(--yellow) 360deg);
+
   padding: clamp(48px, 6vw, 96px) 0;
   min-height: clamp(420px, 60vh, 720px);
   height: 70vh;
 }
 
-#come-funziona,
-#come-funziona-inserzionisti, .chiSiamoSx  {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-}
 
 
-#come-funziona-inserzionisti  {
-  margin-top: 0;
-}
+
 
 /* Sfondo tipo C */
 
@@ -214,6 +189,14 @@ footer {
   align-items: center;
   padding: 120px 22px 80px;
   text-align: center;
+  --r: 600px;
+
+  background:
+    radial-gradient(calc(var(--r)*1.2) calc(var(--r)*1.2) at 0% 50%, var(--yellow) 0 95%, transparent 36%),
+    linear-gradient(132deg,
+      var(--viola) 0 15%,
+      var(--teal) 15% 50%,
+      var(--rosa) 50% 100%);
 }
 
 .badge {
@@ -295,15 +278,12 @@ section {
   padding: 80px 22px 80px 22px;
 }
 
-#come-funziona {
+#mapContainer {
   display: flex;
   padding: 0px 0px 0px 0px;
 }
 
-.wrap {
-  max-width: 1800px;
-  margin: 0 auto;
-}
+
 
 .editor_Container {
   min-height: 70vh;

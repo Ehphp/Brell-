@@ -37,24 +37,59 @@
   <div id="umbrella-rain" aria-hidden="true"></div>
 
   <!-- HERO -->
-  <header id="top" class="hero" role="banner" aria-label="brellò sharing">
-    <div class="wrap">
-      <span class="badge">
-        <span class="dot"></span>
-        Servizio gratuito
-      </span>
-      <h1 class="title" id="headline">Piove? C’è brellò!</h1>
-      <p class="subtitle">Prendi un ombrello quando piove. Lascialo dove vuoi. Gli sponsor lo rendono possibile.</p>
-      <div class="cta-row" id="cta">
-        <button class="btn btn--light" data-open="sponsor">Diventa sponsor</button>
-        <button class="btn btn--red" data-open="utente">Trova un ombrello vicino</button>
-      </div>
-      <div class="micro">Nome attività: <strong>brellò sharing</strong></div>
+  <header id="top" class="hero scrollRadius" role="banner" aria-label="brellò sharing">
+
+    <span class="badge">
+      <span class="dot"></span>
+      Servizio gratuito
+    </span>
+    <h1 class="title" id="headline">Piove? C’è brellò!</h1>
+    <p class="subtitle">Prendi un ombrello quando piove. Lascialo dove vuoi. Gli sponsor lo rendono possibile.</p>
+    <div class="cta-row" id="cta">
+      <button class="btn btn--light" data-open="sponsor">Diventa sponsor</button>
+      <button class="btn btn--red" data-open="utente">Trova un ombrello vicino</button>
     </div>
+    <div class="micro">Nome attività: <strong>brellò sharing</strong></div>
+
   </header>
-  <section id="chiSiamo" aria-label="chiSiamo">
-    <div class="chiSiamoSx">
-      <div class=" cardPag2">
+    <section id="chiSiamo" aria-label="chiSiamo scrollRadius">
+      <div class=" cardPag2" style="background-color: color-mix(in oklab, var(--teal) 100%, #000000 3.5%) "> <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path fill="var(--cream)"
+            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
+        </svg>
+        <h2>Prendi</h2>
+        <p> Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
+        <p> Nessuna registrazione, nessuna attesa: basta prenderlo e sei subito asciutto</p> <label
+          for="city-search">Città</label> <input id="city-search" name="città" type="text" placeholder="Es. Alatri"
+          required>
+      </div>
+      <div class=" cardPag2" style="background-color: color-mix(in oklab, var(--rosa) 100%, #000000 3.5%); "> 
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path fill="var(--cream)"
+            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
+        </svg>
+        <h2>Usa</h2>
+        <p> Porta con te l’ombrello per tutto il tempo che ti serve.</p>
+        <p> Portalo con te, senza vincoli di tempo.</p>
+      </div>
+      <div class=" cardPag2" style="background-color: color-mix(in oklab, #FFC107 100%, #000000 1.5%) "> 
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <path fill="var(--cream)"
+            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
+        </svg>
+        <h2>Riconsegna</h2>
+        <p> Quando non ti serve più, lascia l’ombrello in uno qualsiasi dei nostri punti di distribuzione.</p>
+        <p> Così potrà essere utile al prossimo.</p> <label for="city-search">Città</label> <input id="city-search"
+          name="città" type="text" placeholder="Es. Alatri" required>
+      </div>
+    </section>
+
+    <!-- COME FUNZIONA - MAPPA -->
+    <section id="mapContainer" aria-label="Come funziona">
+      <div class="adv_carousel">
+
+      </div>
+      <div class="card g6ComeFunziona" id="g6ComeFunziona">
         <h2>Come funziona</h2>
         <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
         <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
@@ -62,132 +97,97 @@
         <label for="city-search">Città</label>
         <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
       </div>
-    </div>
-    <div class="chiSiamoSx">
-      <div class=" cardPag2">
-        <h2>Come funziona</h2>
-        <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
-        <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
-        <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
-        <label for="city-search">Città</label>
-        <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
+
+
+
+      <div class="" style="height: 100%;">
+
+        <div id="map" class="map-container"></div>
       </div>
-    </div>
-    <div class="chiSiamoSx">
-      <div class=" cardPag2">
-        <h2>Come funziona</h2>
-        <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
-        <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
-        <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
-        <label for="city-search">Città</label>
-        <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
-      </div>
-    </div>
-  </section>
-  <!-- COME FUNZIONA - MAPPA -->
-  <section id="come-funziona" aria-label="Come funziona">
-    <div class="adv_carousel">
+    </section>
 
-    </div>
-    <div class="card g6ComeFunziona" id="g6ComeFunziona">
-      <h2>Come funziona</h2>
-      <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
-      <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
-      <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
-      <label for="city-search">Città</label>
-      <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
-    </div>
-
-
-
-    <div class="" style="height: 100%;">
-
-      <div id="map" class="map-container"></div>
-    </div>
-  </section>
-
-  <!-- COME FUNZIONA - 3D MODEL -->
-  <section id="come-funziona-inserzionisti" aria-label="Come funziona">
-    <div id="hero2" class="map-container"></div>
-    <div class="card">
-      <h2>Perché gli sponsor lo amano</h2>
-      <p>18 spazi pubblicitari esclusivi su ogni ristampa (3–4 mesi) con copertura mobile e locale.</p>
-      <p>Visibilità reale, nei momenti che contano: quando piove.</p>
-      <button class="btn btn--light" data-open="sponsor">Richiedi media kit</button>
-      <div id="panel-control" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enableAdminModal">
+    <!-- COME FUNZIONA - 3D MODEL -->
+    <section id="editorBrello" aria-label="Come funziona">
+      <div id="hero2" class="map-container"></div>
+      <div class="card">
+        <h2>Perché gli sponsor lo amano</h2>
+        <p>18 spazi pubblicitari esclusivi su ogni ristampa (3–4 mesi) con copertura mobile e locale.</p>
+        <p>Visibilità reale, nei momenti che contano: quando piove.</p>
+        <button class="btn btn--light" data-open="sponsor">Richiedi media kit</button>
+        <div id="panel-control" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enableAdminModal">
           Admin
         </button>
         <input id="panel-input" type="file" accept="image/png, image/jpeg" onchange="fileInputHandler(event)" disabled>
-      </div>
-      <button id="toggle-save" class="round-button">💾</button>
+        </div>
+        <button id="toggle-save" class="round-button">💾</button>
 
-    </div>
-
-
-  </section>
-
-
-
-  <!-- FORM INSERZIONISTI -->
-  <section id="inserzionisti" aria-label="Sezione inserzionisti">
-    <div class="wrap grid">
-      <div class="g-6 card">
-        <h2>Sei un inserzionista?</h2>
-        <form id="form-sponsor" novalidate>
-          <label>Ragione sociale
-            <input name="azienda" type="text" placeholder="Es. Bar Centrale" required>
-          </label>
-          <label>Email
-            <input name="email" type="email" placeholder="nome@azienda.it" required>
-          </label>
-          <label>Telefono (opzionale)
-            <input name="telefono" type="tel" placeholder="+39 ...">
-          </label>
-          <label>Budget indicativo
-            <select name="budget" required>
-              <option value="" selected disabled>Seleziona…</option>
-              <option>&lt; 500 €</option>
-              <option>500–1.500 €</option>
-              <option>1.500–3.000 €</option>
-              <option>&gt; 3.000 €</option>
-            </select>
-          </label>
-          <button class="btn btn--light" type="submit">Invia richiesta media kit</button>
-        </form>
       </div>
 
-      <!-- FORM UTENTI -->
-      <div id="utenti" class="g-6 card">
-        <h2>Vuoi usare brellò?</h2>
-        <form id="form-utente" novalidate>
-          <label>Nome
-            <input name="nome" type="text" placeholder="Il tuo nome" required>
-          </label>
-          <label>Email
-            <input name="email" type="email" placeholder="tu@email.com" required>
-          </label>
-          <label>Città
-            <input name="città" type="text" placeholder="Es. Alatri" required>
-          </label>
-          <button class="btn btn--red" type="submit">Avvisami</button>
-        </form>
+
+    </section>
+
+
+
+    <!-- FORM INSERZIONISTI -->
+    <section id="inserzionisti" aria-label="Sezione inserzionisti">
+      <div class="wrap grid">
+        <div class="g-6 card">
+          <h2>Sei un inserzionista?</h2>
+          <form id="form-sponsor" novalidate>
+            <label>Ragione sociale
+              <input name="azienda" type="text" placeholder="Es. Bar Centrale" required>
+            </label>
+            <label>Email
+              <input name="email" type="email" placeholder="nome@azienda.it" required>
+            </label>
+            <label>Telefono (opzionale)
+              <input name="telefono" type="tel" placeholder="+39 ...">
+            </label>
+            <label>Budget indicativo
+              <select name="budget" required>
+                <option value="" selected disabled>Seleziona…</option>
+                <option>&lt; 500 €</option>
+                <option>500–1.500 €</option>
+                <option>1.500–3.000 €</option>
+                <option>&gt; 3.000 €</option>
+              </select>
+            </label>
+            <button class="btn btn--light" type="submit">Invia richiesta media kit</button>
+          </form>
+        </div>
+
+        <!-- FORM UTENTI -->
+        <div id="utenti" class="g-6 card">
+          <h2>Vuoi usare brellò?</h2>
+          <form id="form-utente" novalidate>
+            <label>Nome
+              <input name="nome" type="text" placeholder="Il tuo nome" required>
+            </label>
+            <label>Email
+              <input name="email" type="email" placeholder="tu@email.com" required>
+            </label>
+            <label>Città
+              <input name="città" type="text" placeholder="Es. Alatri" required>
+            </label>
+            <button class="btn btn--red" type="submit">Avvisami</button>
+          </form>
+        </div>
       </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="wrap">
+        <p>© <span id="year"></span> brellò sharing · Piove? C’è brellò!</p>
+      </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" aria-live="polite" aria-atomic="true">
+      <div class="toast__inner" id="toast"></div>
     </div>
-
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <div class="wrap">
-      <p>© <span id="year"></span> brellò sharing · Piove? C’è brellò!</p>
-    </div>
-  </footer>
-
-  <!-- TOAST -->
-  <div class="toast" aria-live="polite" aria-atomic="true">
-    <div class="toast__inner" id="toast"></div>
-  </div>
 
   <div class="modal fade" id="enableAdminModal" tabindex="-1" aria-labelledby="enableAdminModalLabel"
     aria-hidden="true">
@@ -214,9 +214,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
     integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
     crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script src="script.js"></script>
-  <script type="module" src="/scriptEditor.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+    <script src="scriptCarouselChiSiamo.js"></script>
+    <script type="module" src="/scriptEditor.js"></script>
 </body>
 
 </html>
