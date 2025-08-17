@@ -1,3 +1,5 @@
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap';
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
@@ -291,7 +293,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 }
             });
-            console.log('MODELLO', model);
 
             window.addEventListener("resize", onWindowResize, false);
             animate();
@@ -347,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, logarithmicDepthBuffer: true });
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
 
@@ -387,7 +388,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = false;
 
-    controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: null };
+    controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: null, RIGHT: null };
     controls.update();
 
     function animate() {

@@ -11,7 +11,6 @@ document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
   });
 });
 
-
 // CTA che aprono il form corretto con highlight
 document.querySelectorAll('[data-open]').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -29,6 +28,39 @@ document.querySelectorAll('[data-open]').forEach(btn => {
     }
   });
 });
+
+//#region ADMIN LOGIN
+let admin = false;
+let password = "";
+
+function passwordInput(event) {
+  password = event.target.value;
+}
+
+function checkAdmin() {
+  console.log(password);
+  if (password === "password") {
+    admin = true;
+    const panelInput = document.getElementById("panel-input")
+    const passwordInput = document.getElementById("admin-password-input")
+
+    panelInput.removeAttribute("disabled");
+    
+    passwordInput.value = "";
+
+    const adminModalEl = document.getElementById('enableAdminModal');
+    const adminModal = bootstrap.Modal.getInstance(adminModalEl);
+    if (adminModal) {
+      password = "";
+      adminModal.hide();
+    }
+  }
+}
+
+document.getElementById('admin-password-input')?.addEventListener('input', passwordInput);
+document.getElementById('admin-password-send')?.addEventListener('click', checkAdmin);
+
+//#endregion
 
 // Animazione "type-in" del titolo (loop)
 const headline = document.getElementById('headline');
@@ -158,16 +190,16 @@ document.getElementById('year').textContent = new Date().getFullYear();
     if (cssInjected) return;
     cssInjected = true;
     const css = `
-#umbrella-rain{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;opacity:1;transition:opacity .6s ease}
-#umbrella-rain.hidden{opacity:0}
-#umbrella-rain .drop{position:absolute;top:-12vh;will-change:transform;animation-name:fall;animation-timing-function:linear;animation-fill-mode:forwards}
-#umbrella-rain .sway{will-change:transform;animation-name:sway;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
-#umbrella-rain .spin{will-change:transform;animation-name:spin;animation-fill-mode:both}
-#umbrella-rain svg{display:block;width:var(--size,18px);height:var(--size,18px);color:var(--col,var(--yellow));filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
-@keyframes fall{from{transform:translateY(-120px)}to{transform:translateY(110vh)}}
-@keyframes sway{0%,100%{transform:translateX(0)}50%{transform:translateX(var(--sway,18px))}}
-@keyframes spin{to{transform:rotate(var(--spin,180deg))}}
-@media (prefers-reduced-motion: reduce){#umbrella-rain{display:none!important}}
+  #umbrella-rain{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;opacity:1;transition:opacity .6s ease}
+  #umbrella-rain.hidden{opacity:0}
+  #umbrella-rain .drop{position:absolute;top:-12vh;will-change:transform;animation-name:fall;animation-timing-function:linear;animation-fill-mode:forwards}
+  #umbrella-rain .sway{will-change:transform;animation-name:sway;animation-timing-function:ease-in-out;animation-iteration-count:infinite}
+  #umbrella-rain .spin{will-change:transform;animation-name:spin;animation-fill-mode:both}
+  #umbrella-rain svg{display:block;width:var(--size,18px);height:var(--size,18px);color:var(--col,var(--yellow));filter:drop-shadow(0 2px 2px rgba(0,0,0,.15))}
+  @keyframes fall{from{transform:translateY(-120px)}to{transform:translateY(110vh)}}
+  @keyframes sway{0%,100%{transform:translateX(0)}50%{transform:translateX(var(--sway,18px))}}
+  @keyframes spin{to{transform:rotate(var(--spin,180deg))}}
+  @media (prefers-reduced-motion: reduce){#umbrella-rain{display:none!important}}
     `.trim();
     const tag = document.createElement('style');
     tag.setAttribute('data-umbrella-rain', '1');
@@ -308,7 +340,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
       const R = -rect.height * 0.2;       // end quando il centro è ben sopra la viewport
 
       // direzione: 0→1 mentre SCENDI
-      let p = 1- (S - center) / (S - R);
+      let p = 1 - (S - center) / (S - R);
       p = clampSx(p, 0, 1);
 
       const pe = easeInOutCubicSx(p);
