@@ -250,86 +250,124 @@ document.getElementById('year').textContent = new Date().getFullYear();
 
 
   // START Test sfondo animato 
-  const elFunziona = document.querySelector('#come-funziona');
-  if (elFunziona) {
-    let tickingFunziona = false;
+  // util
+  const BR_CLAMP = (n, a, b) => Math.max(a, Math.min(b, n));
+  const BR_EASE_CUBIC = t =>
+    t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-    const clampFunziona = (n, a, b) => Math.max(a, Math.min(b, n));
-    const easeInOutCubicFunziona = t =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-    function updateComeFunziona() {
-      const rect = elFunziona.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const center = rect.top + rect.height / 2;
-
-      const S = vh * 0.80; // start
-      const R = vh * 0.20; // end
-
-      let p = (center - S) / (R - S); // <— direzione invertita
-      p = clampFunziona(p, 0, 1);
-
-      const pe = easeInOutCubicFunziona(p);
-      elFunziona.style.setProperty('--p', pe.toFixed(4));
-    }
-
-    function onScrollFunziona() {
-      if (!tickingFunziona) {
-        tickingFunziona = true;
-        requestAnimationFrame(() => {
-          updateComeFunziona();
-          tickingFunziona = false;
-        });
-      }
-    }
-
-    // init + listeners
-    updateComeFunziona();
-    window.addEventListener('scroll', onScrollFunziona, { passive: true });
-    window.addEventListener('resize', onScrollFunziona);
+  function BR_progressFor(el, startRatio = 0.80, endRatio = 0.20) {
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const center = rect.top + rect.height / 2;
+    const S = vh * startRatio;
+    const R = vh * endRatio;
+    let p = 1 - (center - S) / (R - S); // stessa direzione del tuo codice
+    return BR_CLAMP(p, 0, 1);
   }
+
+  // registrazione sezioni
+  const BR_items = [];
+
+  // #mapContainer → aggiorna --p
+  const BR_elMap = document.querySelector('#mapContainer');
+  if (BR_elMap) {
+    BR_items.push({
+      el: BR_elMap,
+      startRatio: 0.80,
+      endRatio: 0.20,
+      apply: (el, p) => {
+        const pe = BR_EASE_CUBIC(p);
+        el.style.setProperty('--p', pe.toFixed(4));
+      }
+    });
+  }
+
+  // #editorBrello → muove il centro del conic-gradient lungo Y (—g-y)
+  const BR_elEditor = document.querySelector('#editorBrello');
+  if (BR_elEditor) {
+    BR_items.push({
+      el: BR_elEditor,
+      startRatio: 0.80,
+      endRatio: 0.20,
+      xMin: 50,     // cambia se vuoi limitarne l’escursione (es. 20)
+      xMax: 88,   // cambia se vuoi limitarne l’escursione (es. 80)
+      apply: (el, p, cfg) => {
+        const pe = BR_EASE_CUBIC(p);
+        const x = cfg.xMin + (cfg.xMax - cfg.xMin) * pe;
+        el.style.setProperty('--g-x', x.toFixed(2) + '%');
+      }
+    });
+  }
+
+  if (!BR_items.length) return;
+
+  let BR_ticking = false;
+  function BR_updateAll() {
+    for (const item of BR_items) {
+      const p = BR_progressFor(item.el, item.startRatio, item.endRatio);
+      item.apply(item.el, p, item);
+    }
+  }
+
+  function BR_onScroll() {
+    if (!BR_ticking) {
+      BR_ticking = true;
+      requestAnimationFrame(() => {
+        BR_updateAll();
+        BR_ticking = false;
+      });
+    }
+  }
+
+  // init + listeners
+  BR_updateAll();
+  window.addEventListener('scroll', BR_onScroll, { passive: true });
+  window.addEventListener('resize', BR_onScroll);
 
   // //655555555555555555555555555555555
+  // Sezioni da animare + lettura di eventuali override da data-attr
+  const targets = [...document.querySelectorAll('#top, #chiSiamo')]
+    .map(el => ({
+      el,
+      start: parseFloat(el.dataset.rStart) || 800, // default
+      end: parseFloat(el.dataset.rEnd) || 330  // default
+    }))
+    .filter(t => t.el);
 
-  const elSx = document.querySelector('.chiSiamoSx');
-  if (elSx) {
-    let tickingSx = false;
+  if (!targets.length) return;
 
-    const clampSx = (n, a, b) => Math.max(a, Math.min(b, n));
-    const easeInOutCubicSx = t =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const clamp = (n, min, max) => Math.max(min, Math.min(n, max));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
-    function updateChiSiamoSx() {
-      const rect = elSx.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const center = rect.top + rect.height / 2;
+  let ticking = false;
 
-      const S = vh + rect.height * 0.8;   // start quando il centro è ben sotto la viewport
-      const R = -rect.height * 0.2;       // end quando il centro è ben sopra la viewport
+  function updateAll() {
+    const vh = window.innerHeight;
 
-      // direzione: 0→1 mentre SCENDI
-      let p = 1- (S - center) / (S - R);
-      p = clampSx(p, 0, 1);
+    for (const { el, start, end } of targets) {
+      const rect = el.getBoundingClientRect();
+      const total = vh + rect.height;                 // intero “passaggio” nel viewport
+      const seen = clamp(vh - rect.top, 0, total);   // quanto è “entrata”
+      const t = easeInOutCubic(seen / total);     // 0→1
+      const r = lerp(start, end, t);
 
-      const pe = easeInOutCubicSx(p);
-      elSx.style.setProperty('--p-sx', pe.toFixed(4));
+      el.style.setProperty('--r', `${r}px`);
     }
-
-    function onScrollSx() {
-      if (!tickingSx) {
-        tickingSx = true;
-        requestAnimationFrame(() => {
-          updateChiSiamoSx();
-          tickingSx = false;
-        });
-      }
-    }
-
-    updateChiSiamoSx();
-    window.addEventListener('scroll', onScrollSx, { passive: true });
-    window.addEventListener('resize', onScrollSx);
+    ticking = false;
   }
 
+  function onScrollOrResize() {
+    if (!ticking) {
+      requestAnimationFrame(updateAll);
+      ticking = true;
+    }
+  }
+
+  // init
+  updateAll();
+  window.addEventListener('scroll', onScrollOrResize, { passive: true });
+  window.addEventListener('resize', onScrollOrResize);
   // END testSfondo animato
 
 
