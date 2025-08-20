@@ -145,24 +145,67 @@ document.getElementById('form-utente').addEventListener('submit', e => {
 });
 
 // Mappa dinamica
+mapboxgl.accessToken = 'API_KEY';
 const mapEl = document.getElementById('map');
-if (mapEl && window.L) {
-  const map = L.map(mapEl).setView([41.8719, 12.5674], 6);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap'
-  }).addTo(map);
+if (mapEl && window.mapboxgl) {
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/your_style',
+    center: [12.5674, 41.8719],
+    zoom: 6
+  });
+
+  map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: { enableHighAccuracy: true },
+    trackUserLocation: true,
+    showUserHeading: true
+  }));
+
+  const brands = [
+    { coordinates: [12.4964, 41.9028], icon: 'https://placehold.co/40x40?text=A', name: 'Brand A' },
+    { coordinates: [9.19, 45.4642], icon: 'https://placehold.co/40x40?text=B', name: 'Brand B' }
+  ];
+
+  brands.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = `url(${b.icon})`;
+    new mapboxgl.Marker(el)
+      .setLngLat(b.coordinates)
+      .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(b.name))
+      .addTo(map);
+  });
+
+  map.on('load', () => {
+    if (brands.length > 1) {
+      map.addSource('route', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: brands.map(b => b.coordinates) }
+        }
+      });
+      map.addLayer({
+        id: 'route',
+        type: 'line',
+        source: 'route',
+        layout: { 'line-join': 'round', 'line-cap': 'round' },
+        paint: { 'line-color': '#F3B300', 'line-width': 4 }
+      });
+    }
+  });
 
   const cityInput = document.getElementById('city-search');
-  cityInput.addEventListener('change', () => {
+  cityInput?.addEventListener('change', () => {
     const q = cityInput.value.trim();
     if (!q) return;
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(q + ', Italia')}`)
+    fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(q + ', Italia')}.json?access_token=${mapboxgl.accessToken}&limit=1`)
       .then(r => r.json())
       .then(res => {
-        if (res.length) {
-          const { lat, lon } = res[0];
-          map.setView([lat, lon], 13);
+        if (res.features && res.features.length) {
+          const [lng, lat] = res.features[0].center;
+          map.flyTo({ center: [lng, lat], zoom: 13 });
         } else {
           toast('Città non trovata');
         }
