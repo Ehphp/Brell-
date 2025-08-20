@@ -54,185 +54,185 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //RECUPERO E CARICAMENTO  MODELLO
     //RIMANE QUA PER I VARI TEST
-    // const loader = new GLTFLoader();
-    const loader = new THREE.ObjectLoader();
+    const loader = new GLTFLoader();
+    // const loader = new THREE.ObjectLoader();
     let model;
     const clickableMesh = [];
     let gettedModelJson;
 
 
     // //-----------------------> AXIS HELPER
-    const originHelper = new THREE.AxesHelper(10);
-    originHelper.setColors("red", "green", "blue");
-    scene.add(originHelper); //AXIS
+    // const originHelper = new THREE.AxesHelper(10);
+    // originHelper.setColors("red", "green", "blue");
+    // scene.add(originHelper); //AXIS
     //#region FETCH MODEL FROM SERVER
-    fetch("http://localhost:7147/api/Umbrella/33").then((response) => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-    })
-        .then((data) => {
-            //decodifichiamo il base64
-            gettedModelJson = atob(data.glb_file);
+    // fetch("http://localhost:7147/api/Umbrella/33").then((response) => {
+    //     if (response.ok) {
+    //         return response.json();
+    //     } else {
+    //         throw new Error('Network response was not ok: ' + response.statusText);
+    //     }
+    // })
+    //     .then((data) => {
+    //         //decodifichiamo il base64
+    //         gettedModelJson = atob(data.glb_file);
 
-            gettedModelJson = JSON.parse(gettedModelJson);
-            loader.parse(
-                gettedModelJson,
-                function (gltf) {
-                    model = gltf;
-                    model.scale.set(1, 1, 1);
-                    pivot.add(model);
-                    //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
-                    const box = new THREE.Box3().setFromObject(pivot);
-                    const center = box.getCenter(new THREE.Vector3());
+    //         gettedModelJson = JSON.parse(gettedModelJson);
+    //         loader.parse(
+    //             gettedModelJson,
+    //             function (gltf) {
+    //                 model = gltf;
+    //                 model.scale.set(1, 1, 1);
+    //                 pivot.add(model);
+    //                 //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
+    //                 const box = new THREE.Box3().setFromObject(pivot);
+    //                 const center = box.getCenter(new THREE.Vector3());
 
-                    pivot.position.sub(center);
+    //                 pivot.position.sub(center);
 
-                    model.position.sub(center);
-                    //anche il pivot è al centro della scena
-                    pivot.position.set(0, -1, 0);
-                    //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
-                    controls.target.copy(pivot.position);
-                    controls.update();
-                    const distance = box.getSize(new THREE.Vector3()).length();
-                    camera.position.set(distance * 0.1, -0.2, distance * 0.3);
-                    camera.lookAt(pivot.position);
+    //                 model.position.sub(center);
+    //                 //anche il pivot è al centro della scena
+    //                 pivot.position.set(0, -1, 0);
+    //                 //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
+    //                 controls.target.copy(pivot.position);
+    //                 controls.update();
+    //                 const distance = box.getSize(new THREE.Vector3()).length();
+    //                 camera.position.set(distance * 0.1, -0.2, distance * 0.3);
+    //                 camera.lookAt(pivot.position);
 
 
-                    model.traverse((node) => {
+    //                 model.traverse((node) => {
 
-                        if (node.isMesh) {
+    //                     if (node.isMesh) {
 
-                            let isFree;
+    //                         let isFree;
 
-                            if (node.userData.free == false || node.userData.free) {
-                                isFree = false
-                            } else {
-                                isFree = true;
-                            }
+    //                         if (node.userData.free == false || node.userData.free) {
+    //                             isFree = false
+    //                         } else {
+    //                             isFree = true;
+    //                         }
 
-                            if (node.name !== "Scene" && node.name !== "Plane001" &&
-                                node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico") {
-                                clickableMesh.push(node);
-                                if (!isFree) return;
-                            }
-                        }
-                    });
-                    animate();
-                },
-                undefined,
-                function (error) {
-                    console.error(error);
-                }
-            );
-            console.log("Modello GLB inviato con successo al server");
-        }).catch((error) => console.error("Errore di rete", error))
+    //                         if (node.name !== "Scene" && node.name !== "Plane001" &&
+    //                             node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico") {
+    //                             clickableMesh.push(node);
+    //                             if (!isFree) return;
+    //                         }
+    //                     }
+    //                 });
+    //                 animate();
+    //             },
+    //             undefined,
+    //             function (error) {
+    //                 console.error(error);
+    //             }
+    //         );
+    //         console.log("Modello GLB inviato con successo al server");
+    //     }).catch((error) => console.error("Errore di rete", error))
     //#endregion
 
     //PER IL MOMENTO RIMANE QUA PERCHÈ ANCORA MI SERVE PER FARE I VARI TEST
-    // loader.load(
-    //     "3d_model/umbrella.glb",
-    //     function (gltf) {
-    //         model = gltf.scene;
-    //         model.scale.set(1, 1, 1);
-    //         pivot.add(model);
-    //         scene.add(pivot);
+    loader.load(
+        "3d_model/umbrella.glb",
+        function (gltf) {
+            model = gltf.scene;
+            model.scale.set(1, 1, 1);
+            pivot.add(model);
+            scene.add(pivot);
 
-    //         //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
-    //         const box = new THREE.Box3().setFromObject(model);
-    //         const center = box.getCenter(new THREE.Vector3());
+            //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
+            const box = new THREE.Box3().setFromObject(model);
+            const center = box.getCenter(new THREE.Vector3());
 
-    //         model.position.sub(center);
-    //         //anche il pivot è al centro della scena
-    //         pivot.position.set(0, -1, 0);
-    //         //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
-    //         controls.target.copy(pivot.position);
-    //         controls.update();
-    //         const distance = box.getSize(new THREE.Vector3()).length();
-    //         camera.position.set(distance * 0.0005, 0, distance * 0.4);
-    //         camera.lookAt(pivot.position);
+            model.position.sub(center);
+            //anche il pivot è al centro della scena
+            pivot.position.set(0, -1, 0);
+            //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
+            controls.target.copy(pivot.position);
+            controls.update();
+            const distance = box.getSize(new THREE.Vector3()).length();
+            camera.position.set(distance * 0.0005, 0, distance * 0.4);
+            camera.lookAt(pivot.position);
 
-    //         const material = new THREE.MeshPhysicalMaterial({
-    //             normalMap: normalTexture,
-    //             metalnessMap: metallicTexture,
-    //             roughnessMap: roughnessTexture,
-    //             specularColor: new THREE.Color(0.2, 0.2, 0.2),
-    //             ior: 1,
-    //             opacity: 1,
-    //             normalScale: new THREE.Vector2(0.1, 0.1),
-    //             color: new THREE.Color(
-    //                 0.002005289774388075,
-    //                 0.0032031454611569643,
-    //                 0.03243967518210411
-    //             ),
-    //             side: THREE.DoubleSide
-    //         });
+            const material = new THREE.MeshPhysicalMaterial({
+                normalMap: normalTexture,
+                metalnessMap: metallicTexture,
+                roughnessMap: roughnessTexture,
+                specularColor: new THREE.Color(0.2, 0.2, 0.2),
+                ior: 1,
+                opacity: 1,
+                normalScale: new THREE.Vector2(0.1, 0.1),
+                color: new THREE.Color(
+                    0.002005289774388075,
+                    0.0032031454611569643,
+                    0.03243967518210411
+                ),
+                side: THREE.DoubleSide
+            });
 
-    //         // applica texture al materiale del modello 
-    //         model.traverse((node) => {
+            // applica texture al materiale del modello 
+            model.traverse((node) => {
 
-    //             if (node.isMesh) {
+                if (node.isMesh) {
 
-    //                 let isFree;
+                    let isFree;
 
-    //                 if (node.userData.free == false || node.userData.free) {
-    //                     isFree = false
-    //                 } else {
-    //                     isFree = true;
-    //                 }
+                    if (node.userData.free == false || node.userData.free) {
+                        isFree = false
+                    } else {
+                        isFree = true;
+                    }
 
-    //                 if (node.name !== "Scene" && node.name !== "Plane001" &&
-    //                     node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico" && isFree) {
-    //                     clickableMesh.push(node);
+                    if (node.name !== "Scene" && node.name !== "Plane001" &&
+                        node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico" && isFree) {
+                        clickableMesh.push(node);
 
-    //                     const material2 = material.clone();
-    //                     material2.map = cocaColaTexture;
+                        const material2 = material.clone();
+                        material2.map = cocaColaTexture;
 
-    //                     node.geometry.computeBoundingBox();
+                        node.geometry.computeBoundingBox();
 
-    //                     //genera le coordinate UV della mesh per l'applicazione delle texture
-    //                     //TODO  ancora non ho capito perchè non se non calcolo gli uv non usa quelli esportati dal modello
-    //                     const bbox = node.geometry.boundingBox;
-    //                     const size = new THREE.Vector3();
-    //                     bbox.getSize(size);
+                        //genera le coordinate UV della mesh per l'applicazione delle texture
+                        //TODO  ancora non ho capito perchè non se non calcolo gli uv non usa quelli esportati dal modello
+                        const bbox = node.geometry.boundingBox;
+                        const size = new THREE.Vector3();
+                        bbox.getSize(size);
 
-    //                     const uvAttribute = new Float32Array(node.geometry.attributes.position.count * 2);
+                        const uvAttribute = new Float32Array(node.geometry.attributes.position.count * 2);
 
-    //                     for (let i = 0; i < node.geometry.attributes.position.count; i++) {
-    //                         const x = node.geometry.attributes.position.getX(i);
-    //                         const y = node.geometry.attributes.position.getY(i);
+                        for (let i = 0; i < node.geometry.attributes.position.count; i++) {
+                            const x = node.geometry.attributes.position.getX(i);
+                            const y = node.geometry.attributes.position.getY(i);
 
-    //                         uvAttribute[i * 2] = (x - bbox.min.x) / size.x;
-    //                         uvAttribute[i * 2 + 1] = (y - bbox.min.y) / size.y;
-    //                     }
+                            uvAttribute[i * 2] = (x - bbox.min.x) / size.x;
+                            uvAttribute[i * 2 + 1] = (y - bbox.min.y) / size.y;
+                        }
 
-    //                     node.geometry.setAttribute('uv', new THREE.BufferAttribute(uvAttribute, 2));
+                        node.geometry.setAttribute('uv', new THREE.BufferAttribute(uvAttribute, 2));
 
-    //                     node.material.needsUpdate = true;
+                        node.material.needsUpdate = true;
 
-    //                     node.material = material;
+                        node.material = material;
 
-    //                     if (node.name === 'top_middle002') {
-    //                         node.material = material2;
-    //                         node.material.color = new THREE.Color(1, 1, 1)
-    //                     }
+                        if (node.name === 'top_middle002') {
+                            node.material = material2;
+                            node.material.color = new THREE.Color(1, 1, 1)
+                        }
 
-    //                     // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
-    //                     // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
-    //                 }
-    //             }
-    //         });
+                        // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
+                        // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
+                    }
+                }
+            });
 
-    //         window.addEventListener("resize", onWindowResize, false);
-    //         animate();
-    //     },
-    //     undefined,
-    //     function (error) {
-    //         console.error(error);
-    //     }
-    // );
+            window.addEventListener("resize", onWindowResize, false);
+            animate();
+        },
+        undefined,
+        function (error) {
+            console.error(error);
+        }
+    );
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
