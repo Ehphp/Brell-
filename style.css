@@ -55,7 +55,8 @@ footer {
 /* ====== TUE REGOLE (già presenti) ====== */
 #chiSiamo {
   height: fit-content;
-  padding: auto; /* (tip: non ha effetto: valuta padding: 0 16px;) */
+  padding: auto;
+  /* (tip: non ha effetto: valuta padding: 0 16px;) */
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -69,10 +70,11 @@ footer {
       var(--yellow) 50% 100%);
 }
 
-#chiSiamo svg { height: 9vh; }
+#chiSiamo svg {
+  height: 9vh;
+}
 
 .cardPag2 {
-  background: rgba(255, 241, 227, .4);
   border: 1px solid rgba(255, 241, 227, .18);
   border-radius: var(--radius);
   backdrop-filter: saturate(120%) blur(2px);
@@ -82,9 +84,34 @@ footer {
   padding: 22px;
   margin: 42px;
   height: 60vh;
-  width: 35vh;
+  width: 20vw;
 }
 
+
+.card1Pag2 {
+
+  background-color: color-mix(in oklab, var(--teal) 100%, #000000 3.5%)
+}
+
+.card1Pag2:hover {
+  background-color: color-mix(in oklab, var(--teal) 100%, #000000 .8%)
+}
+
+.card2Pag2 {
+  background-color: color-mix(in oklab, var(--rosa) 100%, #000000 3.5%)
+}
+
+.card2Pag2:hover {
+  background-color: color-mix(in oklab, var(--rosa) 100%, #000000 0.8%)
+}
+
+.card3Pag2 {
+  background-color: color-mix(in oklab, #FFC107 100%, #000000 1.5%)
+}
+
+.card3Pag2:hover {
+  background-color: color-mix(in oklab, #FFC107 70%, #000000 1.5%)
+}
 
 
 /* Sfondo tipo B1 */
@@ -301,6 +328,8 @@ section {
   margin: 2rem;
 
 }
+
+
 
 @media(min-width:900px) {
   .g-6 {
