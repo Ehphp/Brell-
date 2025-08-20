@@ -15,7 +15,7 @@ document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
 document.querySelectorAll('[data-open]').forEach(btn => {
   btn.addEventListener('click', () => {
     const target = btn.getAttribute('data-open');
-    const map = { sponsor: '#inserzionisti', utente: '#utenti' };
+    const map = { sponsor: '#editorBrello', utente: '#chiSiamo' };
     const sel = map[target];
     if (sel) {
       document.querySelector(sel).scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -45,7 +45,7 @@ function checkAdmin() {
     const passwordInput = document.getElementById("admin-password-input")
 
     panelInput.removeAttribute("disabled");
-    
+
     passwordInput.value = "";
 
     const adminModalEl = document.getElementById('enableAdminModal');
@@ -172,14 +172,29 @@ if (mapEl && window.L) {
 
 // Cambio gradiente sezione "chi siamo" in base alla card attiva
 const chiSiamo = document.getElementById('chiSiamo');
+let selectedColor = null;
+
 if (chiSiamo) {
   chiSiamo.querySelectorAll('.cardPag2').forEach(card => {
     card.addEventListener('mouseenter', () => {
       const col = card.dataset.color;
       if (col) chiSiamo.style.setProperty('--accent-color', col);
     });
+
     card.addEventListener('mouseleave', () => {
-      chiSiamo.style.removeProperty('--accent-color');
+      if (selectedColor) {
+        chiSiamo.style.setProperty('--accent-color', selectedColor);
+      } else {
+        chiSiamo.style.removeProperty('--accent-color');
+      }
+    });
+
+    card.addEventListener('click', () => {
+      const col = card.dataset.color;
+      if (col) {
+        selectedColor = col;
+        chiSiamo.style.setProperty('--accent-color', col);
+      }
     });
   });
 }

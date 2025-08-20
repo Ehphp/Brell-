@@ -47,22 +47,26 @@ footer {
 
   /* colore del primo radial-gradient, variabile per hover delle card */
   --accent-color: var(--rosa);
+  --swich-color1: var(--teal);
+  --swich-color2: var(--viola);
+  --swich-color3: var(--yellow);
 
   background:
     radial-gradient(var(--r) var(--r) at 50% 50%,
       var(--accent-color) 0 95%, transparent 36%),
-    radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8)  calc(var(--r) * 3.4),
+    radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8) calc(var(--r) * 3.4),
       var(--green) 0 95%, transparent 36%),
     linear-gradient(132deg,
-      var(--viola) 0 5%,
-      var(--teal) 5% 50%,
-      var(--yellow) 50% 100%);
+      var(--swich-color2) 0 5%,
+      var(--swich-color1) 5% 50%,
+      var(--swich-color3) 50% 100%);
 }
 
-.chiSiamoSx {
+.chiSiamoUp {
   display: flex;
   width: 100%;
-
+  justify-content: center;
+  margin-top: 5vh;
 }
 
 #mapContainer {
@@ -95,7 +99,9 @@ footer {
 }
 
 .card1Pag2:hover {
-  background-color: color-mix(in oklab, var(--teal) 100%, #000000 .8%)
+  background-color: color-mix(in oklab, var(--teal) 100%, #000000 .8%);
+  transform: scale(1.05);
+
 }
 
 .card2Pag2 {
@@ -103,7 +109,9 @@ footer {
 }
 
 .card2Pag2:hover {
-  background-color: color-mix(in oklab, var(--rosa) 100%, #000000 0.8%)
+  background-color: color-mix(in oklab, var(--rosa) 100%, #000000 0.8%);
+  transform: scale(1.05);
+
 }
 
 .card3Pag2 {
@@ -111,7 +119,9 @@ footer {
 }
 
 .card3Pag2:hover {
-  background-color: color-mix(in oklab, #FFC107 70%, #000000 1.5%)
+  background-color: color-mix(in oklab, #FFC107 100%, #000000 5.5%);
+  transform: scale(1.05);
+
 }
 
 
@@ -124,12 +134,11 @@ footer {
   align-items: center;
   justify-content: flex-start;
 
-  background-color: var(--yellow);
   background:
     conic-gradient(from 90deg at var(--g-x) var(--g-y),
       var(--red) 0deg, var(--red) 120deg,
       var(--teal) 120deg, var(--teal) 240deg,
-      var(--yellow) 240deg, var(--yellow) 360deg);
+      var(--green) 240deg, var(--green) 360deg);
 
   padding: clamp(48px, 6vw, 96px) 0;
   min-height: clamp(420px, 60vh, 720px);
@@ -375,13 +384,31 @@ p {
 }
 
 /* FORM */
-form {
-  display: grid;
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.formWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35%;
   gap: 12px
 }
 
 label {
   font-weight: 800
+  ; padding: 5px;
 }
 
 input,
