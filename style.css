@@ -45,11 +45,13 @@ footer {
   display: flex;
   flex-direction: column;
 
+  /* colore del primo radial-gradient, variabile per hover delle card */
+  --accent-color: var(--rosa);
 
   background:
     radial-gradient(var(--r) var(--r) at 50% 50%,
-      var(--rosa) 0 95%, transparent 36%),
-    radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8)  calc(var(--r) * 3.4) ,
+      var(--accent-color) 0 95%, transparent 36%),
+    radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8)  calc(var(--r) * 3.4),
       var(--green) 0 95%, transparent 36%),
     linear-gradient(132deg,
       var(--viola) 0 5%,
