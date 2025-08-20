@@ -163,14 +163,14 @@ if (mapEl && window.mapboxgl) {
   }));
 
   const brands = [
-    { coordinates: [12.4964, 41.9028], icon: 'https://placehold.co/40x40?text=A', name: 'Brand A' },
-    { coordinates: [9.19, 45.4642], icon: 'https://placehold.co/40x40?text=B', name: 'Brand B' }
+    { coordinates: [12.4964, 41.9028], name: 'Brand A' },
+    { coordinates: [9.19, 45.4642], name: 'Brand B' }
   ];
 
   brands.forEach(b => {
     const el = document.createElement('div');
     el.className = 'marker';
-    el.style.backgroundImage = `url(${b.icon})`;
+    el.textContent = b.name.charAt(0);
     new mapboxgl.Marker(el)
       .setLngLat(b.coordinates)
       .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(b.name))
