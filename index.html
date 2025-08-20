@@ -54,8 +54,10 @@
     <div class="micro">Nome attività: <strong>brellò sharing</strong></div>
 
   </header>
-    <section id="chiSiamo" aria-label="chiSiamo scrollRadius">
-      <div class=" cardPag2" style="background-color: color-mix(in oklab, var(--teal) 100%, #000000 3.5%) "> <svg viewBox="0 0 64 64" aria-hidden="true">
+  <section id="chiSiamo" aria-label="chiSiamo scrollRadius">
+    <div class="chiSiamoSx">
+      <div class=" cardPag2 card1Pag2">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
           <path fill="var(--cream)"
             d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
         </svg>
@@ -65,7 +67,7 @@
           for="city-search">Città</label> <input id="city-search" name="città" type="text" placeholder="Es. Alatri"
           required>
       </div>
-      <div class=" cardPag2" style="background-color: color-mix(in oklab, var(--rosa) 100%, #000000 3.5%); "> 
+      <div class=" cardPag2 card2Pag2">
         <svg viewBox="0 0 64 64" aria-hidden="true">
           <path fill="var(--cream)"
             d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
@@ -74,7 +76,7 @@
         <p> Porta con te l’ombrello per tutto il tempo che ti serve.</p>
         <p> Portalo con te, senza vincoli di tempo.</p>
       </div>
-      <div class=" cardPag2" style="background-color: color-mix(in oklab, #FFC107 100%, #000000 1.5%) "> 
+      <div class=" cardPag2  card3Pag2">
         <svg viewBox="0 0 64 64" aria-hidden="true">
           <path fill="var(--cream)"
             d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
@@ -84,21 +86,19 @@
         <p> Così potrà essere utile al prossimo.</p> <label for="city-search">Città</label> <input id="city-search"
           name="città" type="text" placeholder="Es. Alatri" required>
       </div>
-    </section>
-
-    <!-- COME FUNZIONA - MAPPA -->
-    <section id="mapContainer" aria-label="Come funziona">
-      <div class="adv_carousel">
-
+    </div>
+    
+      <div id="mapContainer" aria-label="Come funziona">
+        <div class="card g6ComeFunziona" id="g6ComeFunziona">
+          <h2>Come funziona</h2>
+          <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
+          <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
+          <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
+          <label for="city-search">Città</label>
+          <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
       </div>
-      <div class="card g6ComeFunziona" id="g6ComeFunziona">
-        <h2>Come funziona</h2>
-        <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
-        <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
-        <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
-        <label for="city-search">Città</label>
-        <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
-      </div>
+
+
 
 
 
@@ -106,93 +106,97 @@
 
         <div id="map" class="map-container"></div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- COME FUNZIONA - 3D MODEL -->
-    <section id="editorBrello" aria-label="Come funziona">
-      <div id="hero2" class="map-container"></div>
-      <div class="card">
-        <h2>Perché gli sponsor lo amano</h2>
-        <p>18 spazi pubblicitari esclusivi su ogni ristampa (3–4 mesi) con copertura mobile e locale.</p>
-        <p>Visibilità reale, nei momenti che contano: quando piove.</p>
-        <button class="btn btn--light" data-open="sponsor">Richiedi media kit</button>
-        <div id="panel-control" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-          <input id="panel-input" type="file" accept="image/png, image/jpeg" onchange="fileInputHandler(event)">
+  <!-- COME FUNZIONA - MAPPA -->
 
-        </div>
-        <button id="toggle-save" class="round-button">💾</button>
+
+  <!-- COME FUNZIONA - 3D MODEL -->
+  <section id="editorBrello" aria-label="Come funziona">
+    <div id="hero2" class="map-container"></div>
+    <div class="card">
+      <h2>Perché gli sponsor lo amano</h2>
+      <p>18 spazi pubblicitari esclusivi su ogni ristampa (3–4 mesi) con copertura mobile e locale.</p>
+      <p>Visibilità reale, nei momenti che contano: quando piove.</p>
+      <button class="btn btn--light" data-open="sponsor">Richiedi media kit</button>
+      <div id="panel-control" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
+        <input id="panel-input" type="file" accept="image/png, image/jpeg" onchange="fileInputHandler(event)">
 
       </div>
+      <button id="toggle-save" class="round-button">💾</button>
 
-
-    </section>
-
-
-
-    <!-- FORM INSERZIONISTI -->
-    <section id="inserzionisti" aria-label="Sezione inserzionisti">
-      <div class="wrap grid">
-        <div class="g-6 card">
-          <h2>Sei un inserzionista?</h2>
-          <form id="form-sponsor" novalidate>
-            <label>Ragione sociale
-              <input name="azienda" type="text" placeholder="Es. Bar Centrale" required>
-            </label>
-            <label>Email
-              <input name="email" type="email" placeholder="nome@azienda.it" required>
-            </label>
-            <label>Telefono (opzionale)
-              <input name="telefono" type="tel" placeholder="+39 ...">
-            </label>
-            <label>Budget indicativo
-              <select name="budget" required>
-                <option value="" selected disabled>Seleziona…</option>
-                <option>&lt; 500 €</option>
-                <option>500–1.500 €</option>
-                <option>1.500–3.000 €</option>
-                <option>&gt; 3.000 €</option>
-              </select>
-            </label>
-            <button class="btn btn--light" type="submit">Invia richiesta media kit</button>
-          </form>
-        </div>
-
-        <!-- FORM UTENTI -->
-        <div id="utenti" class="g-6 card">
-          <h2>Vuoi usare brellò?</h2>
-          <form id="form-utente" novalidate>
-            <label>Nome
-              <input name="nome" type="text" placeholder="Il tuo nome" required>
-            </label>
-            <label>Email
-              <input name="email" type="email" placeholder="tu@email.com" required>
-            </label>
-            <label>Città
-              <input name="città" type="text" placeholder="Es. Alatri" required>
-            </label>
-            <button class="btn btn--red" type="submit">Avvisami</button>
-          </form>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- FOOTER -->
-    <footer>
-      <div class="wrap">
-        <p>© <span id="year"></span> brellò sharing · Piove? C’è brellò!</p>
-      </div>
-    </footer>
-
-    <!-- TOAST -->
-    <div class="toast" aria-live="polite" aria-atomic="true">
-      <div class="toast__inner" id="toast"></div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="script.js"></script>
-    <script src="scriptCarouselChiSiamo.js"></script>
-    <script type="module" src="/scriptEditor.js"></script>
+
+  </section>
+
+
+
+  <!-- FORM INSERZIONISTI -->
+  <section id="inserzionisti" aria-label="Sezione inserzionisti">
+    <div class="wrap grid">
+      <div class="g-6 card">
+        <h2>Sei un inserzionista?</h2>
+        <form id="form-sponsor" novalidate>
+          <label>Ragione sociale
+            <input name="azienda" type="text" placeholder="Es. Bar Centrale" required>
+          </label>
+          <label>Email
+            <input name="email" type="email" placeholder="nome@azienda.it" required>
+          </label>
+          <label>Telefono (opzionale)
+            <input name="telefono" type="tel" placeholder="+39 ...">
+          </label>
+          <label>Budget indicativo
+            <select name="budget" required>
+              <option value="" selected disabled>Seleziona…</option>
+              <option>&lt; 500 €</option>
+              <option>500–1.500 €</option>
+              <option>1.500–3.000 €</option>
+              <option>&gt; 3.000 €</option>
+            </select>
+          </label>
+          <button class="btn btn--light" type="submit">Invia richiesta media kit</button>
+        </form>
+      </div>
+
+      <!-- FORM UTENTI -->
+      <div id="utenti" class="g-6 card">
+        <h2>Vuoi usare brellò?</h2>
+        <form id="form-utente" novalidate>
+          <label>Nome
+            <input name="nome" type="text" placeholder="Il tuo nome" required>
+          </label>
+          <label>Email
+            <input name="email" type="email" placeholder="tu@email.com" required>
+          </label>
+          <label>Città
+            <input name="città" type="text" placeholder="Es. Alatri" required>
+          </label>
+          <button class="btn btn--red" type="submit">Avvisami</button>
+        </form>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="wrap">
+      <p>© <span id="year"></span> brellò sharing · Piove? C’è brellò!</p>
+    </div>
+  </footer>
+
+  <!-- TOAST -->
+  <div class="toast" aria-live="polite" aria-atomic="true">
+    <div class="toast__inner" id="toast"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+  <script src="scriptCarouselChiSiamo.js"></script>
+  <script type="module" src="/scriptEditor.js"></script>
 </body>
 
 </html>

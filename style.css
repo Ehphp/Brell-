@@ -36,38 +36,37 @@ footer {
 }
 
 /* Sfondo tipo B */
-#mapContainer {
-  height: 70vh;
 
-  /* progress [0..1], aggiornato via JS */
-  --p: 0;
-
-  /* stop corrente del gradiente (in %) calcolato con --p) */
-  --stop: calc(58% + (var(--p) * (85% - 58%)));
-  /* ↑ qui 85% è la posizione finale; cambiala se vuoi più o meno spostamento */
-
-  background:
-    linear-gradient(-135deg,
-      var(--teal) 0 var(--stop),
-      var(--yellow) var(--stop) 100%);
-}
 
 /* ====== TUE REGOLE (già presenti) ====== */
 #chiSiamo {
   height: fit-content;
   padding: auto;
-  /* (tip: non ha effetto: valuta padding: 0 16px;) */
   display: flex;
-  align-items: baseline;
-  justify-content: center;
+  flex-direction: column;
+
 
   background:
     radial-gradient(var(--r) var(--r) at 50% 50%,
       var(--rosa) 0 95%, transparent 36%),
+    radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8)  calc(var(--r) * 3.4) ,
+      var(--green) 0 95%, transparent 36%),
     linear-gradient(132deg,
       var(--viola) 0 5%,
       var(--teal) 5% 50%,
       var(--yellow) 50% 100%);
+}
+
+.chiSiamoSx {
+  display: flex;
+  width: 100%;
+
+}
+
+#mapContainer {
+  display: flex;
+  padding: 0px 0px 0px 0px;
+  height: 70vh;
 }
 
 #chiSiamo svg {
@@ -305,10 +304,7 @@ section {
   padding: 80px 22px 80px 22px;
 }
 
-#mapContainer {
-  display: flex;
-  padding: 0px 0px 0px 0px;
-}
+
 
 
 
