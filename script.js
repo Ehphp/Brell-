@@ -170,6 +170,20 @@ if (mapEl && window.L) {
   });
 }
 
+// Cambio gradiente sezione "chi siamo" in base alla card attiva
+const chiSiamo = document.getElementById('chiSiamo');
+if (chiSiamo) {
+  chiSiamo.querySelectorAll('.cardPag2').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      const col = card.dataset.color;
+      if (col) chiSiamo.style.setProperty('--accent-color', col);
+    });
+    card.addEventListener('mouseleave', () => {
+      chiSiamo.style.removeProperty('--accent-color');
+    });
+  });
+}
+
 // Anno dinamico nel footer
 document.getElementById('year').textContent = new Date().getFullYear();
 
