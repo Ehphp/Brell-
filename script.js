@@ -145,14 +145,14 @@ document.getElementById('form-utente').addEventListener('submit', e => {
 });
 
 // Mappa dinamica
-mapboxgl.accessToken = 'API_KEY';
+mapboxgl.accessToken = 'pk.eyJ1IjoiaHBocGhwaHAiLCJhIjoiY21lazB5MHhmMDB4eDJscXJ0NmlxMnFrMCJ9.Uqgp2euLBUrE1OrRCHq0EQ';
 const mapEl = document.getElementById('map');
 if (mapEl && window.mapboxgl) {
   const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/your_style',
-    center: [12.5674, 41.8719],
-    zoom: 6
+    style: 'mapbox://styles/hphphphp/cmek34twr001o01qt8yff8wlz',
+  
+
   });
 
   map.addControl(new mapboxgl.NavigationControl());
@@ -163,14 +163,14 @@ if (mapEl && window.mapboxgl) {
   }));
 
   const brands = [
-    { coordinates: [12.4964, 41.9028], icon: 'https://placehold.co/40x40?text=A', name: 'Brand A' },
-    { coordinates: [9.19, 45.4642], icon: 'https://placehold.co/40x40?text=B', name: 'Brand B' }
+    { coordinates: [12.4964, 41.9028], name: 'Brand A' },
+    { coordinates: [9.19, 45.4642], name: 'Brand B' }
   ];
 
   brands.forEach(b => {
     const el = document.createElement('div');
     el.className = 'marker';
-    el.style.backgroundImage = `url(${b.icon})`;
+    el.textContent = b.name.charAt(0);
     new mapboxgl.Marker(el)
       .setLngLat(b.coordinates)
       .setPopup(new mapboxgl.Popup({ offset: 25 }).setText(b.name))
