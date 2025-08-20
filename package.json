@@ -16,5 +16,8 @@
     "express": "^5.1.0",
     "three": "^0.179.1",
     "vite": "^7.1.2"
+  },
+  "devDependencies": {
+    "@types/three": "^0.179.0"
   }
 }
