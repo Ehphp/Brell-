@@ -145,14 +145,14 @@ document.getElementById('form-utente').addEventListener('submit', e => {
 });
 
 // Mappa dinamica
-mapboxgl.accessToken = 'API_KEY';
+mapboxgl.accessToken = 'pk.eyJ1IjoiaHBocGhwaHAiLCJhIjoiY21lazB5MHhmMDB4eDJscXJ0NmlxMnFrMCJ9.Uqgp2euLBUrE1OrRCHq0EQ';
 const mapEl = document.getElementById('map');
 if (mapEl && window.mapboxgl) {
   const map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/your_style',
-    center: [12.5674, 41.8719],
-    zoom: 6
+    style: 'mapbox://styles/hphphphp/cmek34twr001o01qt8yff8wlz',
+  
+
   });
 
   map.addControl(new mapboxgl.NavigationControl());
