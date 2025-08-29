@@ -300,8 +300,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderer.setSize(container.clientWidth, container.clientHeight);
         composer.setSize(container.clientWidth, container.clientHeight);
-
-        effectFXAA.uniforms[ 'resolution' ].value.set( 1 / container.clientWidth, 1 / container.clientHeight );
     }
 
     function applyTextureClick(event) {
