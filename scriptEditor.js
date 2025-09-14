@@ -58,187 +58,29 @@ document.addEventListener("DOMContentLoaded", () => {
     // const loader = new THREE.ObjectLoader();
     let model;
     const clickableMesh = [];
-    let gettedModelJson;
 
-
-    // //-----------------------> AXIS HELPER
-    // const originHelper = new THREE.AxesHelper(10);
-    // originHelper.setColors("red", "green", "blue");
-    // scene.add(originHelper); //AXIS
-    //#region FETCH MODEL FROM SERVER
-    // fetch("http://localhost:7147/api/Umbrella/33").then((response) => {
-    //     if (response.ok) {
-    //         return response.json();
-    //     } else {
-    //         throw new Error('Network response was not ok: ' + response.statusText);
-    //     }
-    // })
-    //     .then((data) => {
-    //         //decodifichiamo il base64
-    //         gettedModelJson = atob(data.glb_file);
-
-    //         gettedModelJson = JSON.parse(gettedModelJson);
-    //         loader.parse(
-    //             gettedModelJson,
-    //             function (gltf) {
-    //                 model = gltf;
-    //                 model.scale.set(1, 1, 1);
-    //                 pivot.add(model);
-    //                 //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
-    //                 const box = new THREE.Box3().setFromObject(pivot);
-    //                 const center = box.getCenter(new THREE.Vector3());
-
-    //                 pivot.position.sub(center);
-
-    //                 model.position.sub(center);
-    //                 //anche il pivot è al centro della scena
-    //                 pivot.position.set(0, -1, 0);
-    //                 //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
-    //                 controls.target.copy(pivot.position);
-    //                 controls.update();
-    //                 const distance = box.getSize(new THREE.Vector3()).length();
-    //                 camera.position.set(distance * 0.1, -0.2, distance * 0.3);
-    //                 camera.lookAt(pivot.position);
-
-
-    //                 model.traverse((node) => {
-
-    //                     if (node.isMesh) {
-
-    //                         let isFree;
-
-    //                         if (node.userData.free == false || node.userData.free) {
-    //                             isFree = false
-    //                         } else {
-    //                             isFree = true;
-    //                         }
-
-    //                         if (node.name !== "Scene" && node.name !== "Plane001" &&
-    //                             node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico") {
-    //                             clickableMesh.push(node);
-    //                             if (!isFree) return;
-    //                         }
-    //                     }
-    //                 });
-    //                 animate();
-    //             },
-    //             undefined,
-    //             function (error) {
-    //                 console.error(error);
-    //             }
-    //         );
-    //         console.log("Modello GLB inviato con successo al server");
-    //     }).catch((error) => console.error("Errore di rete", error))
-    //#endregion
-
-    //PER IL MOMENTO RIMANE QUA PERCHÈ ANCORA MI SERVE PER FARE I VARI TEST
-    loader.load(
-        "3d_model/umbrella.glb",
-        function (gltf) {
-            model = gltf.scene;
-            model.scale.set(1, 1, 1);
-            pivot.add(model);
-            scene.add(pivot);
-
-            //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
-            const box = new THREE.Box3().setFromObject(model);
-            const center = box.getCenter(new THREE.Vector3());
-
-            model.position.sub(center);
-            //anche il pivot è al centro della scena
-            pivot.position.set(0, -1, 0);
-            //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
-            controls.target.copy(pivot.position);
-            controls.update();
-            const distance = box.getSize(new THREE.Vector3()).length();
-            camera.position.set(distance * 0.0005, 0, distance * 0.4);
-            camera.lookAt(pivot.position);
-
-            const material = new THREE.MeshPhysicalMaterial({
-                normalMap: normalTexture,
-                metalnessMap: metallicTexture,
-                roughnessMap: roughnessTexture,
-                specularColor: new THREE.Color(0.2, 0.2, 0.2),
-                ior: 1,
-                opacity: 1,
-                normalScale: new THREE.Vector2(0.1, 0.1),
-                color: new THREE.Color(
-                    0.002005289774388075,
-                    0.0032031454611569643,
-                    0.03243967518210411
-                ),
-                side: THREE.DoubleSide
-            });
-
-            // applica texture al materiale del modello 
-            model.traverse((node) => {
-
-                if (node.isMesh) {
-
-                    let isFree;
-
-                    if (node.userData.free == false || node.userData.free) {
-                        isFree = false
-                    } else {
-                        isFree = true;
-                    }
-
-                    if (node.name !== "Scene" && node.name !== "Plane001" &&
-                        node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico" && isFree) {
-                        clickableMesh.push(node);
-
-                        const material2 = material.clone();
-                        material2.map = cocaColaTexture;
-
-                        node.geometry.computeBoundingBox();
-
-                        //genera le coordinate UV della mesh per l'applicazione delle texture
-                        //TODO  ancora non ho capito perchè non se non calcolo gli uv non usa quelli esportati dal modello
-                        const bbox = node.geometry.boundingBox;
-                        const size = new THREE.Vector3();
-                        bbox.getSize(size);
-
-                        const uvAttribute = new Float32Array(node.geometry.attributes.position.count * 2);
-
-                        for (let i = 0; i < node.geometry.attributes.position.count; i++) {
-                            const x = node.geometry.attributes.position.getX(i);
-                            const y = node.geometry.attributes.position.getY(i);
-
-                            uvAttribute[i * 2] = (x - bbox.min.x) / size.x;
-                            uvAttribute[i * 2 + 1] = (y - bbox.min.y) / size.y;
-                        }
-
-                        node.geometry.setAttribute('uv', new THREE.BufferAttribute(uvAttribute, 2));
-
-                        node.material.needsUpdate = true;
-
-                        node.material = material;
-
-                        if (node.name === 'top_middle002') {
-                            node.material = material2;
-                            node.material.color = new THREE.Color(1, 1, 1)
-                        }
-
-                        // node.userData.originalMaterial = material.clone(); //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
-                        // node.userData.isOriginalMaterial = true; //copia in proprietà orginale per ripristino materiale quando si rimuove la texture
-                    }
+    (async () => {
+        const loadedFromCache = await tryLoadModelFromCache();
+        if (!loadedFromCache) {
+            console.log("Caricamento del modello di fallback da umbrella.glb");
+            loader.load(
+                "3d_model/umbrella.glb",
+                (gltf) => {
+                    onModelLoad(gltf, true); // isFreshLoad = true
+                },
+                undefined,
+                (error) => {
+                    console.error("Errore durante il caricamento del modello GLB:", error);
                 }
-            });
-
-            window.addEventListener("resize", onWindowResize, false);
-            animate();
-        },
-        undefined,
-        function (error) {
-            console.error(error);
+            );
         }
-    );
+    })();
 
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, logarithmicDepthBuffer: true });
-    renderer.setPixelRatio( window.devicePixelRatio * 1.5 );
+    renderer.setPixelRatio(window.devicePixelRatio * 1.5);
 
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
@@ -301,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderer.setSize(container.clientWidth, container.clientHeight);
         composer.setSize(container.clientWidth, container.clientHeight);
 
-        effectFXAA.uniforms[ 'resolution' ].value.set( 1 / container.clientWidth, 1 / container.clientHeight );
+        effectFXAA.uniforms['resolution'].value.set(1 / container.clientWidth, 1 / container.clientHeight);
     }
 
     function applyTextureClick(event) {
@@ -320,6 +162,8 @@ document.addEventListener("DOMContentLoaded", () => {
             selectedObject.material = newMaterial;
             selectedObject.userData.free = false;
             selectedObject.material.needsUpdate = true;
+
+            temp_saveModelToCache();
         }
     }
 
@@ -381,7 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const imageUrl = e.target.result;
             textureLoader = new THREE.TextureLoader().load(imageUrl);
             textureLoader.anisotropy = maxAnisotropy;
-
+            textureLoader.encoding = THREE.sRGBEncoding;
+            textureLoader.flipY = false;
         };
         reader.readAsDataURL(file);
     }
@@ -410,4 +255,140 @@ document.addEventListener("DOMContentLoaded", () => {
         }).catch((error) => console.error("Errore di rete", error))
     });
     //#endregion event listener
+    //#region LOAD MODEL
+
+    /**
+     * Funzione temporanea per salvare lo stato del modello nella Cache API.
+     * Viene chiamata ogni volta che una texture viene applicata.
+     */
+    async function temp_saveModelToCache() {
+        if (!model) {
+            console.error("Il modello non è ancora stato caricato, impossibile salvare.");
+            return;
+        }
+
+        // Fast fix: Eseguiamo il codice bloccante in un setTimeout per non freezare l'UI.
+        // La soluzione ideale sarebbe usare un Web Worker.
+        setTimeout(async () => {
+            try {
+                const cacheName = 'brello-model-cache-v1';
+                const requestUrl = '/model/brello_state.json';
+
+                console.log("Serializzazione del modello in corso (in background)...");
+                const json = model.toJSON();
+                const jsonString = JSON.stringify(json);
+
+                console.log(`Dimensione del modello serializzato: ${(jsonString.length / 1024 / 1024).toFixed(2)} MB`);
+
+                const response = new Response(jsonString, {
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const cache = await caches.open(cacheName);
+                await cache.put(requestUrl, response);
+
+                console.log(`Modello salvato nella cache '${cacheName}' con la chiave '${requestUrl}'.`);
+
+            } catch (e) {
+                console.error("Errore durante il salvataggio del modello nella cache:", e);
+                alert("Impossibile salvare il modello nella cache.");
+            }
+        }, 0);
+    }
+
+    /**
+     * Funzione temporanea per caricare lo stato del modello dalla Cache API.
+     */
+    async function tryLoadModelFromCache() {
+        const cacheName = 'brello-model-cache-v1';
+        const requestUrl = '/model/brello_state.json';
+
+        try {
+            const cache = await caches.open(cacheName);
+            const response = await cache.match(requestUrl);
+
+            if (!response) {
+                console.log(`Nessun modello salvato trovato nella cache '${cacheName}'.`);
+                return false;
+            }
+
+            console.log("Modello trovato nella cache, caricamento in corso...");
+            const json = await response.json();
+
+            const objectLoader = new THREE.ObjectLoader();
+            const loadedObject = objectLoader.parse(json);
+
+            onModelLoad(loadedObject, false);
+
+            console.log("Modello caricato con successo dalla cache.");
+            return true;
+        } catch (e) {
+            console.error("Errore durante il caricamento del modello dalla cache:", e);
+            return false;
+        }
+    }
+
+    function onModelLoad(loadedObject, isFreshLoad = false) {
+        if (loadedObject.scene) { // From GLTFLoader
+            model = loadedObject.scene;
+        } else { // From ObjectLoader (cache)
+            model = loadedObject;
+        }
+
+        if (pivot.children.length > 0) {
+            pivot.remove(pivot.children[0]);
+        }
+        pivot.add(model);
+
+        //data l'origine spostata calcoliamo il box che lo contiene e lo posizioniamo al centro della scena
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+
+        model.position.sub(center);
+        //anche il pivot è al centro della scena
+        pivot.position.set(0, -1, 0);
+        //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
+        controls.target.copy(pivot.position);
+        controls.update();
+        const distance = box.getSize(new THREE.Vector3()).length();
+        camera.position.set(distance * 0.0005, 0, distance * 0.4);
+        camera.lookAt(pivot.position);
+
+        clickableMesh.length = 0;
+        model.traverse((node) => {
+            if (node.isMesh) {
+                if (node.name !== "Scene" && node.name !== "Plane001" &&
+                    node.name !== "Plane001_1" && node.name !== "stecca" && node.name !== "manico") {
+                    clickableMesh.push(node);
+
+                    // Applica il materiale di default solo al primo caricamento dal GLB
+                    if (isFreshLoad) {
+                        const isFree = node.userData.free !== false; // Default a true se non definito
+                        if (isFree) {
+                            const material = new THREE.MeshPhysicalMaterial({
+                                normalMap: normalTexture,
+                                metalnessMap: metallicTexture,
+                                roughnessMap: roughnessTexture,
+                                specularColor: new THREE.Color(0.2, 0.2, 0.2),
+                                ior: 1,
+                                opacity: 1,
+                                normalScale: new THREE.Vector2(0.1, 0.1),
+                                color: new THREE.Color(
+                                    0.002005289774388075,
+                                    0.0032031454611569643,
+                                    0.03243967518210411
+                                ),
+                                side: THREE.DoubleSide
+                            });
+                            node.material = material;
+                        }
+                    }
+                }
+            }
+        });
+
+        window.addEventListener("resize", onWindowResize, false);
+        animate();
+    }
+    //#endregion
 });
