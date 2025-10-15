@@ -25,8 +25,45 @@ document.querySelectorAll('[data-open]').forEach(btn => {
         { boxShadow: '0 0 0 0 rgba(243,179,0,0)' },
         { boxShadow: '0 0 0 10px rgba(243,179,0,.25)' }
       ], { duration: 300, direction: 'alternate', iterations: 2 });
+
+      // Track CTA clicks
+      if (typeof gtag !== 'undefined') {
+        gtag('event', target === 'sponsor' ? 'click_cta_sponsor' : 'click_cta_citizens', {
+          event_category: 'conversion',
+          event_label: `cta_${target}_clicked`
+        });
+      }
     }
   });
+});
+
+// Track map interactions
+document.addEventListener('DOMContentLoaded', function () {
+  const mapContainer = document.getElementById('map');
+  if (mapContainer) {
+    mapContainer.addEventListener('click', function () {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'map_interaction', {
+          event_category: 'engagement',
+          event_label: 'map_clicked'
+        });
+      }
+    });
+
+    // Track when map comes into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && typeof gtag !== 'undefined') {
+          gtag('event', 'view_map', {
+            event_category: 'engagement',
+            event_label: 'map_section_viewed'
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    });
+    observer.observe(mapContainer);
+  }
 });
 
 //#region ADMIN LOGIN
@@ -126,6 +163,16 @@ document.getElementById('form-sponsor').addEventListener('submit', e => {
   }
   const data = collect(form);
   console.log('Sponsor lead:', data); // Qui si integra API o backend
+
+  // Track form submission
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'submit_form_sponsor', {
+      event_category: 'conversion',
+      event_label: 'sponsor_form_completed',
+      value: 1
+    });
+  }
+
   form.reset();
   toast('Richiesta inviata! Ti scriviamo presto.');
 });
@@ -136,10 +183,28 @@ document.getElementById('form-utente').addEventListener('submit', e => {
   const form = e.currentTarget;
   if (!validate(form)) {
     toast('Controlla i campi evidenziati');
+
+    // Track validation errors
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'form_validation_error', {
+        event_category: 'user_experience',
+        event_label: 'citizen_form_error'
+      });
+    }
     return;
   }
   const data = collect(form);
   console.log('Utente lead:', data); // Qui si integra API o backend
+
+  // Track form submission
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'submit_form_citizen', {
+      event_category: 'conversion',
+      event_label: 'citizen_form_completed',
+      value: 1
+    });
+  }
+
   form.reset();
   toast('Fatto! Ti avviseremo quando arriviamo.');
 });
@@ -151,7 +216,7 @@ if (mapEl && window.mapboxgl) {
   const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/hphphphp/cmek34twr001o01qt8yff8wlz',
-  
+
 
   });
 
