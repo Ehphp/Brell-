@@ -10,6 +10,25 @@
 
   --shadow: 0 10px 30px rgba(0, 0, 0, .16);
   --radius: 14px;
+  
+  /* Typography scale */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 1.875rem;
+  --fs-4xl: 2.25rem;
+  --fs-5xl: 3rem;
+  
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
 }
 
 * {
@@ -20,8 +39,177 @@ body {
   margin: 0;
   font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--cream);
-
+  line-height: 1.6;
   overflow-x: hidden;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* Skip to content link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Trust indicators in hero */
+.trust-indicators {
+  margin-top: var(--space-md);
+  opacity: 0.9;
+}
+
+.trust-indicators small {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+/* Sponsor Benefits Section */
+.sponsor-benefits {
+  padding: var(--space-2xl) 0;
+  background: linear-gradient(135deg, var(--viola) 0%, var(--teal) 100%);
+}
+
+.benefit-card {
+  text-align: center;
+  padding: var(--space-lg);
+  height: 100%;
+  border: 1px solid rgba(255, 241, 227, .18);
+  border-radius: var(--radius);
+  backdrop-filter: saturate(120%) blur(2px);
+  background: rgba(255, 241, 227, .05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow);
+}
+
+.benefit-icon {
+  font-size: var(--fs-4xl);
+  margin-bottom: var(--space-sm);
+}
+
+.benefit-card h3 {
+  font-size: var(--fs-xl);
+  font-weight: 800;
+  margin-bottom: var(--space-sm);
+  color: var(--cream);
+}
+
+.benefit-card p {
+  font-size: var(--fs-sm);
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* FAQ Section */
+.faq-section {
+  padding: var(--space-2xl) 0;
+  background: linear-gradient(135deg, var(--ink) 0%, var(--viola) 100%);
+}
+
+.accordion-item {
+  background: rgba(255, 241, 227, .05);
+  border: 1px solid rgba(255, 241, 227, .18);
+  margin-bottom: var(--space-sm);
+  border-radius: var(--radius);
+}
+
+.accordion-button {
+  background: transparent;
+  color: var(--cream);
+  font-weight: 600;
+  border: none;
+  padding: var(--space-md);
+}
+
+.accordion-button:not(.collapsed) {
+  background: rgba(243, 179, 0, .1);
+  color: var(--cream);
+  box-shadow: none;
+}
+
+.accordion-button:focus {
+  border: none;
+  box-shadow: 0 0 0 2px var(--yellow);
+}
+
+.accordion-body {
+  background: rgba(255, 241, 227, .02);
+  color: var(--cream);
+  padding: var(--space-md);
+}
+
+/* Footer improvements */
+footer {
+  background:
+    radial-gradient(1000px 1000px at 120% 110%, var(--yellow) 0 95%, transparent 0%),
+    linear-gradient(135deg,
+      var(--teal) 0 15%,
+      var(--green) 15% 20%,
+      var(--rosa) 20% 50%,
+      var(--viola) 50% 100%);
+}
+
+footer h5, footer h6 {
+  color: var(--cream);
+  font-weight: 800;
+}
+
+footer a {
+  color: var(--cream);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+footer a:hover {
+  opacity: 1;
+  color: var(--yellow);
+}
+
+footer ul {
+  margin: 0;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: var(--space-xs);
+}
+
+.social-links a {
+  display: inline-block;
+  margin-right: var(--space-sm);
+  font-size: var(--fs-lg);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .benefit-card {
+    margin-bottom: var(--space-md);
+  }
+  
+  .accordion-button {
+    font-size: var(--fs-sm);
+  }
+  
+  .trust-indicators {
+    font-size: var(--fs-xs);
+  }
 }
 
 /* Sfondo tipo A1 */
