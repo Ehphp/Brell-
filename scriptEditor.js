@@ -22,6 +22,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const textureUpload = document.getElementById('panel-input');
     const saveButton = document.getElementById("toggle-save");
 
+    // Nuovi controlli HTML
+    const uploadDropZone = document.getElementById('upload-drop-zone');
+    const scaleSlider = document.getElementById('logo-scale');
+    const rotationSlider = document.getElementById('logo-rotation');
+    const scaleValue = document.getElementById('scale-value');
+    const rotationValue = document.getElementById('rotation-value');
+    const templateCards = document.querySelectorAll('.template-btn');
+    const previewButton = document.getElementById('preview-button');
+
     const normalTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_normal-ogl.png");
     const metallicTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_metallic.png");
     const roughnessTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_roughness.png");
@@ -128,9 +137,265 @@ document.addEventListener("DOMContentLoaded", () => {
     controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: null, RIGHT: null };
     controls.update();
 
+    // Current logo state for editor controls
+    let currentLogoTexture = null;
+    let logoScale = 1;
+    let logoRotation = 0;
+
+    // Expose functions for integration with main script
+    window.applyCustomTexture = applyCustomTexture;
+    window.applyTemplate = applyTemplate;
+    window.updateLogoScale = updateLogoScale;
+    window.updateLogoRotation = updateLogoRotation;
+
+    function applyCustomTexture(file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const texture = new THREE.TextureLoader().load(e.target.result);
+            texture.anisotropy = maxAnisotropy;
+            currentLogoTexture = texture;
+
+            // Apply to umbrella mesh if available
+            if (model) {
+                applyTextureToModel(texture);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function applyTemplate(template) {
+        // Create a canvas-based texture for template text/logo
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+
+        // Background
+        ctx.fillStyle = template.color;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Icon
+        ctx.font = '120px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'white';
+        ctx.fillText(template.icon, canvas.width / 2, 200);
+
+        // Text
+        ctx.font = 'bold 40px Arial';
+        ctx.fillText(template.text, canvas.width / 2, canvas.height - 100);
+
+        // Create texture from canvas
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.anisotropy = maxAnisotropy;
+        currentLogoTexture = texture;
+
+        if (model) {
+            applyTextureToModel(texture);
+        }
+    }
+
+    function updateLogoScale(scale) {
+        logoScale = scale;
+        if (currentLogoTexture && model) {
+            updateTextureTransform();
+        }
+    }
+
+    function updateLogoRotation(rotation) {
+        logoRotation = rotation * Math.PI / 180; // Convert to radians
+        if (currentLogoTexture && model) {
+            updateTextureTransform();
+        }
+    }
+
+    function updateTextureTransform() {
+        if (!currentLogoTexture) return;
+
+        // Update texture transformation
+        currentLogoTexture.repeat.set(logoScale, logoScale);
+        currentLogoTexture.rotation = logoRotation;
+        currentLogoTexture.center.set(0.5, 0.5);
+        currentLogoTexture.needsUpdate = true;
+    }
+
+    function applyTextureToModel(texture) {
+        if (!model) return;
+
+        model.traverse((child) => {
+            if (child.isMesh && child.material) {
+                // Apply texture to material
+                if (Array.isArray(child.material)) {
+                    child.material.forEach(mat => {
+                        if (mat.map) {
+                            mat.map = texture;
+                            mat.needsUpdate = true;
+                        }
+                    });
+                } else {
+                    child.material.map = texture;
+                    child.material.needsUpdate = true;
+                }
+            }
+        });
+    }
+
+    controls.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: null, RIGHT: null };
+    controls.update();
+
+    // Expose functions for integration with main script
+    window.applyCustomTexture = applyCustomTexture;
+    window.applyTemplate = applyTemplate;
+    window.updateLogoScale = updateLogoScale;
+    window.updateLogoRotation = updateLogoRotation;
+
+    // ============================================
+    // EVENT LISTENERS FOR NEW UI CONTROLS
+    // ============================================
+
+    // Upload file input
+    if (textureUpload) {
+        textureUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                applyCustomTexture(file);
+            }
+        });
+    }
+
+    // Drag and drop zone
+    if (uploadDropZone) {
+        // Prevent default drag behaviors
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadDropZone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
+        });
+
+        // Highlight drop zone when item is dragged over it
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadDropZone.addEventListener(eventName, () => {
+                uploadDropZone.classList.add('dragover');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadDropZone.addEventListener(eventName, () => {
+                uploadDropZone.classList.remove('dragover');
+            }, false);
+        });
+
+        // Handle dropped files
+        uploadDropZone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.type.startsWith('image/')) {
+                    applyCustomTexture(file);
+                    // Also update the file input
+                    if (textureUpload) {
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        textureUpload.files = dataTransfer.files;
+                    }
+                }
+            }
+        }, false);
+
+        // Click on drop zone triggers file input
+        uploadDropZone.addEventListener('click', () => {
+            if (textureUpload) {
+                textureUpload.click();
+            }
+        });
+    }
+
+    // Logo scale slider
+    if (scaleSlider && scaleValue) {
+        scaleSlider.addEventListener('input', (e) => {
+            const scale = parseFloat(e.target.value);
+            updateLogoScale(scale);
+            scaleValue.textContent = `${Math.round(scale * 100)}%`;
+        });
+    }
+
+    // Logo rotation slider
+    if (rotationSlider && rotationValue) {
+        rotationSlider.addEventListener('input', (e) => {
+            const rotation = parseFloat(e.target.value);
+            updateLogoRotation(rotation);
+            rotationValue.textContent = `${rotation}°`;
+        });
+    }
+
+    // Template cards
+    const templates = {
+        restaurant: {
+            color: '#E74C3C',
+            icon: '🍕',
+            text: 'RISTORANTE'
+        },
+        bar: {
+            color: '#3498DB',
+            icon: '☕',
+            text: 'BAR'
+        },
+        shop: {
+            color: '#9B59B6',
+            icon: '🛍️',
+            text: 'NEGOZIO'
+        },
+        service: {
+            color: '#1ABC9C',
+            icon: '⚙️',
+            text: 'SERVIZI'
+        }
+    };
+
+    templateCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const templateType = card.dataset.template;
+            if (templates[templateType]) {
+                // Remove active class from all cards
+                templateCards.forEach(c => c.classList.remove('active'));
+                // Add active class to clicked card
+                card.classList.add('active');
+                // Apply template
+                applyTemplate(templates[templateType]);
+            }
+        });
+    });
+
+    // Preview button - Auto-rotate the model
+    if (previewButton) {
+        let isAutoRotating = false;
+
+        previewButton.addEventListener('click', () => {
+            isAutoRotating = !isAutoRotating;
+
+            if (isAutoRotating) {
+                controls.autoRotate = true;
+                controls.autoRotateSpeed = 2.0;
+                previewButton.innerHTML = '⏸️ Ferma rotazione';
+                previewButton.classList.add('active');
+            } else {
+                controls.autoRotate = false;
+                previewButton.innerHTML = '👁️ Anteprima 360°';
+                previewButton.classList.remove('active');
+            }
+        });
+    }
+
+    // ============================================
+    // END EVENT LISTENERS
+    // ============================================
+
     function animate() {
         requestAnimationFrame(animate);
         pivot.rotation.y += 0.001
+        controls.update();
 
         composer.render();
     }

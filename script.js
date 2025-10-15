@@ -1,3 +1,114 @@
+// ========================================
+// NAVIGATION - Mobile Menu & Scroll Effects
+// ========================================
+
+// Mobile Menu Toggle
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.querySelector('.nav-menu');
+const nav = document.querySelector('.nav');
+const body = document.body;
+const mobileQuery = typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+  ? window.matchMedia('(max-width: 768px)')
+  : null;
+const isMobileView = () => (mobileQuery ? mobileQuery.matches : window.innerWidth <= 768);
+
+if (navToggle && navMenu && nav) {
+  const setMenuState = (isOpen) => {
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    navMenu.classList.toggle('active', isOpen);
+
+    if (isMobileView()) {
+      navMenu.setAttribute('aria-hidden', String(!isOpen));
+      body.style.overflow = isOpen ? 'hidden' : '';
+
+      if (isOpen) {
+        const firstFocusable = navMenu.querySelector('a, button');
+        if (firstFocusable) {
+          firstFocusable.focus();
+        }
+      }
+    } else {
+      navMenu.setAttribute('aria-hidden', 'false');
+      body.style.overflow = '';
+    }
+  };
+
+  const closeMenu = () => setMenuState(false);
+
+  navToggle.addEventListener('click', () => {
+    const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+    setMenuState(!isExpanded);
+  });
+
+  // Close menu when clicking on a link
+  navMenu.querySelectorAll('.link, .cta').forEach(link => {
+    link.addEventListener('click', () => {
+      if (navMenu.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target) && navMenu.classList.contains('active')) {
+      closeMenu();
+    }
+  });
+
+  // Close on Escape for keyboard users
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+      closeMenu();
+      navToggle.focus();
+    }
+  });
+
+  const handleViewportChange = () => {
+    if (isMobileView()) {
+      const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
+      navMenu.setAttribute('aria-hidden', String(!isExpanded));
+      if (!isExpanded) {
+        navMenu.classList.remove('active');
+        body.style.overflow = '';
+      }
+    } else {
+      navMenu.classList.remove('active');
+      navMenu.setAttribute('aria-hidden', 'false');
+      navToggle.setAttribute('aria-expanded', 'false');
+      body.style.overflow = '';
+    }
+  };
+  if (mobileQuery && typeof mobileQuery.addEventListener === 'function') {
+    mobileQuery.addEventListener('change', handleViewportChange);
+  } else if (mobileQuery && typeof mobileQuery.addListener === 'function') {
+    mobileQuery.addListener(handleViewportChange);
+  } else {
+    window.addEventListener('resize', handleViewportChange, { passive: true });
+    mobileQuery.addListener(handleViewportChange);
+  }
+
+  handleViewportChange();
+}
+
+// Scroll Effect - Add class to nav when scrolling
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset;
+
+  if (currentScroll > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+
+  lastScroll = currentScroll;
+}, { passive: true });
+
+// ========================================
+// SMOOTH SCROLL & CTA INTERACTIONS
+// ========================================
+
 // Smooth scroll per link e pulsanti con data-scroll
 document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
   el.addEventListener('click', e => {
@@ -49,22 +160,303 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       }
     });
+  }
 
-    // Track when map comes into view
-    const observer = new IntersectionObserver((entries) => {
+  // Lazy loading for images
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting && typeof gtag !== 'undefined') {
-          gtag('event', 'view_map', {
-            event_category: 'engagement',
-            event_label: 'map_section_viewed'
-          });
-          observer.unobserve(entry.target);
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          img.classList.remove('lazy');
+          imageObserver.unobserve(img);
         }
       });
+    }, {
+      rootMargin: '50px'
     });
-    observer.observe(mapContainer);
+
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  } else {
+    // Fallback for older browsers
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      img.src = img.dataset.src;
+      img.classList.remove('lazy');
+    });
   }
+
+  // Initialize 3D Editor enhancements
+  initializeEditor();
 });
+
+// Track when map comes into view
+const mapContainer = document.getElementById('map');
+if (mapContainer) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && typeof gtag !== 'undefined') {
+        gtag('event', 'view_map', {
+          event_category: 'engagement',
+          event_label: 'map_section_viewed'
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+  observer.observe(mapContainer);
+}
+
+// 3D Editor Enhancement Functions
+function initializeEditor() {
+  const uploadZone = document.getElementById('upload-drop-zone');
+  const fileInput = document.getElementById('panel-input');
+  const templateBtns = document.querySelectorAll('.template-btn');
+  const scaleSlider = document.getElementById('logo-scale');
+  const rotationSlider = document.getElementById('logo-rotation');
+  const scaleValue = document.getElementById('scale-value');
+  const rotationValue = document.getElementById('rotation-value');
+  const previewBtn = document.getElementById('preview-button');
+
+  // Drag and drop functionality
+  if (uploadZone && fileInput) {
+    uploadZone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadZone.classList.add('dragover');
+    });
+
+    uploadZone.addEventListener('dragleave', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+    });
+
+    uploadZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadZone.classList.remove('dragover');
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        handleFileUpload(files[0]);
+      }
+    });
+
+    uploadZone.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length > 0) {
+        handleFileUpload(e.target.files[0]);
+      }
+    });
+  }
+
+  // Template buttons
+  templateBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      templateBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const template = btn.dataset.template;
+      loadTemplate(template);
+
+      // Track template usage
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'template_selected', {
+          event_category: 'editor',
+          event_label: template
+        });
+      }
+    });
+  });
+
+  // Range sliders
+  if (scaleSlider && scaleValue) {
+    scaleSlider.addEventListener('input', (e) => {
+      const value = Math.round(e.target.value * 100);
+      scaleValue.textContent = `${value}%`;
+      updateLogoScale(e.target.value);
+    });
+  }
+
+  if (rotationSlider && rotationValue) {
+    rotationSlider.addEventListener('input', (e) => {
+      rotationValue.textContent = `${e.target.value}°`;
+      updateLogoRotation(e.target.value);
+    });
+  }
+
+  // Preview button
+  if (previewBtn) {
+    previewBtn.addEventListener('click', () => {
+      showFullPreview();
+
+      // Track preview usage
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'preview_full', {
+          event_category: 'editor',
+          event_label: 'preview_clicked'
+        });
+      }
+    });
+  }
+}
+
+function handleFileUpload(file) {
+  // Validate file
+  if (!file.type.startsWith('image/')) {
+    showNotification('⚠️ Seleziona un file immagine valido', 'warning');
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) { // 5MB limit
+    showNotification('⚠️ Il file è troppo grande (max 5MB)', 'warning');
+    return;
+  }
+
+  showNotification('✅ Logo caricato con successo!', 'success');
+
+  // Track file upload
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'logo_uploaded', {
+      event_category: 'editor',
+      event_label: 'file_uploaded',
+      value: Math.round(file.size / 1024) // Size in KB
+    });
+  }
+
+  // Here you would integrate with the 3D editor to apply the texture
+  // This connects with scriptEditor.js functionality
+  if (typeof window.applyCustomTexture === 'function') {
+    window.applyCustomTexture(file);
+  }
+}
+
+function loadTemplate(templateType) {
+  const templates = {
+    restaurant: {
+      text: 'Ristorante Da Mario',
+      color: '#e74c3c',
+      icon: '🍕'
+    },
+    bar: {
+      text: 'Café Central',
+      color: '#8b4513',
+      icon: '☕'
+    },
+    shop: {
+      text: 'Boutique Milano',
+      color: '#9b59b6',
+      icon: '🛍️'
+    },
+    service: {
+      text: 'Tech Solutions',
+      color: '#3498db',
+      icon: '🔧'
+    }
+  };
+
+  const template = templates[templateType];
+  if (template) {
+    showNotification(`📋 Template "${template.text}" caricato`, 'info');
+
+    // Here you would apply the template to the 3D model
+    if (typeof window.applyTemplate === 'function') {
+      window.applyTemplate(template);
+    }
+  }
+}
+
+function updateLogoScale(scale) {
+  // Connect with 3D editor to update logo scale
+  if (typeof window.updateLogoScale === 'function') {
+    window.updateLogoScale(scale);
+  }
+}
+
+function updateLogoRotation(rotation) {
+  // Connect with 3D editor to update logo rotation
+  if (typeof window.updateLogoRotation === 'function') {
+    window.updateLogoRotation(rotation);
+  }
+}
+
+function showFullPreview() {
+  // Create preview modal or fullscreen view
+  const modal = document.createElement('div');
+  modal.className = 'preview-modal';
+  modal.innerHTML = `
+    <div class="preview-content">
+      <div class="preview-header">
+        <h3>🎯 Anteprima Ombrello Brellò</h3>
+        <button class="close-preview">&times;</button>
+      </div>
+      <div class="preview-body">
+        <div class="preview-360">
+          <!-- 3D preview would be rendered here -->
+          <p>Visualizzazione 360° del tuo ombrello personalizzato</p>
+        </div>
+        <div class="preview-info">
+          <h4>Dettagli pubblicità:</h4>
+          <ul>
+            <li>✅ Logo applicato su 18 spazi</li>
+            <li>✅ Visibilità garantita 3-4 mesi</li>
+            <li>✅ Copertura mobile cittadina</li>
+            <li>✅ QR code per tracking conversioni</li>
+          </ul>
+          <button class="btn btn--yellow">📧 Richiedi preventivo</button>
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // Close modal functionality
+  modal.querySelector('.close-preview').addEventListener('click', () => {
+    document.body.removeChild(modal);
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  });
+}
+
+function showNotification(message, type = 'info') {
+  const notification = document.createElement('div');
+  notification.className = `notification notification--${type}`;
+  notification.textContent = message;
+
+  Object.assign(notification.style, {
+    position: 'fixed',
+    top: '20px',
+    right: '20px',
+    padding: '12px 20px',
+    borderRadius: '8px',
+    color: 'white',
+    fontWeight: '600',
+    zIndex: '10000',
+    animation: 'slideIn 0.3s ease-out',
+    backgroundColor: type === 'success' ? '#27ae60' :
+      type === 'warning' ? '#f39c12' :
+        type === 'error' ? '#e74c3c' : '#3498db'
+  });
+
+  document.body.appendChild(notification);
+
+  setTimeout(() => {
+    notification.style.animation = 'slideOut 0.3s ease-in forwards';
+    setTimeout(() => {
+      if (notification.parentNode) {
+        document.body.removeChild(notification);
+      }
+    }, 300);
+  }, 3000);
+}
 
 //#region ADMIN LOGIN
 let admin = false;
@@ -556,3 +948,33 @@ document.getElementById('year').textContent = new Date().getFullYear();
   // Export opzionale, se vuoi triggerarlo manualmente: window.brelloRain()
   window.brelloRain = () => playRain({ force: true });
 })();
+
+// Drag and drop handlers for 3D editor
+window.dropHandler = function (ev) {
+  console.log('File(s) dropped');
+  ev.preventDefault();
+
+  if (ev.dataTransfer.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    [...ev.dataTransfer.items].forEach((item, i) => {
+      if (item.kind === 'file') {
+        const file = item.getAsFile();
+        console.log(`File ${i}:`, file.name);
+
+        // Trigger file input change for 3D editor
+        const fileInput = document.getElementById('panel-input');
+        if (fileInput) {
+          const dt = new DataTransfer();
+          dt.items.add(file);
+          fileInput.files = dt.files;
+          fileInput.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      }
+    });
+  }
+};
+
+window.dragoverHandler = function (ev) {
+  console.log('File(s) in drop zone');
+  ev.preventDefault();
+};

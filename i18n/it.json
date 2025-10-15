@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "title": "Brellò Sharing - Ombrelli Gratis per Cittadini, Pagati da Sponsor",
+    "description": "Umbrella sharing gratuito ad Alatri: 10 stazioni, 300 ombrelli gratis per i cittadini. Sponsor pagano per pubblicità OOH innovativa e misurabile con QR code."
+  },
+  "nav": {
+    "how_it_works": "Come funziona",
+    "for_sponsors": "Per sponsor", 
+    "for_citizens": "Per cittadini",
+    "cta": "Piove? C'è brellò!"
+  },
+  "hero": {
+    "badge": "Servizio 100% gratuito",
+    "title": "Ombrelli gratis per cittadini,<br>pagati da sponsor",
+    "subtitle_citizens": "<strong>Per cittadini:</strong> Prendi un ombrello quando piove, gratis e senza limiti di tempo.",
+    "subtitle_sponsors": "<strong>Per sponsor:</strong> Pubblicità OOH innovativa e misurabile con QR code.",
+    "cta_sponsor": "🎯 Diventa sponsor",
+    "cta_citizens": "☂️ Trova ombrello",
+    "trust_indicators": "<strong>Alatri Pilot:</strong> 10 stazioni • ~300 ombrelli • 0€ per i cittadini"
+  },
+  "sponsor_benefits": {
+    "title": "Perché gli sponsor ci scelgono",
+    "subtitle": "Pubblicità OOH innovativa che funziona davvero: visibile, misurabile, memorabile",
+    "benefit_1": {
+      "title": "OOH Urbano Innovativo",
+      "description": "Visibilità reale nei momenti che contano: quando piove e la tua pubblicità viene vista e usata"
+    },
+    "benefit_2": {
+      "title": "Misurabilità Totale", 
+      "description": "QR code tracking per conversioni e engagement real-time. Ogni scansione è una interazione verificabile"
+    },
+    "benefit_3": {
+      "title": "Alta Memorabilità",
+      "description": "18 spazi pubblicitari esclusivi per 3-4 mesi di coverage. Brand associato a utilità e gratuità"
+    },
+    "benefit_4": {
+      "title": "Pacchetti Scalabili",
+      "description": "Da local a regional: soluzioni su misura per ogni budget e obiettivo di brand awareness"
+    },
+    "cta_mediakit": "📄 Richiedi Media Kit",
+    "cta_casestudies": "📈 Case Studies"
+  },
+  "how_it_works": {
+    "step_1": {
+      "title": "Prendi",
+      "description": "Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello."
+    },
+    "step_2": {
+      "title": "Usa", 
+      "description": "Porta con te l'ombrello per tutto il tempo che ti serve."
+    },
+    "step_3": {
+      "title": "Riconsegna",
+      "description": "Quando non ti serve più, lascia l'ombrello in uno qualsiasi dei nostri punti di distribuzione."
+    }
+  },
+  "faq": {
+    "title": "Domande Frequenti",
+    "subtitle": "Tutto quello che devi sapere su Brellò",
+    "q1": {
+      "question": "Cosa succede se non restituisco l'ombrello?",
+      "answer": "Non ci sono penali o costi! Gli ombrelli sono completamente gratuiti anche se non vengono restituiti. Il servizio è sostenuto 100% dagli sponsor. Ovviamente, restituirlo aiuta altri cittadini ad usarlo."
+    },
+    "q2": {
+      "question": "Gli ombrelli resistono al vento e alla pioggia forte?",
+      "answer": "Sì! Utilizziamo ombrelli antivento di qualità professionale, testati per resistere a raffiche fino a 80 km/h. Struttura rinforzata e tessuto impermeabile garantiscono protezione anche nelle giornate più difficili."
+    },
+    "q3": {
+      "question": "E se non piove per giorni? Cosa succede agli ombrelli?",
+      "answer": "Gli ombrelli restano disponibili nelle stazioni per quando serviranno. Molti cittadini li usano anche come parasole nei giorni soleggiati! In più, la pubblicità degli sponsor rimane visibile anche quando non piove."
+    },
+    "q4": {
+      "question": "Posso prenotare un ombrello in anticipo?",
+      "answer": "Attualmente il servizio funziona in modalità \"first come, first served\". Stiamo sviluppando una app con sistema di prenotazione per le prossime versioni del servizio."
+    },
+    "q5": {
+      "question": "Come vengono puliti e mantenuti gli ombrelli?",
+      "answer": "Gli ombrelli vengono controllati e puliti settimanalmente dal nostro team. Utilizziamo prodotti disinfettanti ecologici e sostituiamo immediatamente quelli danneggiati per garantire sempre la migliore esperienza d'uso."
+    },
+    "contact_cta": "Non hai trovato risposta alla tua domanda?",
+    "contact_button": "📧 Contattaci"
+  },
+  "forms": {
+    "sponsor": {
+      "title": "Sei un inserzionista?",
+      "company": "Ragione sociale",
+      "company_placeholder": "Es. Bar Centrale",
+      "email": "Email",
+      "email_placeholder": "nome@azienda.it",
+      "phone": "Telefono (opzionale)",
+      "phone_placeholder": "+39 ...",
+      "budget": "Budget indicativo",
+      "budget_options": ["< 500 €", "500–1.500 €", "1.500–3.000 €", "> 3.000 €"],
+      "submit": "Invia richiesta media kit"
+    },
+    "citizen": {
+      "title": "Vuoi usare brellò?",
+      "name": "Nome",
+      "name_placeholder": "Il tuo nome",
+      "email": "Email", 
+      "email_placeholder": "tu@email.com",
+      "city": "Città",
+      "city_placeholder": "Es. Alatri",
+      "submit": "Avvisami"
+    }
+  },
+  "footer": {
+    "description": "Ombrelli gratis per cittadini, pagati da sponsor. Il primo servizio di umbrella sharing sostenibile d'Italia.",
+    "service": {
+      "title": "Servizio",
+      "how_it_works": "Come funziona",
+      "faq": "FAQ",
+      "for_citizens": "Per cittadini",
+      "support": "Supporto"
+    },
+    "sponsors": {
+      "title": "Sponsor",
+      "benefits": "Vantaggi",
+      "media_kit": "Media Kit",
+      "case_studies": "Case Studies",
+      "pricing": "Prezzi"
+    },
+    "company": {
+      "title": "Azienda",
+      "about": "Chi siamo",
+      "press": "Press Kit",
+      "careers": "Lavora con noi",
+      "expansion": "Espansione"
+    },
+    "legal": {
+      "title": "Legale",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy",
+      "terms": "Termini d'uso",
+      "gdpr": "GDPR"
+    },
+    "copyright": "© {year} Brellò Sharing. Tutti i diritti riservati.",
+    "tagline": "🌧️ Piove? C'è Brellò! ☂️"
+  }
+}

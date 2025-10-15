@@ -97,6 +97,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800&display=swap" rel="stylesheet">
   </noscript>
 
+  <!-- Preload critical 3D resources -->
+  <link rel="preload" href="/3d_model/umbrella.glb" as="fetch" crossorigin>
+  <link rel="preload" href="/3d_model/outdoor-polyester-fabric_normal-ogl.png" as="image">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="style.css">
@@ -119,20 +123,28 @@
 
 <body>
   <!-- NAV -->
-  <nav class="nav">
-    <a class="text-decoration-none d-flex align-items-center brand" href="#top" aria-label="brellò sharing">
-      <svg viewBox="0 0 64 64" aria-hidden="true">
-        <path fill="var(--yellow)"
-          d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
-      </svg>
-      <strong>brellò <span style="font-weight:600">sharing</span></strong>
-    </a>
+  <nav class="nav" role="navigation" aria-label="Navigazione principale">
+    <div class="nav-container">
+      <a class="text-decoration-none d-flex align-items-center brand" href="#top" aria-label="brellò sharing">
+        <svg viewBox="0 0 64 64" aria-hidden="true" width="32" height="32">
+          <path fill="var(--yellow)"
+            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
+        </svg>
+        <strong>brellò <span style="font-weight:600">sharing</span></strong>
+      </a>
 
-    <div>
-      <a class="link" href="#come-funziona">Come funziona</a>
-      <a class="link" href="#inserzionisti">Per inserzionisti</a>
-      <a class="link" href="#utenti">Per utenti</a>
-      <button class="cta" data-scroll="#top">Piove? C’è brellò!</button>
+      <!-- Mobile Menu Toggle -->
+      <button class="nav-toggle" aria-label="Apri menu" aria-controls="primary-nav" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+
+      <!-- Menu Links -->
+      <div class="nav-menu" id="primary-nav" role="menubar" aria-label="Menu di navigazione" aria-hidden="true">
+        <a class="link" href="#come-funziona" role="menuitem">Come funziona</a>
+        <a class="link" href="#sponsor-benefits" role="menuitem">Per sponsor</a>
+        <a class="link" href="#utenti" role="menuitem">Per cittadini</a>
+        <button class="cta" data-scroll="#top" aria-label="Torna all'inizio della pagina">Piove? C'è brellò!</button>
+      </div>
     </div>
   </nav>
   <div id="umbrella-rain" aria-hidden="true"></div>
@@ -144,7 +156,7 @@
       <span class="dot"></span>
       Servizio gratuito
     </span>
-    <h1 class="title" id="headline">Ombrelli gratis per cittadini,<br>pagati da sponsor</h1>
+    <h1 class="title" id="headline">Piove?? <br>C'è Brellò</h1>
     <p class="subtitle">
       <strong>Per cittadini:</strong> Prendi un ombrello quando piove, gratis e senza limiti di tempo.<br>
       <strong>Per sponsor:</strong> Pubblicità OOH innovativa e misurabile con QR code.
@@ -219,6 +231,7 @@
   </section>
 
   <section id="chiSiamo" aria-label="chiSiamo scrollRadius">
+    <div id="come-funziona" class="section-anchor" tabindex="-1"></div>
     <div class="chiSiamoUp">
       <div class=" cardPag2 card1Pag2" data-color="var(--teal)">
         <svg viewBox="0 0 64 64" aria-hidden="true">
@@ -278,28 +291,108 @@
   <!-- COME FUNZIONA - MAPPA -->
 
 
-  <!-- COME FUNZIONA - 3D MODEL -->
-  <section id="editorBrello" aria-label="Come funziona">
-    <div id="hero2" class="map-container"></div>
-    <div class="card">
-      <h2>Perché gli sponsor lo amano</h2>
-      <p>18 spazi pubblicitari esclusivi su ogni ristampa (3–4 mesi) con copertura mobile e locale.</p>
-      <p>Visibilità reale, nei momenti che contano: quando piove.</p>
-      <button class="btn btn--light" data-open="sponsor">Richiedi media kit</button>
-      <div id="panel-control" ondrop="dropHandler(event)" ondragover="dragoverHandler(event)">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#enableAdminModal">
-          Admin
-        </button>
-        <input id="panel-input" type="file" accept="image/png, image/jpeg" disabled>
+  <!-- COME FUNZIONA - 3D UMBRELLA EDITOR -->
+  <section id="editorBrello" aria-label="Editor ombrello 3D">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <!-- 3D Editor Container -->
+        <div class="col-lg-7">
+          <div id="hero2" class="editor-container">
+            <!-- 3D canvas will be injected here -->
+          </div>
+        </div>
+
+        <!-- Editor Controls -->
+        <div class="col-lg-5 d-flex">
+          <div class="editor-controls-wrapper">
+            <!-- Header Section -->
+            <div class="editor-header">
+              <div class="editor-title">
+                <h2>🎨 Visualizza la tua pubblicità</h2>
+                <p class="subtitle">Carica il tuo logo e vedi come apparirebbe sull'ombrello Brellò</p>
+              </div>
+            </div>
+
+            <!-- Main Controls Area with Cards -->
+            <div class="editor-main">
+
+              <!-- Step 1: Upload Your Logo - Inline -->
+              <div class="control-item control-item-inline">
+                <div class="control-item-header">
+                  <span class="step-number">1</span>
+                  <span class="control-item-title">Carica il tuo logo</span>
+                </div>
+                <div class="upload-area-inline" id="upload-drop-zone">
+                  <span class="upload-icon">📁</span>
+                  <span class="upload-text">Trascina o clicca</span>
+                  <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
+                </div>
+              </div>
+
+              <!-- Step 2: Quick Templates -->
+              <div class="control-item">
+                <div class="control-item-header">
+                  <span class="step-number">2</span>
+                  <span class="control-item-title">Oppure scegli un template</span>
+                </div>
+                <div class="template-grid">
+                  <button class="template-btn" data-template="restaurant">
+                    <span class="template-icon">🍕</span>
+                    <span class="template-label">Ristorante</span>
+                  </button>
+                  <button class="template-btn" data-template="bar">
+                    <span class="template-icon">☕</span>
+                    <span class="template-label">Bar</span>
+                  </button>
+                  <button class="template-btn" data-template="shop">
+                    <span class="template-icon">🛍️</span>
+                    <span class="template-label">Negozio</span>
+                  </button>
+                  <button class="template-btn" data-template="service">
+                    <span class="template-icon">⚙️</span>
+                    <span class="template-label">Servizi</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Step 3: Customize Logo -->
+              <div class="control-item">
+                <div class="control-item-header">
+                  <span class="step-number">3</span>
+                  <span class="control-item-title">Personalizza</span>
+                </div>
+                <div class="control-sliders-inline">
+                  <!-- Scale Control -->
+                  <div class="slider-control-inline">
+                    <label>📏</label>
+                    <input type="range" id="logo-scale" min="0.5" max="2" step="0.1" value="1" class="custom-slider">
+                    <span id="scale-value" class="slider-value">100%</span>
+                  </div>
+
+                  <!-- Rotation Control -->
+                  <div class="slider-control-inline">
+                    <label>🔄</label>
+                    <input type="range" id="logo-rotation" min="0" max="360" step="1" value="0" class="custom-slider">
+                    <span id="rotation-value" class="slider-value">0°</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Info Banner -->
+            <div class="info-banner">
+              <div class="info-icon">💡</div>
+              <div class="info-content">
+                <strong>18 spazi pubblicitari</strong> • <strong>3-4 mesi</strong> di esposizione • <strong>QR
+                  tracking</strong>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <button id="toggle-save" class="round-button">💾</button>
-
     </div>
-
-
   </section>
-
-
 
   <!-- FORM INSERZIONISTI -->
   <section id="inserzionisti" aria-label="Sezione inserzionisti">
@@ -548,8 +641,8 @@
     crossorigin="anonymous"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
   <script src="script.js"></script>
-  <script src="scriptCarouselChiSiamo.js"></script>
   <script type="module" src="/scriptEditor.js"></script>
+  <script src="i18n.js"></script>
 </body>
 
 </html>

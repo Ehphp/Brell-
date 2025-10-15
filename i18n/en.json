@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "title": "Brellò Sharing - Free Umbrellas for Citizens, Sponsored by Brands",
+    "description": "Free umbrella sharing in Alatri: 10 stations, 300 free umbrellas for citizens. Sponsors pay for innovative and measurable OOH advertising with QR code tracking."
+  },
+  "nav": {
+    "how_it_works": "How it works",
+    "for_sponsors": "For sponsors",
+    "for_citizens": "For citizens",
+    "cta": "Rain? There's Brellò!"
+  },
+  "hero": {
+    "badge": "100% free service",
+    "title": "Free umbrellas for citizens,<br>paid by sponsors",
+    "subtitle_citizens": "<strong>For citizens:</strong> Take an umbrella when it rains, free and without time limits.",
+    "subtitle_sponsors": "<strong>For sponsors:</strong> Innovative and measurable OOH advertising with QR code tracking.",
+    "cta_sponsor": "🎯 Become sponsor",
+    "cta_citizens": "☂️ Find umbrella",
+    "trust_indicators": "<strong>Alatri Pilot:</strong> 10 stations • ~300 umbrellas • €0 for citizens"
+  },
+  "sponsor_benefits": {
+    "title": "Why sponsors choose us",
+    "subtitle": "Innovative OOH advertising that really works: visible, measurable, memorable",
+    "benefit_1": {
+      "title": "Innovative Urban OOH",
+      "description": "Real visibility when it matters: when it rains and your advertising is seen and used"
+    },
+    "benefit_2": {
+      "title": "Total Measurability",
+      "description": "QR code tracking for real-time conversions and engagement. Every scan is a verifiable interaction"
+    },
+    "benefit_3": {
+      "title": "High Memorability",
+      "description": "18 exclusive advertising spaces for 3-4 months of coverage. Brand associated with utility and free service"
+    },
+    "benefit_4": {
+      "title": "Scalable Packages",
+      "description": "From local to regional: tailored solutions for every budget and brand awareness goal"
+    },
+    "cta_mediakit": "📄 Request Media Kit",
+    "cta_casestudies": "📈 Case Studies"
+  },
+  "how_it_works": {
+    "step_1": {
+      "title": "Take",
+      "description": "Find the nearest umbrella stand in your city and pick up your free umbrella."
+    },
+    "step_2": {
+      "title": "Use",
+      "description": "Carry the umbrella with you for as long as you need it."
+    },
+    "step_3": {
+      "title": "Return",
+      "description": "When you no longer need it, leave the umbrella at any of our distribution points."
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about Brellò",
+    "q1": {
+      "question": "What happens if I don't return the umbrella?",
+      "answer": "There are no penalties or costs! The umbrellas are completely free even if not returned. The service is 100% sponsored. Of course, returning it helps other citizens use it."
+    },
+    "q2": {
+      "question": "Do umbrellas resist wind and heavy rain?",
+      "answer": "Yes! We use professional quality windproof umbrellas, tested to resist gusts up to 80 km/h. Reinforced structure and waterproof fabric guarantee protection even on the most difficult days."
+    },
+    "q3": {
+      "question": "What if it doesn't rain for days? What happens to the umbrellas?",
+      "answer": "The umbrellas remain available at the stations for when they're needed. Many citizens also use them as parasols on sunny days! Plus, sponsors' advertising remains visible even when it's not raining."
+    },
+    "q4": {
+      "question": "Can I book an umbrella in advance?",
+      "answer": "Currently the service works on a \"first come, first served\" basis. We are developing an app with a booking system for future versions of the service."
+    },
+    "q5": {
+      "question": "How are umbrellas cleaned and maintained?",
+      "answer": "Umbrellas are checked and cleaned weekly by our team. We use ecological disinfectant products and immediately replace damaged ones to always guarantee the best user experience."
+    },
+    "contact_cta": "Didn't find an answer to your question?",
+    "contact_button": "📧 Contact us"
+  },
+  "forms": {
+    "sponsor": {
+      "title": "Are you an advertiser?",
+      "company": "Company name",
+      "company_placeholder": "E.g. Central Bar",
+      "email": "Email",
+      "email_placeholder": "name@company.com",
+      "phone": "Phone (optional)",
+      "phone_placeholder": "+39 ...",
+      "budget": "Indicative budget",
+      "budget_options": ["< €500", "€500–1,500", "€1,500–3,000", "> €3,000"],
+      "submit": "Send media kit request"
+    },
+    "citizen": {
+      "title": "Want to use Brellò?",
+      "name": "Name",
+      "name_placeholder": "Your name",
+      "email": "Email",
+      "email_placeholder": "you@email.com",
+      "city": "City",
+      "city_placeholder": "E.g. Alatri",
+      "submit": "Notify me"
+    }
+  },
+  "footer": {
+    "description": "Free umbrellas for citizens, paid by sponsors. Italy's first sustainable umbrella sharing service.",
+    "service": {
+      "title": "Service",
+      "how_it_works": "How it works",
+      "faq": "FAQ",
+      "for_citizens": "For citizens",
+      "support": "Support"
+    },
+    "sponsors": {
+      "title": "Sponsors",
+      "benefits": "Benefits",
+      "media_kit": "Media Kit",
+      "case_studies": "Case Studies",
+      "pricing": "Pricing"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About us",
+      "press": "Press Kit",
+      "careers": "Work with us",
+      "expansion": "Expansion"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy",
+      "terms": "Terms of use",
+      "gdpr": "GDPR"
+    },
+    "copyright": "© {year} Brellò Sharing. All rights reserved.",
+    "tagline": "🌧️ Rain? There's Brellò! ☂️"
+  }
+}
