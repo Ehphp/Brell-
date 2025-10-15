@@ -265,24 +265,50 @@
       </div>
     </div>
 
-    <div id="mapContainer" aria-label="Come funziona">
-      <div class="card g6ComeFunziona" id="g6ComeFunziona">
-        <h2>Come funziona</h2>
-        <p><span class="pill">1 · Prendi</span> Trova un punto di distribuzione in città.</p>
-        <p><span class="pill">2 · Usa</span> Portalo con te, senza vincoli di tempo.</p>
-        <p><span class="pill">3 · Riconsegna</span> Lascialo in qualsiasi punto quando vuoi.</p>
-        <label for="city-search">Città</label>
-        <input id="city-search" name="città" type="text" placeholder="Es. Alatri" required>
+        <div id="mapContainer" aria-label="Come funziona">
+      <div class="chiSiamo-map-embed">
+        <div id="map" class="map-container" role="region" aria-label="Mappa dei punti brell??" tabindex="0">
+
+        </div>
       </div>
 
+      <div class="card g6ComeFunziona" id="g6ComeFunziona">
+        <header class="howto__header">
+          <h2>Come funziona</h2>
+          <p class="howto__subtitle">Tutto quello che ti serve per trovare subito un ombrello gratuito Brello.</p>
+        </header>
 
+        <div class="howto__intro">
+          <p class="howto__intro-text">Seleziona la tua citt&agrave; o usa la posizione corrente per scoprire i punti Brello attivi e gli ombrelli disponibili in tempo reale.</p>
+        </div>
 
+        <div class="howto__meta">
+          <div class="howto__stats" aria-label="Dati sul servizio Brello">
+            <div class="howto__stat">
+              <span class="howto__stat-value">10</span>
+              <span class="howto__stat-label">Stazioni attive</span>
+            </div>
+            <div class="howto__stat">
+              <span class="howto__stat-value">300</span>
+              <span class="howto__stat-label">Ombrelli disponibili</span>
+            </div>
+            <div class="howto__stat">
+              <span class="howto__stat-value">0&nbsp;&euro;</span>
+              <span class="howto__stat-label">Per i cittadini</span>
+            </div>
+          </div>
 
-
-      <div class="" style="height: 100%;">
-
-        <div id="map" class="map-container" role="region" aria-label="Mappa dei punti brellò" tabindex="0">
-
+          <div class="howto__search" aria-label="Centra la mappa su una citt&agrave;">
+            <form id="map-search-form" class="howto__search-form">
+              <label for="city-search" class="howto__search-label">Centra la mappa su una citt&agrave;</label>
+              <div class="howto__search-controls">
+                <input id="city-search" name="citta" type="text" placeholder="Es. Alatri" autocomplete="off" required>
+                <button type="submit" class="howto__search-btn">Vai</button>
+              </div>
+            </form>
+            <button type="button" id="map-locate-me" class="howto__locate-btn">Usa la mia posizione</button>
+            <p class="howto__hint">Suggerimento: prova anche Frosinone, Ferentino o Sora per scoprire le prossime attivazioni.</p>
+          </div>
         </div>
       </div>
     </div>
