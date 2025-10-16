@@ -38,7 +38,7 @@ export class EditorTemplates {
         const template = TEMPLATES[templateType];
         if (!template) return;
 
-        showNotification(`📋 Template "${template.text}" caricato`, 'info');
+        showNotification(`📋 Template "${template.text}" pronto! Clicca sugli slot per applicarlo`, 'info');
 
         // Apply the template to the 3D model
         if (typeof window.applyTemplate === 'function') {

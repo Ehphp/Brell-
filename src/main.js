@@ -5,6 +5,8 @@
  * l'inizializzazione di tutti i moduli.
  */
 
+import './style.css';
+
 // Import moduli
 import { initNavigation } from './modules/navigation/index.js';
 import { initEditor } from './modules/editor/index.js';
@@ -12,12 +14,19 @@ import { initMap } from './modules/map/index.js';
 import { initForms } from './modules/forms/index.js';
 import { initUI } from './modules/ui/index.js';
 import { initAnimations } from './modules/animations/index.js';
+import { initI18n } from './modules/i18n/index.js';
+
+// Import 3D Editor (THREE.js)
+import './modules/editor/three-legacy.js';
 
 /**
  * Inizializzazione dell'applicazione
  */
 function initApp() {
     console.log('🎨 Brellò Sharing - Initializing...');
+
+    // Inizializza i18n (internazionalizzazione)
+    initI18n();
 
     // Inizializza navigazione (menu mobile, scroll effects)
     initNavigation();
@@ -62,6 +71,7 @@ if (import.meta.env?.DEV) {
     window.__brello__ = {
         version: '2.0.0',
         modules: {
+            i18n: 'loaded',
             navigation: 'loaded',
             editor: 'loaded',
             map: 'loaded',

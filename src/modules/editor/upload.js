@@ -24,7 +24,7 @@ export class EditorUpload {
             return;
         }
 
-        showNotification('✅ Logo caricato con successo!', 'success');
+        showNotification('✅ Logo caricato! Clicca sugli slot dell\'ombrello per applicarlo', 'success');
 
         // Track file upload
         trackEvent('logo_uploaded', {

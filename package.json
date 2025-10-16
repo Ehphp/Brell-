@@ -1,8 +1,9 @@
 {
-  "name": "gptbrello",
-  "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "name": "brello-sharing",
+  "version": "2.0.0",
+  "description": "Umbrella sharing landing page and 3D editor",
+  "type": "module",
+  "main": "src/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

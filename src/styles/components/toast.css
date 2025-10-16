@@ -1,0 +1,91 @@
+/* Notification Styles */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* TOAST */
+.toast {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.toast__inner {
+  background: var(--cream);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 10px 16px;
+  font-weight: 800;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: .25s;
+  box-shadow: var(--shadow)
+}
+
+.toast--show .toast__inner {
+  opacity: 1;
+  transform: none
+}
+
+/* Overlay */
+#umbrella-rain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  /* non blocca i click */
+  z-index: 9999;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity .6s ease;
+}
+
+#umbrella-rain.hidden {
+  opacity: 0;
+}
+
+/* Goccia (traiettoria verticale) */
+#umbrella-rain .drop {
+  position: absolute;
+  top: -12vh;
+  will-change: transform;
+  animation-name: fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+/* Oscillazione orizzontale */
+#umbrella-rain .sway {
+  will-change: transform;
+  animation-name: sway;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+/* Rotazione */
+#umbrella-rain .spin {
+  will-change: transform;
+  animation-name: spin;
+  animation-fill-mode: both;
+}

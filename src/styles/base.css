@@ -1,0 +1,130 @@
+/* Base styles: variables, resets, utilities */
+:root {
+  --teal: #0E8C8F;
+  --red: #E2443A;
+  --yellow: #F3B300;
+  --viola: #422040;
+  --green: #04E824;
+  --rosa: #C33149;
+  --cream: #FFF1E3;
+  --ink: #0E1A1B;
+
+  --shadow: 0 10px 30px rgba(0, 0, 0, .16);
+  --radius: 14px;
+  
+  /* Typography scale */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+  --fs-3xl: 1.875rem;
+  --fs-4xl: 2.25rem;
+  --fs-5xl: 3rem;
+  
+  /* Spacing scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --nav-offset: 96px;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --nav-offset: 88px;
+  }
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  margin: 0;
+  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--cream);
+  line-height: 1.6;
+  overflow-x: hidden;
+  background-color: var(--ink);
+}
+
+/* Anchor offset so section links account for the fixed navigation.
+   Lo script di navigazione aggiorna --nav-offset in base all'altezza della navbar. */
+:where(section, header, .section-anchor) {
+  scroll-margin-top: var(--nav-offset);
+}
+
+.section-anchor {
+  position: relative;
+  display: block;
+  height: 0;
+  outline: none;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+/* Lazy loading styles */
+.lazy {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.lazy.loaded {
+  opacity: 1;
+}
+
+/* Image optimization classes */
+.img-fluid {
+  height: auto;
+  max-width: 100%;
+}
+
+.img-responsive {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.lead {
+  font-size: var(--fs-lg);
+  color: var(--ink);
+  margin-bottom: var(--space-lg);
+}
+
+/* Performance optimized animations */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skip to content link for screen readers */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 8px;
+  text-decoration: none;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+html {
+  scroll-behavior: smooth;
+}

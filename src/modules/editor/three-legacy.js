@@ -155,10 +155,10 @@ document.addEventListener("DOMContentLoaded", () => {
             texture.anisotropy = maxAnisotropy;
             currentLogoTexture = texture;
 
-            // Apply to umbrella mesh if available
-            if (model) {
-                applyTextureToModel(texture);
-            }
+            // NON applica automaticamente a tutto il modello
+            // L'utente deve cliccare sugli slot per applicare
+            textureLoader = texture;
+            console.log("✅ Texture pronta. Clicca sugli slot dell'ombrello per applicarla.");
         };
         reader.readAsDataURL(file);
     }
@@ -189,9 +189,10 @@ document.addEventListener("DOMContentLoaded", () => {
         texture.anisotropy = maxAnisotropy;
         currentLogoTexture = texture;
 
-        if (model) {
-            applyTextureToModel(texture);
-        }
+        // NON applica automaticamente a tutto il modello
+        // L'utente deve cliccare sugli slot per applicare
+        textureLoader = texture;
+        console.log("✅ Template pronto. Clicca sugli slot dell'ombrello per applicarlo.");
     }
 
     function updateLogoScale(scale) {
@@ -412,6 +413,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function applyTextureClick(event) {
+        // Verifica che ci sia una texture caricata
+        if (!textureLoader) {
+            console.warn("Nessuna texture caricata. Carica prima un'immagine.");
+            return;
+        }
+
         const rect = renderer.domElement.getBoundingClientRect();
         mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
@@ -422,12 +429,18 @@ document.addEventListener("DOMContentLoaded", () => {
         if (intersects.length > 0) {
             const selectedObject = intersects[0].object;
             const newMaterial = selectedObject.material.clone();
-            newMaterial.map = textureLoader;
+
+            // FIX: Clona la texture per questo slot specifico
+            // Ogni slot avrà la propria copia indipendente della texture
+            newMaterial.map = textureLoader.clone();
+            newMaterial.map.needsUpdate = true;
+
             newMaterial.color = new THREE.Color(1, 1, 1);
             selectedObject.material = newMaterial;
             selectedObject.userData.free = false;
             selectedObject.material.needsUpdate = true;
 
+            console.log(`Texture applicata a: ${selectedObject.name}`);
             temp_saveModelToCache();
         }
     }
@@ -488,10 +501,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const imageUrl = e.target.result;
+            // Crea una nuova texture ogni volta
             textureLoader = new THREE.TextureLoader().load(imageUrl);
             textureLoader.anisotropy = maxAnisotropy;
             textureLoader.encoding = THREE.sRGBEncoding;
             textureLoader.flipY = false;
+
+            console.log("✅ Nuova texture caricata. Clicca su uno slot dell'ombrello per applicarla.");
         };
         reader.readAsDataURL(file);
     }

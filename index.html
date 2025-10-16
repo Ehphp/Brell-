@@ -103,7 +103,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet'>
 
   <!-- Analytics setup -->
@@ -125,7 +125,7 @@
   <!-- NAV -->
   <nav class="nav" role="navigation" aria-label="Navigazione principale">
     <div class="nav-container">
-      <a class="text-decoration-none d-flex align-items-center brand" href="#top" aria-label="brellò sharing">
+      <a class="text-decoration-none d-flex align-items-center brand" href="#top" aria-label="Brellò sharing">
         <svg viewBox="0 0 64 64" aria-hidden="true" width="32" height="32">
           <path fill="var(--yellow)"
             d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
@@ -140,7 +140,7 @@
 
       <!-- Menu Links -->
       <div class="nav-menu" id="primary-nav" role="menubar" aria-label="Menu di navigazione" aria-hidden="true">
-        <a class="link" href="#come-funziona" role="menuitem">Come funziona</a>
+        <a class="link" href="#chiSiamo" role="menuitem">Come funziona</a>
         <a class="link" href="#sponsor-benefits" role="menuitem">Per sponsor</a>
         <a class="link" href="#utenti" role="menuitem">Per cittadini</a>
         <button class="cta" data-scroll="#top" aria-label="Torna all'inizio della pagina">Piove? C'è brellò!</button>
@@ -220,6 +220,7 @@
         </div>
       </div>
 
+      <div id="case-studies" class="section-anchor" tabindex="-1"></div>
       <div class="text-center mt-5">
         <button class="btn btn--light btn-lg me-3" data-open="sponsor"
           onclick="gtag('event', 'click_mediakit_request', {event_category: 'conversion', event_label: 'sponsor_benefits_section'})">
@@ -230,89 +231,101 @@
     </div>
   </section>
 
-  <section id="chiSiamo" aria-label="chiSiamo scrollRadius">
-    <div id="come-funziona" class="section-anchor" tabindex="-1"></div>
-    <div class="chiSiamoUp">
-      <div class=" cardPag2 card1Pag2" data-color="var(--teal)">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path fill="var(--cream)"
-            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
-        </svg>
-        <h2>Prendi</h2>
-        <p> Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
-        <p> Nessuna registrazione, nessuna attesa: basta prenderlo e sei subito asciutto</p> <label
-          for="city-search">Città</label> <input id="city-search" name="città" type="text" placeholder="Es. Alatri"
-          required>
-      </div>
-      <div class=" cardPag2 card2Pag2" data-color="var(--rosa)">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path fill="var(--cream)"
-            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
-        </svg>
-        <h2>Usa</h2>
-        <p> Porta con te l’ombrello per tutto il tempo che ti serve.</p>
-        <p> Portalo con te, senza vincoli di tempo.</p>
-      </div>
-      <div class=" cardPag2  card3Pag2" data-color="var(--yellow)">
-        <svg viewBox="0 0 64 64" aria-hidden="true">
-          <path fill="var(--cream)"
-            d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
-        </svg>
-        <h2>Riconsegna</h2>
-        <p> Quando non ti serve più, lascia l’ombrello in uno qualsiasi dei nostri punti di distribuzione.</p>
-        <p> Così potrà essere utile al prossimo.</p> <label for="city-search">Città</label> <input id="city-search"
-          name="città" type="text" placeholder="Es. Alatri" required>
-      </div>
-    </div>
+  <section id="chiSiamo" aria-labelledby="chiSiamo-heading">
 
-        <div id="mapContainer" aria-label="Come funziona">
-      <div class="chiSiamo-map-embed">
-        <div id="map" class="map-container" role="region" aria-label="Mappa dei punti brell??" tabindex="0">
 
-        </div>
-      </div>
+    <div class="chiSiamo-grid">
+      <!-- Steps -->
+      <section aria-labelledby="steps-heading">
+        <h3 id="steps-heading" class="visually-hidden">Come si usa</h3>
+        <ol class="chiSiamo-steps">
+          <li class="cardPag2 card1Pag2" style="--card-accent: var(--teal);">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
+            <h4>Prendi</h4>
+            <p>Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
+            <p>Nessuna registrazione, nessuna attesa.</p>
+            <!-- opzionale: form autonomo -->
+            <!-- <form> ... </form> -->
+          </li>
 
-      <div class="card g6ComeFunziona" id="g6ComeFunziona">
-        <header class="howto__header">
-          <h2>Come funziona</h2>
-          <p class="howto__subtitle">Tutto quello che ti serve per trovare subito un ombrello gratuito Brello.</p>
-        </header>
+          <li class="cardPag2 card2Pag2" style="--card-accent: var(--rosa);">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
+            <h4>Usa</h4>
+            <p>Porta con te l’ombrello per tutto il tempo che ti serve.</p>
+          </li>
 
-        <div class="howto__intro">
-          <p class="howto__intro-text">Seleziona la tua citt&agrave; o usa la posizione corrente per scoprire i punti Brello attivi e gli ombrelli disponibili in tempo reale.</p>
+          <li class="cardPag2 card3Pag2" style="--card-accent: var(--yellow);">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
+            <h4>Riconsegna</h4>
+            <p>Quando non ti serve più, lascia l'ombrello in un nostro punto di distribuzione.</p>
+
+          </li>
+        </ol>
+      </section>
+
+      <!-- Map + How-to -->
+      <div id="mapContainer" aria-labelledby="map-heading">
+        <div class="chiSiamo-map-embed">
+          <h3 id="map-heading" class="visually-hidden">Mappa stazioni Brellò</h3>
+          <div id="map" class="map-container" role="region" aria-label="Mappa delle stazioni Brellò" tabindex="0"></div>
         </div>
 
-        <div class="howto__meta">
-          <div class="howto__stats" aria-label="Dati sul servizio Brello">
-            <div class="howto__stat">
-              <span class="howto__stat-value">10</span>
-              <span class="howto__stat-label">Stazioni attive</span>
-            </div>
-            <div class="howto__stat">
-              <span class="howto__stat-value">300</span>
-              <span class="howto__stat-label">Ombrelli disponibili</span>
-            </div>
-            <div class="howto__stat">
-              <span class="howto__stat-value">0&nbsp;&euro;</span>
-              <span class="howto__stat-label">Per i cittadini</span>
-            </div>
+        <div class="card g6ComeFunziona" id="g6ComeFunziona">
+          <header class="howto__header">
+            <h3>Come funziona</h3>
+            <p class="howto__subtitle">Trova subito un ombrello gratuito Brellò.</p>
+          </header>
+
+          <div class="howto__intro">
+            <p class="howto__intro-text">Seleziona la tua città o usa la posizione corrente per scoprire i punti attivi.
+            </p>
           </div>
 
-          <div class="howto__search" aria-label="Centra la mappa su una citt&agrave;">
-            <form id="map-search-form" class="howto__search-form">
-              <label for="city-search" class="howto__search-label">Centra la mappa su una citt&agrave;</label>
-              <div class="howto__search-controls">
-                <input id="city-search" name="citta" type="text" placeholder="Es. Alatri" autocomplete="off" required>
-                <button type="submit" class="howto__search-btn">Vai</button>
+          <div class="howto__meta">
+            <dl class="howto__stats" aria-label="Dati sul servizio Brellò">
+              <div class="howto__stat">
+                <dt class="howto__stat-label">Stazioni attive</dt>
+                <dd class="howto__stat-value" aria-live="polite">10</dd>
               </div>
-            </form>
-            <button type="button" id="map-locate-me" class="howto__locate-btn">Usa la mia posizione</button>
-            <p class="howto__hint">Suggerimento: prova anche Frosinone, Ferentino o Sora per scoprire le prossime attivazioni.</p>
+              <div class="howto__stat">
+                <dt class="howto__stat-label">Ombrelli disponibili</dt>
+                <dd class="howto__stat-value" aria-live="polite">300</dd>
+              </div>
+              <div class="howto__stat">
+                <dt class="howto__stat-label">Costo per i cittadini</dt>
+                <dd class="howto__stat-value">0&nbsp;€</dd>
+              </div>
+            </dl>
+
+            <div class="howto__search" aria-label="Centra la mappa su una città">
+              <form id="map-search-form" class="howto__search-form">
+                <label for="city-search" class="howto__search-label">Centra la mappa su una città</label>
+                <div class="howto__search-controls">
+                  <input id="city-search" name="city" type="text" placeholder="Es. Alatri" autocomplete="off" required>
+                  <button type="submit" class="howto__search-btn">Vai</button>
+                </div>
+              </form>
+              <button type="button" id="map-locate-me" class="howto__locate-btn">Usa la mia posizione</button>
+              <p class="howto__hint">Suggerimento: prova Frosinone, Ferentino o Sora per le prossime attivazioni.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
+  <!-- Sprite (una sola volta in pagina) -->
+  <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
+    <symbol id="icon-umbrella" viewBox="0 0 64 64">
+      <path d="M32 6c-12.7 0-22.9 8.9-25.2 21.1..."></path>
+    </symbol>
+  </svg>
+
 
   <!-- COME FUNZIONA - MAPPA -->
 
@@ -353,6 +366,9 @@
                   <span class="upload-text">Trascina o clicca</span>
                   <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
                 </div>
+                <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
+                  👆 Poi clicca sugli slot dell'ombrello per applicare
+                </small>
               </div>
 
               <!-- Step 2: Quick Templates -->
@@ -422,8 +438,9 @@
 
   <!-- FORM INSERZIONISTI -->
   <section id="inserzionisti" aria-label="Sezione inserzionisti">
+    <div id="prezzi" class="section-anchor" tabindex="-1"></div>
     <div class="formWrap">
-      <div class="g-6 card">
+      <div class="card">
         <h2>Sei un inserzionista?</h2>
         <form id="form-sponsor" novalidate>
           <label>Ragione sociale
@@ -449,7 +466,7 @@
       </div>
 
       <!-- FORM UTENTI -->
-      <div id="utenti" class="g-6 card">
+      <div id="utenti" class="card">
         <h2>Vuoi usare brellò?</h2>
         <form id="form-utente" novalidate>
           <label>Nome
@@ -459,7 +476,7 @@
             <input name="email" type="email" placeholder="tu@email.com" required>
           </label>
           <label>Città
-            <input name="città" type="text" placeholder="Es. Alatri" required>
+            <input name="citta" type="text" placeholder="Es. Alatri" required>
           </label>
           <button class="btn btn--red" type="submit">Avvisami</button>
         </form>
@@ -556,6 +573,7 @@
         </div>
       </div>
 
+      <div id="supporto" class="section-anchor" tabindex="-1"></div>
       <div class="text-center mt-5">
         <p>Non hai trovato risposta alla tua domanda?</p>
         <a href="mailto:info@brello-sharing.com" class="btn btn-outline-light">📧 Contattaci</a>
@@ -565,6 +583,14 @@
 
   <!-- FOOTER -->
   <footer role="contentinfo">
+    <!-- Footer navigation anchor targets -->
+    <div id="press" class="section-anchor" tabindex="-1"></div>
+    <div id="lavora-con-noi" class="section-anchor" tabindex="-1"></div>
+    <div id="espansione" class="section-anchor" tabindex="-1"></div>
+    <div id="privacy" class="section-anchor" tabindex="-1"></div>
+    <div id="cookies" class="section-anchor" tabindex="-1"></div>
+    <div id="termini" class="section-anchor" tabindex="-1"></div>
+    <div id="gdpr" class="section-anchor" tabindex="-1"></div>
     <div class="container py-5">
       <div class="row">
         <div class="col-lg-4 mb-4">
@@ -644,7 +670,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="enableAdminModal">Insert password</h1>
+          <h1 class="modal-title fs-5" id="enableAdminModalLabel">Insert password</h1>
           <button type="button" class="btn-close bg-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -666,9 +692,8 @@
     integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
     crossorigin="anonymous"></script>
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
-  <script src="script.js"></script>
-  <script type="module" src="/scriptEditor.js"></script>
-  <script src="i18n.js"></script>
+  <!-- Main application bundle (modular) -->
+  <script type="module" src="/src/main.js"></script>
 </body>
 
 </html>

@@ -1,254 +1,38 @@
-# 🔄 Guida alla Migrazione - Brellò Sharing
+﻿# Guida alla Migrazione - Brello Sharing
 
-## ✅ Cosa è stato fatto
+Questa guida riassume i passaggi effettuati per passare dal codice monolitico alla struttura modulare attuale.
 
-Il progetto è stato **completamente modularizzato** mantenendo la **piena retrocompatibilità**.
+## Stato attuale
+- Entry point: `src/main.js`
+- Stili: `src/style.css` con import dei moduli in `src/styles/`
+- Editor 3D: `src/modules/editor/three-legacy.js` (side-effect import)
+- Asset legacy conservati in `legacy/`
 
-### File Originali
-- ✅ `script.js` (841 righe) → **Mantenuto ma non più utilizzato**
-- ✅ `scriptEditor.js` → **Ancora utilizzato** (modularizzazione futura)
-- ✅ `i18n.js` → **Ancora utilizzato**
+## File originali conservati
+- `legacy/script.js`: implementazione monolitica della landing page
+- `legacy/i18n.js`: vecchio gestore traduzioni
+- `src/modules/editor/three-legacy.js`: integrazione Three.js da rifattorizzare in moduli
 
-### Nuova Struttura
-- ✨ `src/main.js` → Nuovo entry point
-- ✨ `src/modules/` → 21 file modulari ben organizzati
+## Passaggi completati
+1. Porting di `script.js` in moduli ES6 all'interno di `src/modules/`
+2. Configurazione Vite come orchestratore di build e dev server
+3. Suddivisione degli stili in file dedicati e import centralizzato in `src/style.css`
+4. Separazione delle utility condivise in `src/utils/`
+5. Aggiornamento di `index.html` per caricare `src/main.js`
 
-## 🎯 Come Usare il Nuovo Sistema
+## Passaggi consigliati (futuri)
+1. Rifattorizzare `src/modules/editor/three-legacy.js` in moduli piu piccoli
+2. Portare la logica di localizzazione dal file legacy a moduli dedicati
+3. Introdurre unit test ed E2E (vedi `CHECKLIST.md`)
+4. Valutare l'adozione di TypeScript per i moduli critici
 
-### Sviluppo Locale
-
+## Flusso di lavoro
 ```bash
-npm run dev
+npm install
+npm run dev     # sviluppo
+npm run build   # build produzione
+npm run preview # anteprima build
 ```
 
-Il server Vite caricherà automaticamente `src/main.js` invece di `script.js`.
-
-### Build di Produzione
-
-```bash
-npm run build
-```
-
-Vite genererà un bundle ottimizzato in `dist/`.
-
-### Anteprima Build
-
-```bash
-npm run preview
-```
-
-## 📝 Modifiche Necessarie
-
-### ✅ Completate
-
-1. ✅ **Modularizzazione di script.js**
-   - Diviso in 21 file organizzati per responsabilità
-   
-2. ✅ **Aggiornamento HTML**
-   - `index.html` ora carica `src/main.js` invece di `script.js`
-
-3. ✅ **Barrel Exports**
-   - Ogni modulo ha un `index.js` per import puliti
-
-### 🔮 Prossimi Step Opzionali
-
-1. **Modularizzare scriptEditor.js**
-   ```
-   src/modules/three-editor/
-   ├── scene.js
-   ├── materials.js
-   ├── loaders.js
-   ├── controls.js
-   └── index.js
-   ```
-
-2. **Modularizzare i18n.js**
-   ```
-   src/modules/i18n/
-   ├── translations.js
-   ├── language-switcher.js
-   └── index.js
-   ```
-
-3. **Aggiungere TypeScript**
-   ```bash
-   npm install -D typescript
-   # Rinomina .js → .ts gradualmente
-   ```
-
-4. **Aggiungere Testing**
-   ```bash
-   npm install -D vitest @testing-library/dom
-   ```
-
-## 🔍 Differenze tra Vecchio e Nuovo
-
-### Vecchio Approccio (script.js)
-
-```javascript
-// Tutto in un unico file di 841 righe
-const navToggle = document.querySelector('.nav-toggle');
-// ... 800+ righe di codice misto ...
-
-function initializeEditor() { /* ... */ }
-function handleFileUpload() { /* ... */ }
-// Difficile da navigare e manutenere
-```
-
-### Nuovo Approccio (Modulare)
-
-```javascript
-// src/modules/navigation/mobile-menu.js
-export class MobileMenu {
-  constructor() { /* ... */ }
-  init() { /* ... */ }
-}
-
-// src/modules/editor/upload.js
-export class EditorUpload {
-  handleFileUpload(file) { /* ... */ }
-}
-
-// src/main.js
-import { initNavigation } from './modules/navigation/index.js';
-import { initEditor } from './modules/editor/index.js';
-```
-
-## 🛠️ Come Aggiungere Nuove Feature
-
-### Esempio: Aggiungere una nuova animazione
-
-1. **Crea il file**
-   ```bash
-   # src/modules/animations/parallax.js
-   ```
-
-2. **Implementa la feature**
-   ```javascript
-   export class ParallaxEffect {
-     constructor() { /* ... */ }
-     init() { /* ... */ }
-   }
-   ```
-
-3. **Esporta nel barrel**
-   ```javascript
-   // src/modules/animations/index.js
-   export { ParallaxEffect } from './parallax.js';
-   
-   export function initAnimations() {
-     const parallax = new ParallaxEffect();
-     parallax.init();
-     // ...
-   }
-   ```
-
-4. **Non serve modificare main.js** (già inizializzato!)
-
-## 🐛 Troubleshooting
-
-### Problema: "Cannot find module"
-
-**Soluzione**: Verifica i path degli import. Vite risolve automaticamente da root:
-
-```javascript
-// ✅ Corretto
-import { toast } from '../ui/toast.js';
-
-// ❌ Sbagliato
-import { toast } from 'ui/toast.js';
-```
-
-### Problema: "Undefined function"
-
-**Soluzione**: Verifica che la funzione sia esportata:
-
-```javascript
-// ✅ Esportata
-export function myFunction() { }
-
-// ❌ Non esportata
-function myFunction() { }
-```
-
-### Problema: Funzionalità non inizializzate
-
-**Soluzione**: Verifica che il modulo sia chiamato in `main.js`:
-
-```javascript
-// src/main.js
-initNavigation(); // ✅
-initEditor();     // ✅
-initMyNewModule(); // Aggiungi questo se manca
-```
-
-## 📊 Metriche di Miglioramento
-
-| Metrica | Prima | Dopo | Miglioramento |
-|---------|-------|------|---------------|
-| File principale | 841 righe | 50 righe | 🔥 94% riduzione |
-| Moduli | 1 monolitico | 21 modulari | ✨ +2000% organizzazione |
-| Manutenibilità | 😰 Difficile | 😊 Facile | 🎯 Molto migliore |
-| Tree-shaking | ❌ No | ✅ Sì | 📦 Bundle più leggero |
-| Testabilità | 😔 Impossibile | ✅ Facile | 🧪 Test-ready |
-
-## 🎓 Best Practices Implementate
-
-### ✅ Single Responsibility Principle
-Ogni modulo ha una singola responsabilità ben definita.
-
-### ✅ DRY (Don't Repeat Yourself)
-Le utility comuni sono centralizzate in `utils/`.
-
-### ✅ Separation of Concerns
-UI, logica business e animazioni sono separate.
-
-### ✅ Consistent Naming
-Convenzioni di naming chiare e consistenti.
-
-### ✅ Modular Architecture
-Facile aggiungere/rimuovere funzionalità senza toccare il core.
-
-## 🔗 File di Riferimento
-
-- **Vecchio sistema**: `script.js` (preservato per riferimento)
-- **Nuovo sistema**: `src/main.js` + `src/modules/*`
-- **Documentazione**: `src/README.md`
-- **Questa guida**: `MIGRATION.md`
-
-## 💡 Tips & Tricks
-
-### Import Dinamici
-
-Per caricare moduli solo quando necessario:
-
-```javascript
-// Carica solo quando l'utente apre l'editor
-if (userOpensEditor) {
-  const { initEditor } = await import('./modules/editor/index.js');
-  initEditor();
-}
-```
-
-### Hot Module Replacement (HMR)
-
-Vite supporta HMR automatico. Le modifiche ai moduli si riflettono istantaneamente nel browser senza refresh completo!
-
-### Debug
-
-```javascript
-// In development, puoi accedere a:
-console.log(window.__brello__);
-// Output: { version: '2.0.0', modules: {...} }
-```
-
-## 📞 Supporto
-
-Per domande o problemi:
-1. Consulta `src/README.md` per la struttura dei moduli
-2. Leggi questa guida per la migrazione
-3. Controlla i commenti nel codice per documentazione inline
-
----
-
-**Buon coding! 🚀**
+## Supporto
+Per dettagli aggiuntivi consultare `MODULARIZATION-SUMMARY.md` e i documenti nella cartella `docs/`.

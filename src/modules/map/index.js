@@ -67,6 +67,15 @@ export class MapManager {
     addRoute() {
         if (!this.map || this.brands.length <= 1) return;
 
+        const styleLoaded = typeof this.map.isStyleLoaded === 'function'
+            ? this.map.isStyleLoaded()
+            : true;
+
+        if (!styleLoaded && typeof this.map.once === 'function') {
+            this.map.once('load', () => this.addRoute());
+            return;
+        }
+
         const sourceId = 'route';
         const layerId = 'route';
         const routeGeoJSON = {
@@ -108,6 +117,24 @@ export class MapManager {
 
         const submitButton = this.searchForm?.querySelector('.howto__search-btn') || null;
 
+        const flyToCity = (lng, lat) => {
+            if (!this.map) return;
+
+            const go = () => this.map.flyTo({ center: [lng, lat], zoom: 13 });
+
+            const styleLoaded = typeof this.map.isStyleLoaded === 'function'
+                ? this.map.isStyleLoaded()
+                : true;
+
+            if (!styleLoaded && typeof this.map.once === 'function') {
+                // Wait for the map style to be ready before flying to the new location
+                this.map.once('load', go);
+                return;
+            }
+
+            go();
+        };
+
         const handleSearch = (event) => {
             event?.preventDefault?.();
 
@@ -134,7 +161,7 @@ export class MapManager {
                 .then(res => {
                     if (res.features && res.features.length) {
                         const [lng, lat] = res.features[0].center;
-                        this.map.flyTo({ center: [lng, lat], zoom: 13 });
+                        flyToCity(lng, lat);
                     } else {
                         toast('Citta non trovata');
                     }
@@ -197,7 +224,6 @@ export class MapManager {
         this.map.addControl(this.geolocateControl);
 
         this.addMarkers();
-        this.addRoute();
         this.setupCitySearch();
         this.setupLocateButton();
         this.setupClickTracking();

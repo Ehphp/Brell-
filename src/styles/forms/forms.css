@@ -1,0 +1,450 @@
+/* FORM SECTION - REDESIGNED */
+
+/* Sezione form con sfondo gradiente dinamico come nell'immagine */
+#inserzionisti {
+  position: relative;
+  padding: clamp(60px, 8vh, 100px) 22px;
+  background: 
+    linear-gradient(135deg, 
+      var(--rosa) 0%, 
+      var(--teal) 50%, 
+      var(--yellow) 100%
+    );
+  overflow: hidden;
+}
+
+/* Elementi decorativi di sfondo per coerenza con il design */
+#inserzionisti::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 40%;
+  height: 120%;
+  background: linear-gradient(135deg, var(--yellow) 0%, transparent 70%);
+  transform: rotate(-15deg);
+  opacity: 0.7;
+  z-index: 0;
+}
+
+#inserzionisti::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  right: -5%;
+  width: 50%;
+  height: 130%;
+  background: linear-gradient(135deg, transparent 30%, var(--green) 100%);
+  transform: rotate(15deg);
+  opacity: 0.6;
+  z-index: 0;
+}
+
+/* Container dei form */
+.formWrap {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
+  gap: clamp(20px, 3vw, 40px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Card dei form - stile ispirato all'immagine allegata */
+.formWrap .card {
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: clamp(20px, 2vw, 30px);
+  padding: clamp(24px, 3vw, 36px);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+
+}
+
+/* Effetto hover sulle card */
+.formWrap .card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+/* Striscia colorata in alto per distinguere i form */
+.formWrap .card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  opacity: 1;
+}
+
+/* Striscia rosa/rossa per form sponsor */
+.formWrap .card:first-child::before {
+  background: linear-gradient(90deg, var(--rosa) 0%, var(--red) 100%);
+}
+
+/* Striscia teal/verde per form utenti */
+.formWrap .card:last-child::before {
+  background: linear-gradient(90deg, var(--teal) 0%, var(--green) 100%);
+}
+
+/* Titoli dei form */
+.formWrap .card h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  color: var(--ink);
+  margin: 0 0 clamp(16px, 2vw, 24px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+/* Form styling */
+.formWrap form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vw, 18px);
+}
+
+/* Label styling */
+.formWrap form label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: clamp(0.85rem, 1vw, 0.95rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+/* Input, select e textarea styling */
+.formWrap form input,
+.formWrap form select,
+.formWrap form textarea {
+  width: 100%;
+  padding: clamp(1px, 1.5vw, 1px) clamp(14px, 2vw, 18px);
+  border-radius: clamp(10px, 1.2vw, 14px);
+  border: 2px solid rgba(14, 26, 27, 0.12);
+  background: rgba(253, 240, 240, 0.9);
+  color: var(--ink);
+  font-size: clamp(0.9rem, 1vw, 1rem);
+  font-weight: 600;
+  font-family: inherit;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Placeholder styling */
+.formWrap form input::placeholder,
+.formWrap form textarea::placeholder {
+  color: rgba(14, 26, 27, 0.45);
+  font-weight: 500;
+}
+
+/* Hover state */
+.formWrap form input:hover,
+.formWrap form select:hover,
+.formWrap form textarea:hover {
+  border-color: rgba(14, 26, 27, 0.25);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Focus state */
+.formWrap form input:focus,
+.formWrap form select:focus,
+.formWrap form textarea:focus {
+  border-color: var(--teal);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 0 0 4px rgba(14, 140, 143, 0.12),
+    inset 0 2px 6px rgba(0, 0, 0, 0.06);
+  transform: translateY(-2px);
+}
+
+/* Select styling specifico */
+.formWrap form select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%230E1A1B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 48px;
+}
+
+/* Validation states */
+.formWrap form input:invalid:not(:placeholder-shown),
+.formWrap form select:invalid:not(:placeholder-shown) {
+  border-color: var(--red);
+  background: rgba(226, 68, 58, 0.05);
+}
+
+.formWrap form input:valid:not(:placeholder-shown),
+.formWrap form select:valid:not(:placeholder-shown) {
+  border-color: var(--green);
+  background: rgba(4, 232, 36, 0.05);
+}
+
+/* Bottoni dei form */
+.formWrap form button.btn {
+  margin-top: clamp(8px, 1vw, 12px);
+  padding: clamp(12px, 1.5vw, 16px) clamp(24px, 3vw, 32px);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Effetto ripple sui bottoni */
+.formWrap form button.btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.formWrap form button.btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.formWrap form button.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 15px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.formWrap form button.btn:active {
+  transform: translateY(-1px);
+  box-shadow: 
+    0 8px 20px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive per mobile */
+@media (max-width: 768px) {
+  #inserzionisti {
+    padding: clamp(40px, 6vh, 60px) 16px;
+  }
+
+  .formWrap {
+    grid-template-columns: 1fr;
+    gap: clamp(24px, 4vw, 32px);
+  }
+
+  .formWrap .card {
+    padding: clamp(20px, 4vw, 28px);
+  }
+}
+
+@media (max-width: 480px) {
+  .formWrap form {
+    gap: 16px;
+  }
+
+  .formWrap form button.btn {
+    width: 100%;
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(4, 232, 36, 0.92), rgba(14, 140, 143, 0.92));
+  border: 1px solid rgba(255, 241, 227, .25);
+  box-shadow: 0 6px 14px rgba(4, 232, 36, 0.28);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+#g6ComeFunziona .pill {
+  font-size: var(--fs-sm);
+  padding: 10px 14px;
+}
+
+
+/* ===== FORM ANIMATIONS ===== */
+@keyframes formFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes formIconPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes inputGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(14, 140, 143, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(14, 140, 143, 0.1);
+  }
+}
+
+@keyframes buttonRipple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Apply animations to form elements */
+.form-card {
+  animation: formFadeInUp 0.6s ease-out backwards;
+}
+
+.form-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.form-icon {
+  animation: formIconPulse 2s ease-in-out infinite;
+}
+
+.form-card:hover .form-icon {
+  animation: none;
+}
+
+.form-group {
+  animation: formFadeInUp 0.4s ease-out backwards;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.1s; }
+.form-group:nth-child(2) { animation-delay: 0.15s; }
+.form-group:nth-child(3) { animation-delay: 0.2s; }
+.form-group:nth-child(4) { animation-delay: 0.25s; }
+
+.btn-form {
+  animation: formFadeInUp 0.5s ease-out 0.3s backwards;
+}
+
+/* Loading state for form submission */
+.form-submitting .btn-form {
+  pointer-events: none;
+  opacity: 0.7;
+  position: relative;
+}
+
+.form-submitting .btn-form::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 0.6s linear infinite;
+  right: 20px;
+}
+
+/* Success state animation */
+@keyframes successCheck {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.form-success {
+  position: relative;
+}
+
+.form-success::after {
+  content: '\2713';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 3rem;
+  color: var(--green);
+  animation: successPop 0.5s ease-out forwards;
+}
+
+@keyframes successPop {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
