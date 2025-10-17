@@ -215,13 +215,13 @@ export class MapManager {
             style: 'mapbox://styles/hphphphp/cmek34twr001o01qt8yff8wlz'
         });
 
-        this.map.addControl(new mapboxgl.NavigationControl());
-        this.geolocateControl = new mapboxgl.GeolocateControl({
-            positionOptions: { enableHighAccuracy: true },
-            trackUserLocation: true,
-            showUserHeading: true
-        });
-        this.map.addControl(this.geolocateControl);
+        // this.map.addControl(new mapboxgl.NavigationControl());
+        // this.geolocateControl = new mapboxgl.GeolocateControl({
+        //     positionOptions: { enableHighAccuracy: true },
+        //     trackUserLocation: true,
+        //     showUserHeading: true
+        // });
+        // this.map.addControl(this.geolocateControl);
 
         this.addMarkers();
         this.setupCitySearch();

@@ -1,4 +1,38 @@
-/* Sponsor Benefits Section */
+/* ==========================================================================
+   Brellò – CSS consolidato e ripulito
+   - Layout stabile per #chiSiamo (cards sx, mappa + howto dx)
+   - Nessun conflitto su .map-container
+   - Media query standardizzate
+   - No troncamenti indesiderati
+   - Migliorie A11y (focus ring, reduced-motion)
+   ========================================================================== */
+
+/* ========== SEZIONI GENERICHE ========== */
+section {
+  padding: 80px 22px;
+}
+
+/* ========== CARD BASE ========== */
+.card {
+  background: rgba(255, 241, 227, .08);
+  border: 1px solid rgba(255, 241, 227, .18);
+  border-radius: var(--radius);
+  padding: 22px;
+  backdrop-filter: saturate(120%) blur(2px);
+  margin: 2rem;
+}
+
+/* ========== TYPO PRIMARIA ========== */
+h2 {
+  font-size: clamp(1.6rem, 2.2vw + .6rem, 2.6rem);
+  margin: 0 0 18px;
+  font-weight: 900;
+}
+p { margin: 0 0 12px; }
+
+/* ==========================================================================
+   Sponsor Benefits
+   ========================================================================== */
 .sponsor-benefits {
   padding: var(--space-2xl) 0;
   background: linear-gradient(135deg, var(--viola) 0%, var(--teal) 100%);
@@ -14,16 +48,9 @@
   background: rgba(255, 241, 227, .05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.benefit-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
 
-.benefit-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow);
-}
-
-.benefit-icon {
-  font-size: var(--fs-4xl);
-  margin-bottom: var(--space-sm);
-}
+.benefit-icon { font-size: var(--fs-4xl); margin-bottom: var(--space-sm); }
 
 .benefit-card h3 {
   font-size: var(--fs-xl);
@@ -31,14 +58,11 @@
   margin-bottom: var(--space-sm);
   color: var(--cream);
 }
+.benefit-card p { font-size: var(--fs-sm); opacity: 0.9; margin: 0; }
 
-.benefit-card p {
-  font-size: var(--fs-sm);
-  opacity: 0.9;
-  margin: 0;
-}
-
-/* FAQ Section */
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
 .faq-section {
   padding: var(--space-2xl) 0;
   background: linear-gradient(135deg, var(--ink) 0%, var(--viola) 100%);
@@ -58,16 +82,15 @@
   border: none;
   padding: var(--space-md);
 }
-
 .accordion-button:not(.collapsed) {
   background: rgba(243, 179, 0, .1);
   color: var(--cream);
   box-shadow: none;
 }
-
 .accordion-button:focus {
-  border: none;
-  box-shadow: 0 0 0 2px var(--yellow);
+  outline: 2px solid var(--yellow);
+  outline-offset: 2px;
+  box-shadow: none;
 }
 
 .accordion-body {
@@ -76,7 +99,9 @@
   padding: var(--space-md);
 }
 
-/* Footer improvements */
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
   background:
     radial-gradient(1000px 1000px at 120% 110%, var(--yellow) 0 95%, transparent 0%),
@@ -90,32 +115,18 @@ footer {
   opacity: 0.9;
   color: var(--cream);
 }
-
-footer h5, footer h6 {
-  color: var(--cream);
-  font-weight: 800;
-}
+footer h5, footer h6 { color: var(--cream); font-weight: 800; }
 
 footer a {
   color: var(--cream);
   text-decoration: none;
   opacity: 0.8;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, color 0.2s ease, text-decoration-color 0.2s ease;
 }
+footer a:hover { opacity: 1; color: var(--yellow); text-decoration: underline; }
 
-footer a:hover {
-  opacity: 1;
-  color: var(--yellow);
-}
-
-footer ul {
-  margin: 0;
-  padding: 0;
-}
-
-footer ul li {
-  margin-bottom: var(--space-xs);
-}
+footer ul { margin: 0; padding: 0; }
+footer ul li { margin-bottom: var(--space-xs); }
 
 .social-links a {
   display: inline-block;
@@ -123,58 +134,33 @@ footer ul li {
   font-size: var(--fs-lg);
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-  .benefit-card {
-    margin-bottom: var(--space-md);
-  }
-  
-  .accordion-button {
-    font-size: var(--fs-sm);
-  }
-  
-  .trust-indicators {
-    font-size: var(--fs-xs);
-  }
-}
-
-/* Sfondo tipo B */
-
-
-/* ====== TUE REGOLE (già presenti) ====== */
-/* ========== SEZIONE #chiSiamo - LAYOUT A PIENA ALTEZZA 100dvh (DESKTOP =1024px) ========== */
+/* ==========================================================================
+   SEZIONE #chiSiamo – Layout a piena altezza (desktop), 3 card sx / mappa+howto dx
+   ========================================================================== */
 #chiSiamo {
-  position: relative;
-  padding: clamp(12px, 2vh, 24px) clamp(16px, 2vw, 32px);
   display: grid;
   max-width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
+  height: 110vh;
 
-  /* colore del primo radial-gradient, variabile per hover delle card */
+  /* tokens dinamici */
   --accent-color: var(--rosa);
   --swich-color1: var(--teal);
   --swich-color2: var(--viola);
   --swich-color3: var(--yellow);
 
   background:
-    radial-gradient(var(--r) var(--r) at 50% 50%,
-      var(--accent-color) 0 95%, transparent 36%),
+    radial-gradient(var(--r) var(--r) at 50% 50%, var(--accent-color) 0 95%, transparent 100%),
     radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8) calc(var(--r) * 3.4),
-      var(--green) 0 95%, transparent 36%),
-    linear-gradient(132deg,
-      var(--swich-color2) 0 5%,
-      var(--swich-color1) 5% 50%,
-      var(--swich-color3) 50% 100%);
+      var(--green) 0 95%, transparent 100%),
+    linear-gradient(132deg, var(--swich-color2) 0 5%, var(--swich-color1) 5% 50%, var(--swich-color3) 50% 100%);
 }
 
-/* Su desktop: section occupa 100dvh */
-@media (width >= 1024px) {
-  #chiSiamo {
-    block-size: 100dvh;
-  }
-}
+/* Desktop: piena altezza */
 
+
+/* ===== Wrapper & Header ===== */
 .chiSiamo-wrapper {
   width: min(1240px, 100%);
   margin: 0 auto;
@@ -191,7 +177,6 @@ footer ul li {
   gap: var(--space-sm);
   color: var(--cream);
 }
-
 .chiSiamo-eyebrow {
   display: inline-flex;
   align-items: center;
@@ -202,206 +187,119 @@ footer ul li {
   letter-spacing: 0.08em;
   color: rgba(255, 241, 227, 0.75);
 }
-
 .chiSiamo-eyebrow::before {
   content: "";
-  width: 32px;
-  height: 2px;
+  width: 32px; height: 2px;
   border-radius: 999px;
   background: currentColor;
   opacity: 0.6;
 }
-
 .chiSiamo-header h2 {
   font-size: clamp(2.4rem, 3vw + 1rem, 3rem);
-  margin: 0;
-  color: var(--cream);
+  margin: 0; color: var(--cream);
 }
-
 .chiSiamo-header p {
   margin: 0;
   color: rgba(255, 241, 227, 0.82);
   max-width: 540px;
 }
 
-/* ========== GRID PRINCIPALE - 2 COLONNE DESKTOP ========== */
+/* ===== Grid principale ===== */
 .chiSiamo-grid {
-  display: grid;
-  width: 100%;
-  max-width: min(1340px, calc(100vw - 2 * clamp(16px, 2vw, 32px)));
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
-/* Desktop =1024px: 2 colonne 1fr 1fr, altezza 100% */
-@media (width >= 1024px) {
-  .chiSiamo-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(16px, 2vw, 28px);
-    block-size: 100%;
-    min-block-size: 0;
-  }
-}
-
-/* ========== COLONNA SINISTRA: 3 CARD IMPILATE ========== */
-.chiSiamo-steps {
-  display: grid;
-  box-sizing: border-box;
-}
-
-/* Desktop: 3 righe, distribuzione minmax(min-content, 1fr) */
-@media (width >= 1024px) {
-  .chiSiamo-steps {
-    grid-template-rows: repeat(3, minmax(min-content, 1fr));
-    gap: clamp(12px, 1.5vw, 20px);
-    min-block-size: 0;
-  }
-}
-
-/* Tablet/Mobile: layout in colonna */
-@media (width < 1024px) {
-  .chiSiamo-steps {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(12px, 1.5vh, 18px);
-  }
-}
-
-/* ========== CARD SINGOLA - LAYOUT INTERNO GRID ========== */
-.chiSiamo-steps .cardPag2 {
-  box-sizing: border-box;
-}
-
-@media (width >= 1024px) {
-  .chiSiamo-steps .cardPag2 {
-    display: grid;
-    /* 4 righe: icona+titolo | paragrafi | spazio elastico | input */
-    grid-template-rows: auto auto 1fr auto;
-    gap: clamp(6px, 1vw, 12px);
-    padding: clamp(12px, 1.5vw, 20px);
-    border-radius: var(--radius-lg, 16px);
-    min-block-size: 0;
-    overflow: visible; /* nessuna truncation */
-  }
-}
-
-/* ========== COLONNA DESTRA: MAPPA + COME FUNZIONA ========== */
-#mapContainer {
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
-  overflow: hidden;
-  justify-content: center;
   align-items: center;
-  width: 100%;
-  margin: 0;
-  padding: clamp(10px, 4.5vh, 16px);
-  background: rgba(14, 26, 27, 0.38);
-  border-radius: calc(var(--radius) * 1.4);
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(18px);
+
+  width: 80%; 
+  margin: 5vh auto;
+  gap: 16px;
 }
 
-/* Desktop: 2 righe (mappa sopra, come-funziona sotto) */
-@media (width >= 1024px) {
-  #mapContainer {
-    grid-template-rows: 1fr 1fr;
+
+
+  .containerMapandCard{
+  display: flex;
+  height: 55vh;
+  width: 85%;
+  gap: clamp(16px, 2vw, 28px);
+  
+
+  }
+
+.chiSiamo-steps_container {
+  box-sizing: border-box;
+
+  gap: clamp(12px, 1.5vw, 20px);
+  display: flex;
+  padding: clamp(8px, 1.2vw, 0);
+
+  flex-direction: column;
+  align-items: center;
+
+}
+.chiSiamo-steps { 
+  height: 65vh;
+  width: 100%;
+  display: flex; flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; 
+}
+
+@media (min-width: 1024px) {
+  .chiSiamo-steps {
     gap: clamp(12px, 1.5vw, 20px);
     min-block-size: 0;
+      block-size: 65vh;
+
   }
 }
 
-/* Tablet/Mobile: layout in colonna */
-@media (width < 1024px) {
-  #mapContainer {
+@media (max-width: 1023px) {
+  .chiSiamo-steps {
+    display: flex; flex-direction: column;
+    gap: clamp(12px, 1.5vh, 18px);
+  }
+}
+.cardList {
     display: flex;
     flex-direction: column;
-    gap: clamp(12px, 1.5vh, 18px);
-    padding: clamp(12px, 1.5vh, 16px);
-  }
-}
+    align-items: center;
+    justify-content: space-between;
 
-.chiSiamo-map-embed {
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: var(--shadow);
-  display: flex;
-  position: relative;
-  width: 100%;
-}
 
-@media (width >= 1024px) {
-  .chiSiamo-map-embed {
-    min-block-size: 0;
-    block-size: 100%;
-  }
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
-
-@media (width < 1024px) {
-  .chiSiamo-map-embed {
-    min-block-size: 280px;
-    block-size: 50vh;
-  }
-}
-
-#mapContainer .map-container {
-  flex: 1;
-  width: 100%;
-  height: 100%;
-}
-
-@media (width >= 1024px) {
-  #mapContainer .map-container {
-    min-block-size: 0;
-  }
-}
-/* ========== SVG/ICONE - DIMENSIONI ADATTIVE ========== */
-#chiSiamo svg {
-  flex-shrink: 0;
-}
-
-@media (width >= 1024px) {
-  #chiSiamo svg {
-    height: clamp(28px, 4vw, 40px);
-    width: clamp(28px, 4vw, 40px);
-  }
-}
-
-@media (width < 1024px) {
-  #chiSiamo svg {
-    height: clamp(32px, 5vw, 48px);
-    width: clamp(32px, 5vw, 48px);
-  }
-}
-
-/* ========== CARD - LAYOUT E TIPOGRAFIA ========== */
+/* ===== Card singola (layout interno) ===== */
 .cardPag2 {
-  position: relative;
   border: 1px solid rgba(255, 241, 227, .18);
   border-radius: calc(var(--radius) * 1.2);
   box-shadow: var(--shadow);
-  margin: 0;
-  color: var(--cream);
+  margin: 0; color: var(--cream);
   transform: translateY(0);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   box-sizing: border-box;
-}
+  overflow: hidden; /* mai troncate */
 
-/* Desktop: layout grid compatto */
-@media (width >= 1024px) {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+}
+@media (min-width: 1024px) {
   .cardPag2 {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) minmax(140px, 180px);
-    grid-auto-rows: auto;
+    display: flex;
+ 
     align-items: start;
     gap: clamp(4px, 0.9vw, 8px) clamp(10px, 1.5vw, 16px);
     padding: clamp(12px, 1.5vw, 18px);
   }
 }
-
-/* Tablet/Mobile: layout pi� spazioso */
-@media (width < 1024px) {
+@media (max-width: 1023px) {
   .cardPag2 {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -410,171 +308,103 @@ footer ul li {
   }
 }
 
-.cardPag2 svg {
-  align-self: start;
+.divLogoCard {
+  display: flex; align-items: flex-start; justify-content: flex-start;
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  flex-shrink: 0;
+  height: 100%;
 }
 
-@media (width >= 1024px) {
-  .cardPag2 svg {
-    grid-row: 1 / span 3;
-  }
+.cardDetailDiv{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
-@media (width < 1024px) {
-  .cardPag2 svg {
-    grid-row: 1;
-    grid-column: 1;
-  }
-}
-
+.cardSottoContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100%;}
 .cardPag2 h2 {
   margin: 0;
   line-height: clamp(1.1, 1.3, 1.4);
+  grid-column: 2; grid-row: 1;
+  font-size: clamp(18px, 2.2vw, 24px);
 }
-
-@media (width >= 1024px) {
-  .cardPag2 h2 {
-    grid-column: 2;
-    grid-row: 1;
-    font-size: clamp(18px, 2.2vw, 24px);
-  }
-}
-
-@media (width < 1024px) {
-  .cardPag2 h2 {
-    grid-column: 2;
-    grid-row: 1;
-    font-size: clamp(20px, 2.5vw, 28px);
-  }
+@media (max-width: 1023px) {
+  .cardPag2 h2 { font-size: clamp(20px, 2.5vw, 28px); }
 }
 
 .cardPag2 p {
   margin: 0;
   color: rgba(255, 241, 227, 0.9);
   line-height: clamp(1.2, 1.35, 1.5);
+  grid-column: 2;
+  font-size: clamp(12px, 1.6vw, 16px);
 }
+.cardPag2 p + p { margin-top: 3px; color: rgba(255, 241, 227, 0.78); font-size: clamp(11px, 1.4vw, 14px); }
 
-@media (width >= 1024px) {
-  .cardPag2 p {
-    grid-column: 2;
-    font-size: clamp(12px, 1.6vw, 16px);
-  }
-}
-
-@media (width < 1024px) {
-  .cardPag2 p {
-    grid-column: 1 / -1;
-    font-size: clamp(14px, 1.8vw, 18px);
-  }
-}
-
-.cardPag2 p+p {
-  margin-top: 3px;
-  color: rgba(255, 241, 227, 0.78);
-}
-
-@media (width >= 1024px) {
-  .cardPag2 p+p {
-    font-size: clamp(11px, 1.4vw, 14px);
-  }
-}
-
-@media (width < 1024px) {
-  .cardPag2 p+p {
-    font-size: clamp(13px, 1.6vw, 16px);
-  }
+@media (max-width: 1023px) {
+  .cardPag2 p { grid-column: 1 / -1; font-size: clamp(14px, 1.8vw, 18px); }
+  .cardPag2 p + p { font-size: clamp(13px, 1.6vw, 16px); }
 }
 
 .cardPag2 label {
-  margin: 0;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin: 0; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
   color: rgba(255, 241, 227, 0.82);
-  align-self: start;
-}
-
-@media (width >= 1024px) {
-  .cardPag2 label {
-    grid-column: 3;
-    grid-row: 1;
-    font-size: clamp(11px, 1.4vw, 14px);
-  }
-}
-
-@media (width < 1024px) {
-  .cardPag2 label {
-    grid-column: 1 / -1;
-    font-size: 13px;
-    margin-top: 8px;
-  }
+  grid-column: 3; grid-row: 1; font-size: clamp(11px, 1.4vw, 14px);
 }
 
 .cardPag2 input {
-  width: 100%;
-  max-width: 100%;
+  width: 100%; max-width: 100%;
   border-radius: calc(var(--radius) * 0.7);
-  border: 1px solid rgba(255, 241, 227, 0.45);
-  background: rgba(255, 241, 227, 0.15);
+  border: 1px solid rgba(255, 241, 227, 0.55);
+  background: rgba(255, 241, 227, 0.18);
   color: var(--ink);
   font-weight: 700;
   box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.14);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
-  box-sizing: border-box;
+  grid-column: 3; grid-row: 2 / span 2;
+  padding: clamp(6px, 1vw, 10px) clamp(8px, 1.2vw, 12px);
+  font-size: clamp(12px, 1.6vw, 15px);
 }
-
-@media (width >= 1024px) {
-  .cardPag2 input {
-    grid-column: 3;
-    grid-row: 2 / span 2;
-    padding: clamp(6px, 1vw, 10px) clamp(8px, 1.2vw, 12px);
-    font-size: clamp(12px, 1.6vw, 15px);
-  }
-}
-
-@media (width < 1024px) {
-  .cardPag2 input {
-    grid-column: 1 / -1;
-    padding: 10px 12px;
-    font-size: 15px;
-  }
-}
-
-.cardPag2 input::placeholder {
-  color: rgba(14, 26, 27, 0.6);
-}
-
+.cardPag2 input::placeholder { color: rgba(14, 26, 27, 0.6); }
 .cardPag2 input:focus-visible {
   outline: none;
   background: rgba(255, 241, 227, 0.28);
   border-color: rgba(255, 241, 227, 0.8);
-  box-shadow:
-    0 0 0 3px rgba(255, 241, 227, 0.35),
-    inset 0 2px 10px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 0 0 3px rgba(255, 241, 227, 0.35), inset 0 2px 10px rgba(0, 0, 0, 0.18);
 }
 
-.chiSiamo-step {
-  cursor: default;
+@media (max-width: 1023px) {
+  .cardPag2 label { grid-column: 1 / -1; font-size: 13px; margin-top: 8px; grid-row: auto; }
+  .cardPag2 input { grid-column: 1 / -1; grid-row: auto; padding: 10px 12px; font-size: 15px; }
 }
 
+/* Varianti cromatiche card */
+.chiSiamo-step { cursor: default; }
 .card1Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, var(--teal) 100%, #000000 6%) 0%,
-      color-mix(in oklab, var(--teal) 92%, #000000 0%) 100%);
+      color-mix(in oklab, var(--teal) 100%, #000 6%) 0%,
+      color-mix(in oklab, var(--teal) 92%, #000 0%) 100%);
 }
-
 .card2Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, var(--rosa) 100%, #000000 6%) 0%,
-      color-mix(in oklab, var(--rosa) 92%, #000000 0%) 100%);
+      color-mix(in oklab, var(--rosa) 100%, #000 6%) 0%,
+      color-mix(in oklab, var(--rosa) 92%, #000 0%) 100%);
 }
-
 .card3Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, #FFC107 100%, #000000 6%) 0%,
-      color-mix(in oklab, #FFC107 92%, #000000 0%) 100%);
+      color-mix(in oklab, #FFC107 100%, #000 6%) 0%,
+      color-mix(in oklab, #FFC107 92%, #000 0%) 100%);
 }
 
+/* Hover elevazione */
 #chiSiamo .chiSiamo-step:hover,
 #chiSiamo .chiSiamo-step:focus-within,
 #chiSiamo .cardPag2:hover,
@@ -583,1020 +413,317 @@ footer ul li {
   box-shadow: 0 30px 40px rgba(14, 26, 27, 0.28);
 }
 
+/* Icona step */
 .chiSiamo-step-icon {
   position: relative;
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
+  display: grid; place-items: center;
+  width: 72px; height: 72px;
   border-radius: 22px;
   background: rgba(14, 26, 27, 0.16);
   flex-shrink: 0;
 }
-
 .chiSiamo-step-index {
-  position: absolute;
-  inset: auto 6px 6px auto;
-  font-weight: 800;
-  font-size: var(--fs-sm);
+  position: absolute; inset: auto 6px 6px auto;
+  font-weight: 800; font-size: var(--fs-sm);
   background: rgba(255, 241, 227, 0.88);
   color: rgba(14, 26, 27, 0.8);
-  border-radius: 999px;
-  padding: 2px 10px;
+  border-radius: 999px; padding: 2px 10px;
   box-shadow: 0 6px 12px rgba(14, 26, 27, 0.18);
 }
+.chiSiamo-step-body { display: flex; flex-direction: column; gap: 10px; }
+.chiSiamo-step-body h3 { font-size: clamp(1.6rem, 1.2vw + 1rem, 2.1rem); margin: 0; }
+.chiSiamo-step-body p { margin: 0; color: rgba(255, 241, 227, 0.88); }
+.chiSiamo-step-body p + p { color: rgba(255, 241, 227, 0.75); }
 
-.chiSiamo-step-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* SVG responsive */
+#chiSiamo svg { flex-shrink: 0; }
+@media (min-width: 1024px) {
+  #chiSiamo svg { height: clamp(28px, 4vw, 40px); width: clamp(28px, 4vw, 40px); }
+}
+@media (max-width: 1023px) {
+  #chiSiamo svg { height: clamp(32px, 5vw, 48px); width: clamp(32px, 5vw, 48px); }
 }
 
-.chiSiamo-step-body h3 {
-  font-size: clamp(1.6rem, 1.2vw + 1rem, 2.1rem);
-  margin: 0;
-}
-
-.chiSiamo-step-body p {
-  margin: 0;
-  color: rgba(255, 241, 227, 0.88);
-}
-
-.chiSiamo-step-body p+p {
-  color: rgba(255, 241, 227, 0.75);
-}
+/* ===== Colonna destra: Mappa + Come Funziona ===== */
 
 
-
-/* SEZIONI */
-
-section {
-  padding: 80px 22px 80px 22px;
-}
-
-
-
-
-
-.editor_Container {
-  min-height: 70vh;
-  display: flex;
-  margin: 0 auto;
-
-}
-
-.card {
-  background: rgba(255, 241, 227, .08);
-  border: 1px solid rgba(255, 241, 227, .18);
-  border-radius: var(--radius);
-  padding: 22px;
-  backdrop-filter: saturate(120%) blur(2px);
-  margin: 2rem;
-}
-
-@media(min-width:900px) {
-  .g-6 {
-    flex: 1 1 calc(50% - 9px);
-  }
-  
-  /* Form cards take full width in grid */
-  .formWrap .g-6 {
-    flex: 1;
-  }
-}
-
-h2 {
-  font-size: clamp(1.6rem, 2.2vw + .6rem, 2.6rem);
-  margin: 0 0 18px;
-  font-weight: 900
-}
-
-p {
-  margin: 0 0 12px
-}
-
-#g6ComeFunziona {
-  position: relative;
-  isolation: isolate;
-  background: rgba(255, 241, 227, 0.92);
-  border: 1px solid rgba(255, 241, 227, 0.45);
-  color: #431a40;
-  border-radius: calc(var(--radius) * 1.2);
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  box-shadow:
-    inset 0 1px 12px rgba(66, 32, 64, 0.08),
-    0 20px 35px rgba(14, 26, 27, 0.18);
+#mapContainer {
   box-sizing: border-box;
+  background: rgba(14, 26, 27, 0.38);
+  border-radius: calc(var(--radius) * 1.4);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+
+  gap: clamp(12px, 1.5vw, 20px);
+
+
+  display: flex; flex-direction: column;
+  align-items: center;
+  width: 40vw;
+}
+
+
+
+
+/* Tablet/Mobile: colonna */
+@media (max-width: 1023px) {
+  #mapContainer {
+    display: flex; flex-direction: column;
+    gap: clamp(12px, 1.5vh, 18px);
+  }
+}
+
+/* Mappa – definizione unica, senza conflitti */
+
+.chiSiamo-map-embed {
+  border-radius: var(--radius);
   overflow: hidden;
-  /* Garantisce che il contenuto non esca dalla card */
-  max-height: 100%;
-  height: 100%;
+  box-shadow: var(--shadow);
+  width: 100%;
+  height: 65vh;
 }
 
-@media (width >= 1024px) {
-  #g6ComeFunziona {
-    padding: clamp(10px, 1.2vw, 16px);
-    gap: clamp(4px, 0.8vw, 10px);
-    min-block-size: 0;
-  }
+/* Desktop: mappa riempie il contenitore  sti cosi rompono la mappa 
+---------
+
+--------
+
+-
+*/
+@media (min-width: 1024px) {
+  #mapContainer .map-container {  height: 65vh; }
 }
 
-@media (width < 1024px) {
-  #g6ComeFunziona {
-    padding: clamp(16px, 2vh, 24px);
-    gap: 12px;
-    min-block-size: auto;
-    max-height: none;
-    height: auto;
-  }
+/* Tablet/Mobile: altezze minime più generose */
+@media (max-width: 767px) {
+  #mapContainer .map-container { min-height: 65vh; }
 }
+/* Desktop: mappa riempie il contenitore  sti cosi rompono la mappa 
+---------
 
-#g6ComeFunziona::before {
-  content: "";
-  position: absolute;
-  inset: -40% -55% auto auto;
-  width: 110%;
-  height: 110%;
-  background:
-    radial-gradient(circle at 20% 20%, rgba(4, 232, 36, 0.18), transparent 60%),
-    radial-gradient(circle at 80% 30%, rgba(226, 68, 58, 0.32), transparent 70%),
-    radial-gradient(circle at 50% 90%, rgba(14, 140, 143, 0.24), transparent 75%);
-  transform: rotate(-6deg);
-  z-index: -1;
-  filter: saturate(120%);
-}
+--------
 
-#g6ComeFunziona h2 {
-  color: #431a40;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: clamp(1.1, 1.2, 1.3);
-}
+-
+*/
 
-@media (width >= 1024px) {
-  #g6ComeFunziona h2 {
-    font-size: clamp(14px, 1.8vw, 20px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona h2 {
-    font-size: clamp(20px, 2.5vw, 28px);
-  }
-}
-
-#g6ComeFunziona .howto__header {
+#howto__meta{
   display: flex;
   flex-direction: column;
-  gap: clamp(2px, 0.4vw, 4px);
-  flex-shrink: 0;
-}
+  justify-content: space-between;
+  align-content: flex-start;
+  gap: clamp(8px, 1.6vw, 18px);
+  height: fit-content;
+  width: 85%;
 
-#g6ComeFunziona .howto__subtitle {
-  margin: 0;
-  color: rgba(67, 32, 64, 0.75);
-  font-weight: 600;
-  max-width: 32ch;
-  line-height: clamp(1.15, 1.25, 1.35);
-}
 
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__subtitle {
-    font-size: clamp(11px, 1.4vw, 13px);
-  }
 }
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__subtitle {
-    font-size: clamp(14px, 1.8vw, 17px);
-  }
-}
-
-#g6ComeFunziona .howto__intro {
-  padding: clamp(2px, 0.4vw, 4px) 0 clamp(3px, 0.5vw, 6px);
-  flex-shrink: 0;
-}
-
-#g6ComeFunziona .howto__intro-text {
-  margin: 0;
-  color: rgba(67, 32, 64, 0.78);
-  font-weight: 600;
-  line-height: clamp(1.15, 1.25, 1.35);
-}
-
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__intro-text {
-    font-size: clamp(11px, 1.4vw, 13px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__intro-text {
-    font-size: clamp(14px, 1.8vw, 17px);
-  }
-}
-
-#g6ComeFunziona .howto__meta {
-  display: grid;
-  gap: clamp(5px, 0.8vw, 10px);
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow: hidden;
-}
-
-#g6ComeFunziona .howto__stats {
+#howto__meta .howto__header {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: clamp(2px, 0.5vw, 6px);
+}
+#howto__meta .howto__header h3 {
+  margin: 0;
+  line-height: 1.1;
+  font-weight: 900;
+  font-size: clamp(30px, 2vw, 22px);
+  color: #ffcc00cb;
+}
+#howto__meta .howto__subtitle {
+  margin: 0;
+  line-height: 1.25;
+  font-weight: 700;
+  font-size: clamp(12px, 1.6vw, 14px);
+  color: rgba(67, 32, 64, 0.9);
+}
+
+/* Intro */
+#howto__meta .howto__intro {
+  display: flex;
+}
+#howto__meta .howto__intro-text {
+  margin: 0;
+  line-height: 1.35;
+  font-size: clamp(12px, 1.5vw, 14px);
+  color: rgba(67, 32, 64, 0.85);
+}
+
+/* Meta: stats + search */
+#howto__meta .howto__meta {
+  display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: flex-start;
-  gap: clamp(4px, 0.7vw, 8px);
-  flex-shrink: 0;
+  gap: clamp(8px, 1.6vw, 18px);
 }
 
-#g6ComeFunziona .howto__stat {
-  height: 9vh;
+/* Stats */
+.howto__stats {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(4px, 0.7vw, 8px);
+  margin: 0;         /* azzera default DL */
+  padding: 0;
+      width: 100%;
+      color:rgb(54, 53, 55);
+}
+.search-stat{
+    display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2px;
+  flex: 1 1 85px;
+  padding: clamp(4px, 0.7vw, 7px) clamp(6px, 0.9vw, 9px);
+  border-radius: calc(var(--radius) * 0.9);
+  background: rgba(225, 212, 225, 0.598);
+  border: 1px solid rgba(255, 241, 227, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 
+}
+ .howto__stat {
   display: flex;
   flex-direction: column;
-  justify-content: space-around ;
-  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2px;
   flex: 1 1 85px;
-  background: rgba(67, 32, 64, 0.08);
-  border-radius: calc(var(--radius) * 0.9);
+  height: 9vh;
   padding: clamp(4px, 0.7vw, 7px) clamp(6px, 0.9vw, 9px);
+  border-radius: calc(var(--radius) * 0.9);
+  background: rgba(225, 212, 225, 0.598);
+  border: 1px solid rgba(255, 241, 227, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
-
-#g6ComeFunziona .howto__stat-value {
-  display: block;
+.howto__stat1{
+    background: rgba(219, 114, 37, 0.698);
+}
+.howto__stat2{
+    background: rgba(4, 232, 36, 0.798) ;
+}
+#howto__meta .howto__stat-label,
+#howto__meta .howto__stat-value { margin: 0; }
+#howto__meta .howto__stat-value {
   font-weight: 800;
   color: #2c0f28;
   line-height: 1.1;
-  margin: 0;
+  font-size: clamp(14px, 1.6vw, 18px);
 }
-
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__stat-value {
-    font-size: clamp(14px, 1.6vw, 18px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__stat-value {
-    font-size: clamp(18px, 2.2vw, 24px);
-  }
-}
-
-#g6ComeFunziona .howto__stat-label {
-  display: block;
-  margin-top: 2px;
+#howto__meta .howto__stat-label {
   letter-spacing: 0.01em;
   color: rgba(67, 32, 64, 0.7);
   line-height: 1.2;
+  font-size: clamp(10px, 1.2vw, 12px);
+  width: fit-content;
 }
 
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__stat-label {
-    font-size: clamp(10px, 1.2vw, 12px);
-  }
+/* Search block */
+
+
+#howto__stat .howto__search {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4px, 0.8vw, 10px);
+  flex: 1 1;
+  width: 30vw;
 }
 
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__stat-label {
-    font-size: clamp(12px, 1.5vw, 14px);
-  }
-}
-
-#g6ComeFunziona .howto__search-form {
+#howto__stat .howto__search-form {
   display: flex;
   flex-direction: column;
   gap: clamp(2px, 0.4vw, 5px);
-  flex-shrink: 0;
 }
 
-#g6ComeFunziona .howto__search-label {
+#howto__stat.howto__search-label {
   font-weight: 800;
   letter-spacing: 0.01em;
+  font-size: clamp(11px, 1.4vw, 13px);
+  color: rgba(67, 32, 64, 0.95);
 }
 
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__search-label {
-    font-size: clamp(11px, 1.4vw, 13px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__search-label {
-    font-size: 14px;
-  }
-}
-
-#g6ComeFunziona .howto__search-controls {
+#howto__stat .howto__search-controls {
   display: flex;
+  align-items: stretch;
   gap: clamp(5px, 0.8vw, 10px);
 }
 
-#g6ComeFunziona input {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.7);
+/* Input */
+#howto__stat input {
+  flex: 1 1 auto;
+  padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px);
   border: 1px solid rgba(14, 26, 27, 0.08);
   border-radius: calc(var(--radius) * 0.8);
-  font-weight: 700;
-  color: rgba(14, 26, 27, 0.8);
+  background: rgba(255, 255, 255, 0.7);
   box-shadow: inset 0 2px 8px rgba(14, 26, 27, 0.12);
+  font-weight: 700;
+  font-size: clamp(11px, 1.4vw, 13px);
+  color: rgba(14, 26, 27, 0.8);
 }
+#howto__stat input::placeholder { color: rgba(14, 26, 27, 0.55); }
 
-@media (width >= 1024px) {
-  #g6ComeFunziona input {
-    padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px);
-    font-size: clamp(11px, 1.4vw, 13px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona input {
-    padding: 10px 12px;
-    font-size: 15px;
-  }
-}
-
-#g6ComeFunziona .howto__search-btn {
-  border-radius: calc(var(--radius) * 0.8);
-  background: linear-gradient(140deg, var(--yellow) 0%, #ffd66b 100%);
-  border: none;
-  font-weight: 800;
-  color: var(--ink);
+/* Primary button (Vai) */
+#howto__stat .howto__search-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0 clamp(7px, 1vw, 11px);
+  font-size: clamp(11px, 1.4vw, 13px);
+  font-weight: 800;
+  color: var(--ink);
+  border: none;
+  border-radius: calc(var(--radius) * 0.8);
+  background: linear-gradient(140deg, var(--yellow) 0%, #ffd66b 100%);
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-  flex-shrink: 0;
+  cursor: pointer;
 }
-
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__search-btn {
-    padding: 0 clamp(7px, 1vw, 11px);
-    font-size: clamp(11px, 1.4vw, 13px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__search-btn {
-    padding: 10px 16px;
-    font-size: 15px;
-  }
-}
-
-#g6ComeFunziona .howto__search-btn:hover,
-#g6ComeFunziona .howto__search-btn:focus-visible {
+#howto__stat .howto__search-btn:hover,
+#howto__stat .howto__search-btn:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 12px 20px rgba(224, 162, 26, 0.25);
 }
-
-#g6ComeFunziona .howto__search-btn.is-busy {
+#howto__stat .howto__search-btn.is-busy {
   opacity: 0.65;
   pointer-events: none;
 }
 
-#g6ComeFunziona .howto__locate-btn {
-  border-radius: calc(var(--radius) * 0.8);
-  border: 1px solid rgba(67, 32, 64, 0.25);
-  background: rgba(255, 255, 255, 0.45);
+/* Secondary button (Geolocalizza) */
+#howto__stat .howto__locate-btn {
+  align-self: flex-start;
+  padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px);
+  font-size: clamp(10px, 1.2vw, 12px);
   font-weight: 700;
   color: rgba(67, 32, 64, 0.85);
+  background: rgba(255, 255, 255, 0.742);
+  border: 1px solid rgba(67, 32, 64, 0.25);
+  border-radius: calc(var(--radius) * 0.8);
   transition: border-color 0.2s ease, background 0.2s ease;
-  flex-shrink: 0;
-}
-
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__locate-btn {
-    margin-top: clamp(2px, 0.4vw, 5px);
-    padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px);
-    font-size: clamp(10px, 1.2vw, 12px);
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__locate-btn {
-    margin-top: 6px;
-    padding: 8px 12px;
-    font-size: 13px;
-  }
-}
-
-#g6ComeFunziona .howto__locate-btn:hover,
-#g6ComeFunziona .howto__locate-btn:focus-visible {
-  border-color: rgba(67, 32, 64, 0.45);
-  background: rgba(255, 255, 255, 0.7);
-}
-
-/* ========== COMPATTAZIONE PROGRESSIVA (DESKTOP =1024px) ========== */
-/* Tier 1: Altezze viewport normali (=900px) - default gi� impostato sopra */
-
-/* Tier 2: Viewport medie (780-899px) - compattazione moderata */
-@media (width >= 1024px) and (height < 900px) {
-  .chiSiamo-grid {
-    gap: clamp(12px, 1.6vw, 20px);
-  }
-  
-  .chiSiamo-steps {
-    gap: clamp(8px, 1vw, 16px);
-  }
-  
-  .chiSiamo-steps .cardPag2 {
-    padding: clamp(10px, 1.2vw, 16px);
-    gap: clamp(5px, 0.8vw, 10px) clamp(8px, 1.2vw, 14px);
-  }
-  
-  .cardPag2 h2 {
-    font-size: clamp(16px, 2vw, 20px) !important;
-    line-height: 1.2;
-  }
-  
-  .cardPag2 p {
-    font-size: clamp(11px, 1.4vw, 14px) !important;
-    line-height: 1.3;
-  }
-  
-  .cardPag2 p+p {
-    font-size: clamp(10px, 1.2vw, 13px) !important;
-  }
-  
-  #chiSiamo svg {
-    height: clamp(26px, 3.5vw, 36px) !important;
-    width: clamp(26px, 3.5vw, 36px) !important;
-  }
-  
-  #mapContainer {
-    gap: clamp(10px, 1.2vw, 16px);
-    padding: clamp(8px, 1.2vw, 14px);
-  }
-  
-  #g6ComeFunziona {
-    padding: clamp(10px, 1.2vw, 16px);
-    gap: clamp(5px, 0.8vw, 10px);
-  }
-  
-  #g6ComeFunziona h2 {
-    font-size: clamp(15px, 1.8vw, 20px) !important;
-  }
-  
-  #g6ComeFunziona .howto__subtitle,
-  #g6ComeFunziona .howto__intro-text {
-    font-size: clamp(11px, 1.4vw, 14px) !important;
-  }
-}
-
-/* Tier 3: Viewport basse (680-779px) - compattazione intensa */
-@media (width >= 1024px) and (height < 780px) {
-  .chiSiamo-grid {
-    gap: 12px;
-  }
-  
-  .chiSiamo-steps {
-    gap: 10px;
-  }
-  
-  .chiSiamo-steps .cardPag2 {
-    padding: 10px;
-    gap: 4px 10px;
-  }
-  
-  .cardPag2 h2 {
-    font-size: clamp(15px, 1.8vw, 18px) !important;
-    line-height: 1.15;
-  }
-  
-  .cardPag2 p {
-    font-size: clamp(10px, 1.2vw, 13px) !important;
-    line-height: 1.25;
-  }
-  
-  .cardPag2 p+p {
-    font-size: clamp(9px, 1.1vw, 12px) !important;
-    margin-top: 2px;
-  }
-  
-  .cardPag2 label {
-    font-size: clamp(10px, 1.2vw, 12px) !important;
-  }
-  
-  .cardPag2 input {
-    font-size: clamp(11px, 1.4vw, 13px) !important;
-    padding: clamp(5px, 0.8vw, 8px) clamp(7px, 1vw, 10px) !important;
-  }
-  
-  #chiSiamo svg {
-    height: clamp(24px, 3vw, 32px) !important;
-    width: clamp(24px, 3vw, 32px) !important;
-  }
-  
-  #mapContainer {
-    gap: 10px;
-    padding: 8px;
-  }
-  
-  #g6ComeFunziona {
-    padding: 8px;
-    gap: 4px;
-  }
-  
-  #g6ComeFunziona h2 {
-    font-size: clamp(13px, 1.5vw, 16px) !important;
-    line-height: 1.1;
-  }
-  
-  #g6ComeFunziona .howto__subtitle,
-  #g6ComeFunziona .howto__intro-text {
-    font-size: clamp(10px, 1.2vw, 12px) !important;
-    line-height: 1.2;
-  }
-  
-  #g6ComeFunziona .howto__intro {
-    padding: 2px 0 3px;
-  }
-  
-  #g6ComeFunziona .howto__meta {
-    gap: 4px;
-  }
-  
-  #g6ComeFunziona .howto__stats {
-    gap: 3px;
-  }
-  
-  #g6ComeFunziona .howto__stat {
-    padding: 3px 5px;
-  }
-  
-  #g6ComeFunziona .howto__stat-value {
-    font-size: clamp(13px, 1.5vw, 16px) !important;
-  }
-  
-  #g6ComeFunziona .howto__stat-label {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-  }
-  
-  #g6ComeFunziona input,
-  #g6ComeFunziona .howto__search-btn {
-    font-size: clamp(10px, 1.2vw, 12px) !important;
-    padding: clamp(4px, 0.7vw, 7px) clamp(6px, 0.9vw, 9px) !important;
-  }
-  
-  #g6ComeFunziona .howto__locate-btn {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-    padding: 4px 7px !important;
-    margin-top: 2px;
-  }
-  
-  #g6ComeFunziona .howto__hint {
-    font-size: clamp(8px, 1vw, 10px) !important;
-    margin-top: 2px;
-  }
-}
-
-/* Tier 4: Viewport molto basse (560-679px) - ultra-compatta */
-@media (width >= 1024px) and (height < 680px) {
-  #chiSiamo {
-    padding: 10px clamp(12px, 1.5vw, 24px);
-  }
-  
-  .chiSiamo-grid {
-    gap: 10px;
-  }
-  
-  .chiSiamo-steps {
-    gap: 8px;
-  }
-  
-  .chiSiamo-steps .cardPag2 {
-    padding: 8px;
-    gap: 3px 8px;
-  }
-  
-  .cardPag2 h2 {
-    font-size: clamp(14px, 1.6vw, 17px) !important;
-    line-height: 1.1;
-  }
-  
-  .cardPag2 p {
-    font-size: clamp(9px, 1.1vw, 12px) !important;
-    line-height: 1.2;
-  }
-  
-  .cardPag2 p+p {
-    font-size: clamp(8px, 1vw, 11px) !important;
-    margin-top: 1px;
-  }
-  
-  .cardPag2 label {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-  }
-  
-  .cardPag2 input {
-    font-size: clamp(10px, 1.2vw, 12px) !important;
-    padding: 4px 8px !important;
-  }
-  
-  #chiSiamo svg {
-    height: clamp(22px, 2.8vw, 28px) !important;
-    width: clamp(22px, 2.8vw, 28px) !important;
-  }
-  
-  #mapContainer {
-    gap: 8px;
-    padding: 6px;
-  }
-  
-  #g6ComeFunziona {
-    padding: 6px;
-    gap: 3px;
-  }
-  
-  #g6ComeFunziona h2 {
-    font-size: clamp(12px, 1.4vw, 15px) !important;
-    line-height: 1.1;
-  }
-  
-  #g6ComeFunziona .howto__header {
-    gap: 1px;
-  }
-  
-  #g6ComeFunziona .howto__subtitle,
-  #g6ComeFunziona .howto__intro-text {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-    line-height: 1.15;
-  }
-  
-  #g6ComeFunziona .howto__intro {
-    padding: 1px 0 2px;
-  }
-  
-  #g6ComeFunziona .howto__meta {
-    gap: 3px;
-  }
-  
-  #g6ComeFunziona .howto__stats {
-    gap: 3px;
-  }
-  
-  #g6ComeFunziona .howto__stat {
-    padding: 3px 5px;
-  }
-  
-  #g6ComeFunziona .howto__stat-value {
-    font-size: clamp(12px, 1.4vw, 15px) !important;
-  }
-  
-  #g6ComeFunziona .howto__stat-label {
-    font-size: clamp(8px, 1vw, 10px) !important;
-  }
-  
-  #g6ComeFunziona .howto__search-form {
-    gap: 2px;
-  }
-  
-  #g6ComeFunziona .howto__search-controls {
-    gap: 4px;
-  }
-  
-  #g6ComeFunziona input,
-  #g6ComeFunziona .howto__search-btn {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-    padding: 4px 6px !important;
-  }
-  
-  #g6ComeFunziona .howto__search-label {
-    font-size: clamp(9px, 1.1vw, 11px) !important;
-  }
-  
-  #g6ComeFunziona .howto__locate-btn {
-    font-size: clamp(8px, 1vw, 10px) !important;
-    padding: 3px 6px !important;
-    margin-top: 2px;
-  }
-  
-  #g6ComeFunziona .howto__hint {
-    font-size: clamp(8px, 0.9vw, 9px) !important;
-    margin-top: 1px;
-    line-height: 1.2;
-  }
-}
-
-/* Limite estremo (<560px altezza): avviso se necessario */
-@media (width >= 1024px) and (height < 560px) {
-  /* A questo punto il contenuto potrebbe non rientrare perfettamente.
-     Considerare di mostrare un avviso o permettere scroll verticale limitato. */
-  #chiSiamo {
-    overflow-y: auto;
-  }
-}
-
-/* ========== TABLET (640-1023px) ========== */
-@media (width >= 640px) and (width < 1024px) {
-  #chiSiamo {
-    block-size: auto;
-    padding: clamp(16px, 2vh, 24px) clamp(16px, 2vw, 24px);
-  }
-  
-  .chiSiamo-grid {
-    gap: 16px;
-  }
-  
-  .chiSiamo-steps {
-    gap: 14px;
-  }
-  
-  #mapContainer {
-    gap: 14px;
-  }
-}
-
-/* ========== MOBILE (<640px) ========== */
-@media (width < 640px) {
-  #chiSiamo {
-    block-size: auto;
-    padding: 16px 12px;
-  }
-  
-  .chiSiamo-grid {
-    gap: 12px;
-  }
-  
-  .chiSiamo-steps {
-    gap: 10px;
-  }
-  
-  .cardPag2 {
-    padding: 16px;
-  }
-  
-  #mapContainer {
-    gap: 12px;
-    padding: 12px;
-  }
-}
-
-#g6ComeFunziona .howto__hint {
-  margin: clamp(2px, 0.4vw, 4px) 0 0;
-  color: rgba(67, 32, 64, 0.65);
-  flex-shrink: 0;
-}
-
-@media (width >= 1024px) {
-  #g6ComeFunziona .howto__hint {
-    font-size: clamp(9px, 1.1vw, 11px);
-    line-height: 1.3;
-  }
-}
-
-@media (width < 1024px) {
-  #g6ComeFunziona .howto__hint {
-    font-size: var(--fs-sm);
-    line-height: 1.4;
-  }
-}
-
-#g6ComeFunziona input::placeholder {
-  color: rgba(14, 26, 27, 0.55);
-}
-
-@media (min-width: 768px) and (width >= 1024px) {
-  #g6ComeFunziona .howto__meta {
-    grid-template-columns: minmax(180px, 0.8fr) minmax(220px, 1.2fr);
-    align-items: start;
-  }
-}
-
-@media (max-width: 640px) {
-  #g6ComeFunziona {
-    gap: var(--space-md);
-  }
-
-  #g6ComeFunziona .howto__search-controls {
-    flex-direction: column;
-  }
-
-  #g6ComeFunziona .howto__search-btn {
-    width: 100%;
-  }
-}.brello-searcher {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.map-container {
-  width: 100%;
-  height: 100%;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  z-index: 1;
-  min-height: 0;
-  position: relative;
-}
-
-@media (min-width: 992px) {
-  #chiSiamo {
-    min-height: calc(100vh - 80px);
-    max-height: calc(100vh - 80px);
-    overflow: hidden;
-  }
-
-  .chiSiamo-grid {
-    grid-template-columns: minmax(300px, 0.95fr) minmax(400px, 1.15fr);
-    align-items: stretch;
-  }
-
-  .chiSiamo-steps {
-    grid-template-rows: repeat(3, minmax(0, 1fr));
-  }
-
-  .chiSiamo-steps .cardPag2 {
-    height: 100%;
-  }
-
-  #mapContainer {
-    height: 100%;
-  }
-
-  .chiSiamo-map-embed {
-    min-height: 0;
-  }
-
-  .map-container {
-    min-height: 0;
-  }
-}
-
-@media (min-width: 1200px) {
-  .chiSiamo-grid {
-    grid-template-columns: minmax(360px, 1fr) minmax(500px, 1.2fr);
-  }
-}
-
-@media (max-width: 991px) {
-  #chiSiamo {
-    min-height: 0;
-    max-height: none;
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .chiSiamo-grid {
-    height: auto;
-    max-width: calc(100vw - 2 * var(--space-md));
-  }
-
-  .chiSiamo-steps {
-    display: flex;
-    flex-direction: column;
-    height: auto;
-  }
-
-  .chiSiamo-steps .cardPag2 {
-    height: auto;
-  }
-
-  #mapContainer {
-    height: auto;
-    min-height: 500px;
-  }
-
-  .chiSiamo-wrapper {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .cardPag2 {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .cardPag2 label {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    align-self: start;
-    margin-top: var(--space-sm);
-  }
-
-  .cardPag2 input {
-    grid-column: 1 / -1;
-    grid-row: auto;
-    width: 100%;
-    box-sizing: border-box;
-  }
-}
-
-@media (max-width: 767px) {
-  #chiSiamo {
-    padding: var(--space-xl) var(--space-sm);
-  }
-
-  .chiSiamo-wrapper {
-    padding: var(--space-xl) var(--space-sm);
-  }
-
-  .chiSiamo-grid {
-    max-width: calc(100vw - 2 * var(--space-sm));
-    gap: var(--space-md);
-  }
-
-  .cardPag2 {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-sm);
-    padding: var(--space-md);
-  }
-
-  .cardPag2 svg,
-  .cardPag2 h2,
-  .cardPag2 p,
-  .cardPag2 label,
-  .cardPag2 input {
-    grid-column: 1;
-  }
-
-  .cardPag2 svg {
-    grid-row: auto;
-    margin-bottom: var(--space-xs);
-  }
-
-  .cardPag2 input {
-    grid-row: auto;
-  }
-
-  .chiSiamo-step-icon {
-    width: 64px;
-    height: 64px;
-  }
-
-  #mapContainer {
-    padding: var(--space-lg);
-    gap: var(--space-md);
-  }
-
-  #mapContainer .map-container {
-    min-height: 360px;
-  }
-
-  #g6ComeFunziona {
-    padding: var(--space-md);
-  }
-}
-
-@media (max-width: 540px) {
-  #mapContainer {
-    padding: var(--space-md);
-  }
-}
-
-.marker {
-  width: 40px;
-  height: 40px;
-  background: var(--yellow);
-  color: var(--ink);
-  border: 2px solid var(--cream);
-  border-radius: 50%;
-  box-shadow: var(--shadow);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-family: inherit;
+  margin-top: clamp(2px, 0.4vw, 5px);
   cursor: pointer;
 }
 
+/* ===== Mapbox UI (dark card) ===== */
+.marker {
+  width: 40px; height: 40px;
+  background: var(--yellow); color: var(--ink);
+  border: 2px solid var(--cream);
+  border-radius: 50%; box-shadow: var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-family: inherit; cursor: pointer;
+}
 .mapboxgl-popup-content {
-  background: var(--ink);
-  color: var(--cream);
-  border-radius: var(--radius);
-  font-family: inherit;
-  padding: 8px 12px;
+  background: var(--ink); color: var(--cream);
+  border-radius: var(--radius); font-family: inherit; padding: 8px 12px;
 }
-
-.mapboxgl-popup-close-button {
-  color: var(--cream);
-}
-
+.mapboxgl-popup-close-button { color: var(--cream); }
 .mapboxgl-popup-tip {
   border-top-color: var(--ink);
   border-bottom-color: var(--ink);
   border-left-color: var(--ink);
   border-right-color: var(--ink);
 }
+.mapboxgl-ctrl-group { border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+.mapboxgl-ctrl-group button {  background: var(--green); color: var(--ink); }
+.mapboxgl-ctrl-group button:hover { background: var(--yellow); }
 
-.mapboxgl-ctrl-group {
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-}
+/* ==========================================================================
+   Responsività generale (senza duplicazioni)
+   ========================================================================== */
 
-.mapboxgl-ctrl-group button {
-  background: var(--cream);
-  color: var(--ink);
-}
-
-.mapboxgl-ctrl-group button:hover {
-  background: var(--yellow);
-}
 

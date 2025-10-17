@@ -515,26 +515,32 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //#endregion DRAG AND DROP
     //#region SAVE/LOAD LISTENER
-    textureUpload.addEventListener('change', fileInputHandler);
+    if (textureUpload) {
+        textureUpload.addEventListener('change', fileInputHandler);
+    } else {
+        console.warn("Campo file input '#panel-input' non trovato: upload disabilitato.");
+    }
 
-    saveButton.addEventListener("click", () => {
-        let json = model.toJSON();
-        json = JSON.stringify(json);
-        json = btoa(json);
-        fetch("http://localhost:7147/api/Umbrella", {
-            method: "POST",
-            body: JSON.stringify({ GlbFile: json, Name: "umbrella0.1" }),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        }).then((response) => {
-            if (response.ok) {
-                console.log("modello GLB inviato con successo al servder");
-            } else {
-                console.error("Errore nell'invio del file GLB al server")
-            }
-        }).catch((error) => console.error("Errore di rete", error))
-    });
+    if (saveButton) {
+        saveButton.addEventListener("click", () => {
+            let json = model.toJSON();
+            json = JSON.stringify(json);
+            json = btoa(json);
+            fetch("http://localhost:7147/api/Umbrella", {
+                method: "POST",
+                body: JSON.stringify({ GlbFile: json, Name: "umbrella0.1" }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((response) => {
+                if (response.ok) {
+                    console.log("modello GLB inviato con successo al servder");
+                } else {
+                    console.error("Errore nell'invio del file GLB al server")
+                }
+            }).catch((error) => console.error("Errore di rete", error))
+        });
+    }
     //#endregion event listener
     //#region LOAD MODEL
 

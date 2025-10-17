@@ -230,79 +230,21 @@
       </div>
     </div>
   </section>
+  <!-- CHISIAMO COMEFUNZIONA -->
 
   <section id="chiSiamo" aria-labelledby="chiSiamo-heading">
-
-
     <div class="chiSiamo-grid">
-      <!-- Steps -->
-      <section aria-labelledby="steps-heading">
-        <h3 id="steps-heading" class="visually-hidden">Come si usa</h3>
-        <ol class="chiSiamo-steps">
-          <li class="cardPag2 card1Pag2" style="--card-accent: var(--teal);">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-              <use href="#icon-umbrella"></use>
-            </svg>
-            <h4>Prendi</h4>
-            <p>Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
-            <p>Nessuna registrazione, nessuna attesa.</p>
-            <!-- opzionale: form autonomo -->
-            <!-- <form> ... </form> -->
-          </li>
-
-          <li class="cardPag2 card2Pag2" style="--card-accent: var(--rosa);">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-              <use href="#icon-umbrella"></use>
-            </svg>
-            <h4>Usa</h4>
-            <p>Porta con te l’ombrello per tutto il tempo che ti serve.</p>
-          </li>
-
-          <li class="cardPag2 card3Pag2" style="--card-accent: var(--yellow);">
-            <svg viewBox="0 0 64 64" aria-hidden="true">
-              <use href="#icon-umbrella"></use>
-            </svg>
-            <h4>Riconsegna</h4>
-            <p>Quando non ti serve più, lascia l'ombrello in un nostro punto di distribuzione.</p>
-
-          </li>
-        </ol>
-      </section>
-
-      <!-- Map + How-to -->
-      <div id="mapContainer" aria-labelledby="map-heading">
-        <div class="chiSiamo-map-embed">
-          <h3 id="map-heading" class="visually-hidden">Mappa stazioni Brellò</h3>
-          <div id="map" class="map-container" role="region" aria-label="Mappa delle stazioni Brellò" tabindex="0"></div>
-        </div>
-
-        <div class="card g6ComeFunziona" id="g6ComeFunziona">
-          <header class="howto__header">
-            <h3>Come funziona</h3>
-            <p class="howto__subtitle">Trova subito un ombrello gratuito Brellò.</p>
-          </header>
-
-          <div class="howto__intro">
-            <p class="howto__intro-text">Seleziona la tua città o usa la posizione corrente per scoprire i punti attivi.
-            </p>
+      <div id="howto__meta" class="howto__meta">
+        <div class="howto__stats" aria-label="Dati sul servizio Brellò">
+          <div class="howto__stat howto__stat1">
+            <div class="howto__stat-label">Stazioni attive</div>
+            <div class="howto__stat-value" aria-live="polite">10</div>
           </div>
-
-          <div class="howto__meta">
-            <dl class="howto__stats" aria-label="Dati sul servizio Brellò">
-              <div class="howto__stat">
-                <dt class="howto__stat-label">Stazioni attive</dt>
-                <dd class="howto__stat-value" aria-live="polite">10</dd>
-              </div>
-              <div class="howto__stat">
-                <dt class="howto__stat-label">Ombrelli disponibili</dt>
-                <dd class="howto__stat-value" aria-live="polite">300</dd>
-              </div>
-              <div class="howto__stat">
-                <dt class="howto__stat-label">Costo per i cittadini</dt>
-                <dd class="howto__stat-value">0&nbsp;€</dd>
-              </div>
-            </dl>
-
+          <div class="howto__stat howto__stat2">
+            <div class="howto__stat-label">Ombrelli disponibili</div>
+            <div class="howto__stat-value" aria-live="polite">300</div>
+          </div>
+          <div id="howto__stat" class=" search-stat ">
             <div class="howto__search" aria-label="Centra la mappa su una città">
               <form id="map-search-form" class="howto__search-form">
                 <label for="city-search" class="howto__search-label">Centra la mappa su una città</label>
@@ -316,18 +258,91 @@
             </div>
           </div>
         </div>
+
+
+      </div>
+      <!-- Steps -->
+      <div class="containerMapandCard">
+        <div class="chiSiamo-steps_container">
+          <div class="chiSiamo-steps" aria-labelledby="steps-heading">
+            <ol class="cardList">
+              <li class="cardPag2 card1Pag2" style="--card-accent: var(--teal);" data-color="var(--teal)">
+                <div class="divLogoCard">
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <use href="#icon-umbrella"></use>
+                  </svg>
+                </div>
+
+                <div class="cardDetailDiv">
+                  <h4>Prendi</h4>
+                  <div class="cardSottoContainer">
+                    <p>Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
+                    <p>Nessuna registrazione, nessuna attesa.</p>
+                  </div>
+
+                </div>
+
+
+                <!-- opzionale: form autonomo -->
+                <!-- <form> ... </form> -->
+              </li>
+
+              <li class="cardPag2 card2Pag2" style="--card-accent: var(--rosa);" data-color="var(--rosa)">
+                <div class="divLogoCard">
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <use href="#icon-umbrella"></use>
+                  </svg>
+                </div>
+                <div class="cardDetailDiv">
+                  <h4>Usa</h4>
+                  <div class="cardSottoContainer">
+                    <p>Porta con te l’ombrello per tutto il tempo che ti serve.</p>
+                  </div>
+                </div>
+
+              </li>
+
+              <li class="cardPag2 card3Pag2" style="--card-accent: var(--yellow);" data-color="var(--yellow)">
+                <div class="divLogoCard">
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <use href="#icon-umbrella"></use>
+                  </svg>
+                </div>
+                <div class="cardDetailDiv">
+                  <h4>Riconsegna</h4>
+                  <div class="cardSottoContainer">
+                    <p>Quando non ti serve più, lascia l'ombrello in un nostro punto di distribuzione.</p>
+                  </div>
+                </div>
+
+
+              </li>
+            </ol>
+          </div>
+
+        </div>
+        <div id="mapContainer" aria-labelledby="map-heading">
+          <div class="chiSiamo-map-embed">
+            <h3 id="map-heading" class="visually-hidden">Mappa stazioni Brellò</h3>
+            <div id="map" class="map-container" role="region" aria-label="Mappa delle stazioni Brellò" tabindex="0">
+            </div>
+          </div>
+
+
+        </div>
       </div>
     </div>
   </section>
   <!-- Sprite (una sola volta in pagina) -->
   <svg aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="icon-umbrella" viewBox="0 0 64 64">
-      <path d="M32 6c-12.7 0-22.9 8.9-25.2 21.1..."></path>
+      <path
+        d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
     </symbol>
   </svg>
 
 
-  <!-- COME FUNZIONA - MAPPA -->
+  <!--CHISIAMO COME FUNZIONA - MAPPA --ENDDDD---------------------------------------------------------------------------->
 
 
   <!-- COME FUNZIONA - 3D UMBRELLA EDITOR -->
@@ -629,7 +644,7 @@
         <div class="col-lg-2 col-md-6 mb-4">
           <h6>Azienda</h6>
           <ul class="list-unstyled">
-            <li><a href="#chi-siamo">Chi siamo</a></li>
+            <li><a href="#chiSiamo">Chi siamo</a></li>
             <li><a href="#press">Press Kit</a></li>
             <li><a href="#lavora-con-noi">Lavora con noi</a></li>
             <li><a href="#espansione">Espansione</a></li>
