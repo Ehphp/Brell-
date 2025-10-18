@@ -117,7 +117,7 @@ document.querySelectorAll('[data-scroll], a[href^="#"]').forEach(el => {
     const tgt = document.querySelector(sel);
     if (tgt) {
       e.preventDefault();
-      tgt.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      tgt.scrollIntoView({ block: 'start' });
     }
   });
 });
@@ -129,7 +129,7 @@ document.querySelectorAll('[data-open]').forEach(btn => {
     const map = { sponsor: '#editorBrello', utente: '#chiSiamo' };
     const sel = map[target];
     if (sel) {
-      document.querySelector(sel).scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector(sel).scrollIntoView({ block: 'start' });
       // Highlight visivo sulla card
       const card = document.querySelector(sel + ' .card') || document.querySelector(sel);
       (card || document.querySelector(sel)).animate([

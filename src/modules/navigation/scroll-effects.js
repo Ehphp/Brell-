@@ -88,7 +88,7 @@ export class ScrollEffects {
                 if (scrollTarget) {
                     e.preventDefault();
                     this.updateNavOffset();
-                    scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    scrollTarget.scrollIntoView({ block: 'start' });
                 }
             });
         });

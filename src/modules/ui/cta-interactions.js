@@ -21,7 +21,7 @@ export function initCTAInteractions() {
             // Scroll to section
             const section = document.querySelector(selector);
             if (section) {
-                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                section.scrollIntoView({ block: 'start' });
 
                 // Highlight animation
                 const card = section.querySelector('.card') || section;
