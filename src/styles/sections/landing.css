@@ -127,7 +127,7 @@ footer {
       var(--green) 15% 20%,
       var(--rosa) 20% 50%,
       var(--viola) 50% 100%);
-  padding: 40px 22px 80px;
+  padding: 40px 22px 0;
   text-align: center;
   opacity: 0.9;
   color: var(--cream);
