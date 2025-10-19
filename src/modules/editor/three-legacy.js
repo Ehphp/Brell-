@@ -253,16 +253,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // EVENT LISTENERS FOR NEW UI CONTROLS
     // ============================================
 
-    // Upload file input
-    if (textureUpload) {
-        textureUpload.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                await applyCustomTexture(file);
-            }
-        });
-    }
-
     // Drag and drop zone
     if (uploadDropZone) {
         // Prevent default drag behaviors
@@ -304,13 +294,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
         }, false);
-
-        // Click on drop zone triggers file input
-        uploadDropZone.addEventListener('click', () => {
-            if (textureUpload) {
-                textureUpload.click();
-            }
-        });
     }
 
     // Logo scale slider
