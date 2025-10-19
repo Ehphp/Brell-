@@ -587,20 +587,6 @@
   margin-bottom: var(--space-xs);
 }
 
-.step-number {
-  width: 22px;
-  height: 22px;
-  background: linear-gradient(135deg, var(--teal) 0%, var(--green) 100%);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.7rem;
-  flex-shrink: 0;
-}
-
 .control-item-title {
   font-size: 0.85rem;
   font-weight: 700;
