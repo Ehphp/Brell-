@@ -249,14 +249,6 @@ footer ul li {
 .chiSiamo-steps_container {
   padding: 0 20px 12rem 20px;
   margin-bottom: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto auto;
-  gap: 2rem;
-  max-width: 1000px;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .cardList {
@@ -292,7 +284,7 @@ footer ul li {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 2rem;
+  padding: 6rem;
 }
 
 
@@ -318,7 +310,9 @@ footer ul li {
   color: var(--cream);
   line-height: 1.2;
 }
-/* Linee di collegamento tra le card */
+
+
+/* PATH -> ANIMATED*/
 .steps-connections {
   position: absolute;
   inset: 0;
@@ -328,13 +322,67 @@ footer ul li {
   overflow: visible;
 }
 
-.steps-connections line {
+.steps-connections path {
+  fill: none;
   stroke: rgba(255, 241, 227, 0.25);
   stroke-width: 4;
   stroke-dasharray: 10 10;
   stroke-linecap: round;
 }
 
+.cycle-container {
+  position: relative;
+  width: min(600px, 90vw);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4rem auto;
+}
+
+.arrow-path {
+  stroke-dasharray: 12, 12;
+  stroke-dashoffset: 0;
+  animation: flow 2s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+.arrow-1 {
+  animation-delay: 0s;
+}
+
+.arrow-2 {
+  animation-delay: 1.33s;
+}
+
+.arrow-3 {
+  animation-delay: 2.66s;
+}
+
+/* Posizionamento assoluto delle card circolari */
+.cycle-container .cardPag2 {
+  position: absolute;
+  width: 30%;
+  height: 30%;
+  max-width: none;
+  /* Rimuoviamo il limite per un layout più fluido */
+  z-index: 1;
+}
+
+.card1Pag2 {
+  top: 0;
+  left: 33%;
+}
+
+.card2Pag2 {
+  bottom: 15%;
+  right: 0;
+}
 
 
 /* Varianti cromatiche card */
@@ -344,56 +392,19 @@ footer ul li {
 
 .card1Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, var(--teal), #000 6%) 0%,
-      color-mix(in oklab, var(--teal), #000 0%) 100%);
-  grid-column: 1 / -1;
-  grid-row: 1;
-  justify-self: center;
+      color-mix(in oklab, var(--teal), #000 6%) 0%, color-mix(in oklab, var(--teal), #000 0%) 100%);
 }
 
 .card2Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, var(--rosa), #000 6%) 0%,
-      color-mix(in oklab, var(--rosa), #000 0%) 100%);
-  grid-column: 2;
-  grid-row: 2;
-  justify-self: center;
+      color-mix(in oklab, var(--rosa), #000 6%) 0%, color-mix(in oklab, var(--rosa), #000 0%) 100%);
 }
 
 .card3Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, #FFC107, #000 6%) 0%,
-      color-mix(in oklab, #FFC107, #000 0%) 100%);
-  grid-column: 1;
-  grid-row: 2;
-  justify-self: center;
-}
-
-/* Responsive: layout verticale su mobile */
-@media (max-width: 768px) {
-  .chiSiamo-steps_container {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
-  }
-
-  .card1Pag2,
-  .card2Pag2,
-  .card3Pag2 {
-    grid-column: 1;
-    max-width: 100%;
-  }
-
-  .card1Pag2 {
-    grid-row: 1;
-  }
-
-  .card2Pag2 {
-    grid-row: 2;
-  }
-
-  .card3Pag2 {
-    grid-row: 3;
-  }
+      color-mix(in oklab, #FFC107, #000 6%) 0%, color-mix(in oklab, #FFC107, #000 0%) 100%);
+  bottom: 15%;
+  left: 0;
 }
 
 /* Hover elevazione */

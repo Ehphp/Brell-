@@ -233,38 +233,46 @@
 
   <section id="chiSiamo" aria-labelledby="chiSiamo-heading">
     <div class="chiSiamo-steps_container">
-          <svg class="steps-connections" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-            <line id="line1" x1="50%" y1="15%" x2="75%" y2="55%" />
-            <line id="line2" x1="75%" y1="60%" x2="25%" y2="60%" />
-            <line id="line3" x1="25%" y1="75%" x2="50%" y2="25%" />
-          </svg>
+      <div class="cycle-container">
+        <svg class="cycle-arrows" viewBox="0 0 600 600" aria-hidden="true">
 
-          <div class="cardPag2 card1Pag2" style="--card-accent: var(--teal);" data-color="var(--teal)">
-            <div class="divLogoCard">
-              <svg viewBox="0 0 64 64" aria-hidden="true">
-                <use href="#icon-umbrella"></use>
-              </svg>
-            </div>
-            <h4>Prendi</h4>
-          </div>
+          <path class="arrow-path arrow-1" d="M 300 100 
+               A 200 200 0 0 1 473.2 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
 
-          <div class="cardPag2 card2Pag2" style="--card-accent: var(--rosa);" data-color="var(--rosa)">
-            <div class="divLogoCard">
-              <svg viewBox="0 0 64 64" aria-hidden="true">
-                <use href="#icon-umbrella"></use>
-              </svg>
-            </div>
-            <h4>Usa</h4>
-          </div>
+          <path class="arrow-path arrow-2" d="M 473.2 400 
+               A 200 200 0 0 1 126.8 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
 
-          <div class="cardPag2 card3Pag2" style="--card-accent: var(--yellow);" data-color="var(--yellow)">
-            <div class="divLogoCard">
-              <svg viewBox="0 0 64 64" aria-hidden="true">
-                <use href="#icon-umbrella"></use>
-              </svg>
-            </div>
-            <h4>Riconsegna</h4>
+          <path class="arrow-path arrow-3" d="M 126.8 400 
+               A 200 200 0 0 1 300 100" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
+        </svg>
+
+        <div class="cardPag2 card1Pag2" style="--card-accent: var(--teal);" data-color="var(--teal)">
+          <div class="divLogoCard">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
           </div>
+          <h4>Prendi</h4>
+        </div>
+
+        <div class="cardPag2 card2Pag2" style="--card-accent: var(--rosa);" data-color="var(--rosa)">
+          <div class="divLogoCard">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
+          </div>
+          <h4>Usa</h4>
+        </div>
+
+        <div class="cardPag2 card3Pag2" style="--card-accent: var(--yellow);" data-color="var(--yellow)">
+          <div class="divLogoCard">
+            <svg viewBox="0 0 64 64" aria-hidden="true">
+              <use href="#icon-umbrella"></use>
+            </svg>
+          </div>
+          <h4>Riconsegna</h4>
+        </div>
+      </div>
     </div>
 
     <div class="containerMapandCard">
@@ -322,76 +330,76 @@
 
   <!-- COME FUNZIONA - 3D UMBRELLA EDITOR -->
   <section id="editorBrello" aria-label="Editor ombrello 3D">
-        <!-- 3D Editor Container -->
-        <div id="hero2">
-          <!-- 3D canvas will be injected here -->
+    <!-- 3D Editor Container -->
+    <div id="hero2">
+      <!-- 3D canvas will be injected here -->
+    </div>
+
+    <!-- Editor Controls -->
+    <div class="editor-controls-wrapper">
+      <!-- Header Section -->
+      <div class="editor-header">
+        <div class="editor-title">
+          <h2>🎨 Visualizza la tua pubblicità</h2>
+          <p class="subtitle">Carica il tuo logo e vedi come apparirebbe sull'ombrello Brellò</p>
+        </div>
+      </div>
+
+      <!-- Main Controls Area with Cards -->
+      <div class="editor-main">
+
+        <!-- Step 1: Upload Your Logo - Inline -->
+        <div class="control-item control-item-inline">
+          <div class="control-item-header">
+            <span class="step-number">1</span>
+            <span class="control-item-title">Carica il tuo logo</span>
+          </div>
+          <div class="upload-area-inline" id="upload-drop-zone">
+            <span class="upload-icon">📁</span>
+            <span class="upload-text">Trascina o clicca</span>
+            <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
+          </div>
+          <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
+            👆 Poi clicca sugli slot dell'ombrello per applicare
+          </small>
         </div>
 
-        <!-- Editor Controls -->
-        <div class="editor-controls-wrapper">
-          <!-- Header Section -->
-          <div class="editor-header">
-            <div class="editor-title">
-              <h2>🎨 Visualizza la tua pubblicità</h2>
-              <p class="subtitle">Carica il tuo logo e vedi come apparirebbe sull'ombrello Brellò</p>
-            </div>
+        <!-- Step 2: Quick Templates -->
+        <div class="control-item">
+          <div class="control-item-header">
+            <span class="step-number">2</span>
+            <span class="control-item-title">Oppure scegli un template</span>
           </div>
-
-          <!-- Main Controls Area with Cards -->
-          <div class="editor-main">
-
-            <!-- Step 1: Upload Your Logo - Inline -->
-            <div class="control-item control-item-inline">
-              <div class="control-item-header">
-                <span class="step-number">1</span>
-                <span class="control-item-title">Carica il tuo logo</span>
-              </div>
-              <div class="upload-area-inline" id="upload-drop-zone">
-                <span class="upload-icon">📁</span>
-                <span class="upload-text">Trascina o clicca</span>
-                <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
-              </div>
-              <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
-                👆 Poi clicca sugli slot dell'ombrello per applicare
-              </small>
-            </div>
-
-            <!-- Step 2: Quick Templates -->
-            <div class="control-item">
-              <div class="control-item-header">
-                <span class="step-number">2</span>
-                <span class="control-item-title">Oppure scegli un template</span>
-              </div>
-              <div class="template-grid">
-                <button class="template-btn" data-template="restaurant">
-                  <span class="template-icon">🍕</span>
-                  <span class="template-label">Ristorante</span>
-                </button>
-                <button class="template-btn" data-template="bar">
-                  <span class="template-icon">☕</span>
-                  <span class="template-label">Bar</span>
-                </button>
-                <button class="template-btn" data-template="shop">
-                  <span class="template-icon">🛍️</span>
-                  <span class="template-label">Negozio</span>
-                </button>
-                <button class="template-btn" data-template="service">
-                  <span class="template-icon">⚙️</span>
-                  <span class="template-label">Servizi</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Info Banner -->
-          <div class="info-banner">
-            <div class="info-icon">💡</div>
-            <div class="info-content">
-              <strong>18 spazi pubblicitari</strong> • <strong>3-4 mesi</strong> di esposizione • <strong>QR
-                tracking</strong>
-            </div>
+          <div class="template-grid">
+            <button class="template-btn" data-template="restaurant">
+              <span class="template-icon">🍕</span>
+              <span class="template-label">Ristorante</span>
+            </button>
+            <button class="template-btn" data-template="bar">
+              <span class="template-icon">☕</span>
+              <span class="template-label">Bar</span>
+            </button>
+            <button class="template-btn" data-template="shop">
+              <span class="template-icon">🛍️</span>
+              <span class="template-label">Negozio</span>
+            </button>
+            <button class="template-btn" data-template="service">
+              <span class="template-icon">⚙️</span>
+              <span class="template-label">Servizi</span>
+            </button>
           </div>
         </div>
+      </div>
+
+      <!-- Info Banner -->
+      <div class="info-banner">
+        <div class="info-icon">💡</div>
+        <div class="info-content">
+          <strong>18 spazi pubblicitari</strong> • <strong>3-4 mesi</strong> di esposizione • <strong>QR
+            tracking</strong>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FORM INSERZIONISTI -->
