@@ -73,9 +73,9 @@ export class EditorUpload {
             }
         });
 
-        this.uploadZone.addEventListener('click', () => {
-            this.fileInput.click();
-        });
+        // this.uploadZone.addEventListener('click', () => {
+        //     // this.fileInput.click();
+        // });
 
         this.fileInput.addEventListener('change', async (e) => {
             if (e.target.files.length > 0) {

@@ -24,11 +24,9 @@ let originalProperties = null; // Salviamo solo le proprietà, non l'intero mate
 document.addEventListener("DOMContentLoaded", () => {
 
     const hero2 = document.getElementById("hero2");
-    const textureUpload = document.getElementById('panel-input');
     const saveButton = document.getElementById("toggle-save");
 
     // Nuovi controlli HTML
-    const uploadDropZone = document.getElementById('upload-drop-zone');
     const scaleSlider = document.getElementById('logo-scale');
     const rotationSlider = document.getElementById('logo-rotation');
     const scaleValue = document.getElementById('scale-value');
@@ -252,49 +250,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // ============================================
     // EVENT LISTENERS FOR NEW UI CONTROLS
     // ============================================
-
-    // Drag and drop zone
-    if (uploadDropZone) {
-        // Prevent default drag behaviors
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            uploadDropZone.addEventListener(eventName, (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-            }, false);
-        });
-
-        // Highlight drop zone when item is dragged over it
-        ['dragenter', 'dragover'].forEach(eventName => {
-            uploadDropZone.addEventListener(eventName, () => {
-                uploadDropZone.classList.add('dragover');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            uploadDropZone.addEventListener(eventName, () => {
-                uploadDropZone.classList.remove('dragover');
-            }, false);
-        });
-
-        // Handle dropped files
-        uploadDropZone.addEventListener('drop', async (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-
-            if (files.length > 0) {
-                const file = files[0];
-                if (file.type.startsWith('image/')) {
-                    await applyCustomTexture(file);
-                    // Also update the file input
-                    if (textureUpload) {
-                        const dataTransfer = new DataTransfer();
-                        dataTransfer.items.add(file);
-                        textureUpload.files = dataTransfer.files;
-                    }
-                }
-            }
-        }, false);
-    }
 
     // Logo scale slider
     if (scaleSlider && scaleValue) {
