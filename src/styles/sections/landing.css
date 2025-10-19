@@ -183,7 +183,7 @@ footer ul li {
   --swich-color3: var(--yellow);
 
   background:
-    radial-gradient(var(--r) var(--r) at 50% 50%, var(--accent-color) 0 95%, transparent 100%),
+    radial-gradient(var(--r) var(--r) at 50% 50%, var(--accent-color) 0 100%, transparent 100%),
     radial-gradient(calc(var(--r) * 0.4) calc(var(--r) * 0.4) at calc(var(--r) * 1.8) calc(var(--r) * 3.4),
       var(--green) 0 95%, transparent 100%),
     linear-gradient(132deg, var(--swich-color2) 0 5%, var(--swich-color1) 5% 50%, var(--swich-color3) 50% 100%);
