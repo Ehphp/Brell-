@@ -607,8 +607,14 @@ document.addEventListener("DOMContentLoaded", () => {
         //legando gli elementi all'pivot siamo sicuri che ruoteremo e guarderemo sempre all'oggetto
         controls.target.copy(pivot.position);
         controls.update();
-        const distance = box.getSize(new THREE.Vector3()).length();
-        camera.position.set(distance * 0.0005, 0, distance * 0.4);
+
+        const size = box.getSize(new THREE.Vector3());
+        const maxDim = Math.max(size.x, size.y, size.z);
+        const fov = camera.fov * (Math.PI / 180);
+        let cameraZ = Math.abs(maxDim / 2 / Math.tan(fov / 2));
+
+        cameraZ *= 1.4; 
+        camera.position.set(0, 0, cameraZ);
         camera.lookAt(pivot.position);
 
         clickableMesh.length = 0;

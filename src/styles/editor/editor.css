@@ -7,7 +7,8 @@
   padding: var(--space-xl);
   box-shadow: var(--shadow);
   height: fit-content;
-  max-height: calc(70vh - 96px); /* Altezza sezione meno padding */
+  max-height: calc(70vh - 96px);
+  /* Altezza sezione meno padding */
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--teal) transparent;
@@ -250,24 +251,19 @@
     min-height: auto;
     padding: var(--space-lg) 0;
   }
-  
-  .editor-container {
-    min-height: 400px;
-    margin-bottom: var(--space-lg);
-  }
-  
+
   #hero2 {
     min-height: 400px;
   }
-  
+
   .editor-controls-wrapper {
     min-height: auto;
   }
-  
+
   .template-pills {
     justify-content: center;
   }
-  
+
   .pill-btn {
     flex: 1;
     min-width: 120px;
@@ -278,22 +274,22 @@
   #editorBrello {
     padding: var(--space-lg) 0;
   }
-  
+
   .editor-header,
   .editor-main,
   .editor-footer {
     padding-left: var(--space-lg);
     padding-right: var(--space-lg);
   }
-  
+
   .template-pills {
     flex-direction: column;
   }
-  
+
   .pill-btn {
     width: 100%;
   }
-  
+
   .editor-title h2 {
     font-size: var(--fs-xl);
   }
@@ -302,87 +298,36 @@
 
 /* Sfondo tipo B1 */
 #editorBrello {
-  --g-x: 100%;
-  --g-y: 50%;
-
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  height: 100vh;
+  --g-y: 50%;
 
   background:
     conic-gradient(from 90deg at var(--g-x) var(--g-y),
       var(--red) 0deg, var(--red) 120deg,
       var(--teal) 120deg, var(--teal) 240deg,
       var(--green) 240deg, var(--green) 360deg);
-
-  padding: clamp(48px, 6vw, 96px) 0;
-  min-height: 100vh;
-  position: relative;
-}
-
-/* Assicura che la row prenda tutta l'altezza */
-#editorBrello .row {
-  width: 100%;
-  min-height: 100%;
-}
-
-#editorBrello .container-fluid {
-  height: 100%;
-}
-
-/* Colonne editor - height matching */
-#editorBrello .col-lg-7,
-#editorBrello .col-lg-5 {
-  display: flex;
-  align-items: stretch;
-}
-
-#editorBrello .col-lg-7 {
-  padding: var(--space-md);
-}
-
-#editorBrello .col-lg-5 {
-  padding: var(--space-md);
-}
-
-/* 3D Editor Container - RIPRISTINATO ORIGINALE */
-.editor-container {
-  /* background: rgba(14, 26, 27, 0.1); */
-  border-radius: var(--radius);
-  min-height: 600px;
-  height: 0vh;
-  max-height: 800px;
-  position: relative;
-  overflow: hidden;
-  /* box-shadow: var(--shadow); */
-  /* backdrop-filter: blur(10px); */
 }
 
 #hero2 {
-  width: 100%;
+  width: 60%;
   height: 100%;
-  min-height: 500px;
-  border-radius: var(--radius);
-  overflow: hidden;
 }
 
 /* New Editor Controls Design */
 .editor-controls-wrapper {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  min-height: 500px;
-  max-height: 800px;
+  width: 40%;
+  margin: 10px;
   height: fit-content;
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.9) 100%
-  );
-  backdrop-filter: blur(20px);
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(255, 255, 255, 0.9) 100%);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.1),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
@@ -603,9 +548,12 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 3px 10px rgba(39, 174, 96, 0.3);
   }
+
   50% {
     box-shadow: 0 6px 20px rgba(39, 174, 96, 0.6);
   }
@@ -1117,11 +1065,6 @@ body.texture-editor-open {
     gap: var(--space-lg);
   }
 
-  .editor-container {
-    height: 60vh;
-    min-height: 400px;
-  }
-
   .editor-controls-wrapper {
     max-height: none;
     height: auto;
@@ -1197,4 +1140,3 @@ body.texture-editor-open {
     transform: rotate(var(--spin, 180deg));
   }
 }
-

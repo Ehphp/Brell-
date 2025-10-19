@@ -232,7 +232,7 @@
   <!-- CHISIAMO COMEFUNZIONA -->
 
   <section id="chiSiamo" aria-labelledby="chiSiamo-heading">
-    <!-- <div class="chiSiamo-steps_container">
+    <div class="chiSiamo-steps_container">
       <div class="chiSiamo-steps" aria-labelledby="steps-heading">
         <ol class="cardList">
           <li class="cardPag2 card1Pag2" style="--card-accent: var(--teal);" data-color="var(--teal)">
@@ -280,7 +280,7 @@
           </li>
         </ol>
       </div>
-    </div> -->
+    </div>
 
     <div class="containerMapandCard">
       <div id="howto__meta" class="howto__meta">
@@ -337,84 +337,76 @@
 
   <!-- COME FUNZIONA - 3D UMBRELLA EDITOR -->
   <section id="editorBrello" aria-label="Editor ombrello 3D">
-    <div class="container-fluid">
-      <div class="row align-items-center">
         <!-- 3D Editor Container -->
-        <div class="col-lg-7">
-          <div id="hero2" class="editor-container">
-            <!-- 3D canvas will be injected here -->
-          </div>
+        <div id="hero2">
+          <!-- 3D canvas will be injected here -->
         </div>
 
         <!-- Editor Controls -->
-        <div class="col-lg-5 d-flex">
-          <div class="editor-controls-wrapper">
-            <!-- Header Section -->
-            <div class="editor-header">
-              <div class="editor-title">
-                <h2>🎨 Visualizza la tua pubblicità</h2>
-                <p class="subtitle">Carica il tuo logo e vedi come apparirebbe sull'ombrello Brellò</p>
+        <div class="editor-controls-wrapper">
+          <!-- Header Section -->
+          <div class="editor-header">
+            <div class="editor-title">
+              <h2>🎨 Visualizza la tua pubblicità</h2>
+              <p class="subtitle">Carica il tuo logo e vedi come apparirebbe sull'ombrello Brellò</p>
+            </div>
+          </div>
+
+          <!-- Main Controls Area with Cards -->
+          <div class="editor-main">
+
+            <!-- Step 1: Upload Your Logo - Inline -->
+            <div class="control-item control-item-inline">
+              <div class="control-item-header">
+                <span class="step-number">1</span>
+                <span class="control-item-title">Carica il tuo logo</span>
               </div>
+              <div class="upload-area-inline" id="upload-drop-zone">
+                <span class="upload-icon">📁</span>
+                <span class="upload-text">Trascina o clicca</span>
+                <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
+              </div>
+              <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
+                👆 Poi clicca sugli slot dell'ombrello per applicare
+              </small>
             </div>
 
-            <!-- Main Controls Area with Cards -->
-            <div class="editor-main">
-
-              <!-- Step 1: Upload Your Logo - Inline -->
-              <div class="control-item control-item-inline">
-                <div class="control-item-header">
-                  <span class="step-number">1</span>
-                  <span class="control-item-title">Carica il tuo logo</span>
-                </div>
-                <div class="upload-area-inline" id="upload-drop-zone">
-                  <span class="upload-icon">📁</span>
-                  <span class="upload-text">Trascina o clicca</span>
-                  <input id="panel-input" type="file" accept="image/png, image/jpeg, image/jpg" class="file-input">
-                </div>
-                <small style="display: block; margin-top: 8px; color: #666; font-size: 12px;">
-                  👆 Poi clicca sugli slot dell'ombrello per applicare
-                </small>
+            <!-- Step 2: Quick Templates -->
+            <div class="control-item">
+              <div class="control-item-header">
+                <span class="step-number">2</span>
+                <span class="control-item-title">Oppure scegli un template</span>
               </div>
-
-              <!-- Step 2: Quick Templates -->
-              <div class="control-item">
-                <div class="control-item-header">
-                  <span class="step-number">2</span>
-                  <span class="control-item-title">Oppure scegli un template</span>
-                </div>
-                <div class="template-grid">
-                  <button class="template-btn" data-template="restaurant">
-                    <span class="template-icon">🍕</span>
-                    <span class="template-label">Ristorante</span>
-                  </button>
-                  <button class="template-btn" data-template="bar">
-                    <span class="template-icon">☕</span>
-                    <span class="template-label">Bar</span>
-                  </button>
-                  <button class="template-btn" data-template="shop">
-                    <span class="template-icon">🛍️</span>
-                    <span class="template-label">Negozio</span>
-                  </button>
-                  <button class="template-btn" data-template="service">
-                    <span class="template-icon">⚙️</span>
-                    <span class="template-label">Servizi</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <!-- Info Banner -->
-            <div class="info-banner">
-              <div class="info-icon">💡</div>
-              <div class="info-content">
-                <strong>18 spazi pubblicitari</strong> • <strong>3-4 mesi</strong> di esposizione • <strong>QR
-                  tracking</strong>
+              <div class="template-grid">
+                <button class="template-btn" data-template="restaurant">
+                  <span class="template-icon">🍕</span>
+                  <span class="template-label">Ristorante</span>
+                </button>
+                <button class="template-btn" data-template="bar">
+                  <span class="template-icon">☕</span>
+                  <span class="template-label">Bar</span>
+                </button>
+                <button class="template-btn" data-template="shop">
+                  <span class="template-icon">🛍️</span>
+                  <span class="template-label">Negozio</span>
+                </button>
+                <button class="template-btn" data-template="service">
+                  <span class="template-icon">⚙️</span>
+                  <span class="template-label">Servizi</span>
+                </button>
               </div>
             </div>
           </div>
+
+          <!-- Info Banner -->
+          <div class="info-banner">
+            <div class="info-icon">💡</div>
+            <div class="info-content">
+              <strong>18 spazi pubblicitari</strong> • <strong>3-4 mesi</strong> di esposizione • <strong>QR
+                tracking</strong>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
   </section>
 
   <!-- FORM INSERZIONISTI -->
