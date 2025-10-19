@@ -30,12 +30,14 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
   --space-2xl: 4rem;
-  --nav-offset: 96px;
+
+  /* Altezza navbar fissa */
+  --nav-height: 85px;
 }
 
 @media (max-width: 768px) {
   :root {
-    --nav-offset: 88px;
+    --nav-height: 70px;
   }
 }
 
@@ -50,12 +52,6 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   background-color: var(--ink);
-}
-
-/* Anchor offset so section links account for the fixed navigation.
-   Lo script di navigazione aggiorna --nav-offset in base all'altezza della navbar. */
-:where(section, header, .section-anchor) {
-  scroll-margin-top: var(--nav-offset);
 }
 
 .section-anchor {
@@ -127,4 +123,9 @@ body {
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) - 20px);
+}
+
+section {
+  min-height: 100vh;
 }

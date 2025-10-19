@@ -11,7 +11,7 @@
 
 /* HERO */
 .hero {
-  min-height: 100svh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

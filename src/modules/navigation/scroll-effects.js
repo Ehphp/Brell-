@@ -6,25 +6,7 @@
 export class ScrollEffects {
     constructor() {
         this.nav = document.querySelector('.nav');
-        this.lastScroll = 0;
-        this.root = document.documentElement;
-        this.currentOffset = null;
-        this.extraOffset = 12;
         this.isScrolled = false;
-        this.navObserver = null;
-    }
-
-    updateNavOffset() {
-        if (!this.nav || !this.root) return;
-
-        const navHeight = Math.ceil(this.nav.offsetHeight || 0);
-        if (!navHeight) return;
-
-        const offset = navHeight + this.extraOffset;
-        if (this.currentOffset === offset) return;
-
-        this.currentOffset = offset;
-        this.root.style.setProperty('--nav-offset', `${offset}px`);
     }
 
     initNavbarScroll() {
@@ -39,22 +21,11 @@ export class ScrollEffects {
             if (shouldBeScrolled !== this.isScrolled) {
                 this.isScrolled = shouldBeScrolled;
                 this.nav.classList.toggle('scrolled', shouldBeScrolled);
-                requestAnimationFrame(() => this.updateNavOffset());
             }
-
-            this.lastScroll = currentScroll;
         };
 
-        this.updateNavOffset();
         updateState();
-
         window.addEventListener('scroll', updateState, { passive: true });
-        window.addEventListener('resize', () => this.updateNavOffset());
-
-        if (typeof ResizeObserver !== 'undefined') {
-            this.navObserver = new ResizeObserver(() => this.updateNavOffset());
-            this.navObserver.observe(this.nav);
-        }
     }
 
     resolveScrollTarget(element) {
@@ -87,7 +58,6 @@ export class ScrollEffects {
                 const scrollTarget = this.resolveScrollTarget(tgt);
                 if (scrollTarget) {
                     e.preventDefault();
-                    this.updateNavOffset();
                     scrollTarget.scrollIntoView({ block: 'start' });
                 }
             });
