@@ -171,7 +171,7 @@ footer ul li {
    SEZIONE #chiSiamo – Layout a piena altezza (desktop), 3 card sx / mappa+howto dx
    ========================================================================== */
 #chiSiamo {
-  display: grid;
+  display: flex;
   max-width: 100vw;
   box-sizing: border-box;
   overflow: hidden;
@@ -242,26 +242,12 @@ footer ul li {
   max-width: 540px;
 }
 
-/* ===== Grid principale ===== */
-.chiSiamo-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 80%;
-  margin: 5vh auto;
-  gap: 16px;
-}
-
-
-
 .containerMapandCard {
   display: flex;
   height: 55vh;
   width: 100%;
   gap: clamp(16px, 2vw, 28px);
-
-
+  align-items: center;
 }
 
 .chiSiamo-steps_container {
@@ -579,14 +565,11 @@ footer ul li {
   border-radius: calc(var(--radius) * 1.4);
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
-
   gap: clamp(12px, 1.5vw, 20px);
-
-
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 70vw;
+  width: 60%;
 }
 
 
@@ -646,9 +629,8 @@ footer ul li {
   align-content: flex-start;
   gap: clamp(8px, 1.6vw, 18px);
   height: fit-content;
-  width: 85%;
-
-
+  color:black;
+  width: 40%;
 }
 
 #howto__meta .howto__header {
@@ -693,33 +675,16 @@ footer ul li {
   gap: clamp(8px, 1.6vw, 18px);
 }
 
-/* Stats */
-.howto__stats {
-  display: flex;
-  flex-direction: row;
-  gap: clamp(4px, 0.7vw, 8px);
-  margin: 0;
-  /* azzera default DL */
-  padding: 0;
-  width: 100%;
-  color: rgb(54, 53, 55);
-}
-
 .search-stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 2px;
-  flex: 1 1 85px;
   padding: clamp(4px, 0.7vw, 7px) clamp(6px, 0.9vw, 9px);
   border-radius: calc(var(--radius) * 0.9);
   background: rgba(225, 212, 225, 0.598);
   border: 1px solid rgba(255, 241, 227, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
-
 }
 
 .howto__stat {
+  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -731,6 +696,8 @@ footer ul li {
   background: rgba(225, 212, 225, 0.598);
   border: 1px solid rgba(255, 241, 227, 0.18);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  margin: 1rem;
+  padding: 0.5rem;
 }
 
 .howto__stat1 {
@@ -758,7 +725,6 @@ footer ul li {
   color: rgba(67, 32, 64, 0.7);
   line-height: 1.2;
   font-size: clamp(10px, 1.2vw, 12px);
-  width: fit-content;
 }
 
 /* Search block */
@@ -768,8 +734,7 @@ footer ul li {
   display: flex;
   flex-direction: column;
   gap: clamp(4px, 0.8vw, 10px);
-  flex: 1 1;
-  width: 30vw;
+  text-align: center;
 }
 
 #howto__stat .howto__search-form {

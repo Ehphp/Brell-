@@ -264,10 +264,6 @@
     min-height: auto;
   }
   
-  .editor-main {
-    gap: var(--space-lg);
-  }
-  
   .template-pills {
     justify-content: center;
   }
@@ -351,15 +347,15 @@
 
 /* 3D Editor Container - RIPRISTINATO ORIGINALE */
 .editor-container {
-  background: rgba(14, 26, 27, 0.1);
+  /* background: rgba(14, 26, 27, 0.1); */
   border-radius: var(--radius);
-  min-height: 500px;
-  height: 70vh;
+  min-height: 600px;
+  height: 0vh;
   max-height: 800px;
   position: relative;
   overflow: hidden;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
+  /* box-shadow: var(--shadow); */
+  /* backdrop-filter: blur(10px); */
 }
 
 #hero2 {
@@ -423,6 +419,7 @@
   gap: var(--space-sm);
   overflow: hidden;
   min-height: 0;
+  justify-content: space-around;
 }
 
 /* Scrollbar personalizzata per editor-main */
@@ -1121,7 +1118,7 @@ body.texture-editor-open {
   }
 
   .editor-container {
-    height: 50vh;
+    height: 60vh;
     min-height: 400px;
   }
 
