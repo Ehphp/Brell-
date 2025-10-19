@@ -12,19 +12,17 @@ export class EditorUpload {
         this.fileInput = document.getElementById('panel-input');
     }
 
-    handleFileUpload(file) {
+    async handleFileUpload(file) {
         // Validate file
         if (!file.type.startsWith('image/')) {
-            showNotification('⚠️ Seleziona un file immagine valido', 'warning');
+            showNotification('Attenzione: seleziona un file immagine valido', 'warning');
             return;
         }
 
         if (file.size > 5 * 1024 * 1024) { // 5MB limit
-            showNotification('⚠️ Il file è troppo grande (max 5MB)', 'warning');
+            showNotification('Attenzione: il file e troppo grande (max 5MB)', 'warning');
             return;
         }
-
-        showNotification('✅ Logo caricato! Clicca sugli slot dell\'ombrello per applicarlo', 'success');
 
         // Track file upload
         trackEvent('logo_uploaded', {
@@ -33,9 +31,21 @@ export class EditorUpload {
             value: Math.round(file.size / 1024) // Size in KB
         });
 
-        // Integrate with 3D editor to apply the texture
+        showNotification('Regola il logo nella finestra di modifica e conferma per applicarlo.', 'info');
+
+        // Pass control to the texture editor modal
         if (typeof window.applyCustomTexture === 'function') {
-            window.applyCustomTexture(file);
+            try {
+                const texture = await window.applyCustomTexture(file);
+                if (texture) {
+                    showNotification('Logo pronto! Clicca sugli slot dell\'ombrello per applicarlo', 'success');
+                } else {
+                    showNotification('Modifica annullata, nessuna applicazione eseguita.', 'warning');
+                }
+            } catch (error) {
+                console.error('Errore durante l\'applicazione della texture:', error);
+                showNotification('Errore durante l\'applicazione del logo.', 'danger');
+            }
         }
     }
 
@@ -53,13 +63,13 @@ export class EditorUpload {
             this.uploadZone.classList.remove('dragover');
         });
 
-        this.uploadZone.addEventListener('drop', (e) => {
+        this.uploadZone.addEventListener('drop', async (e) => {
             e.preventDefault();
             this.uploadZone.classList.remove('dragover');
 
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                this.handleFileUpload(files[0]);
+                await this.handleFileUpload(files[0]);
             }
         });
 
@@ -67,9 +77,9 @@ export class EditorUpload {
             this.fileInput.click();
         });
 
-        this.fileInput.addEventListener('change', (e) => {
+        this.fileInput.addEventListener('change', async (e) => {
             if (e.target.files.length > 0) {
-                this.handleFileUpload(e.target.files[0]);
+                await this.handleFileUpload(e.target.files[0]);
             }
         });
     }
