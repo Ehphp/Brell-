@@ -4,10 +4,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 //import { VertexNormalsHelper } from '/node_modules/three-js/addons/helpers/VertexNormalsHelper.js';
-import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 
 let textureLoader;
 let isDragging = false;
@@ -15,6 +11,10 @@ let downPos = { x: 0, y: 0 };
 let downTime = 0;
 const CLICK_MAX_MOVEMENT = 5;//pixel
 const CLICK_MAX_DURATION = 300;//millesecond
+
+// Variabili per l'effetto hover con cambio colore
+let hoveredObject = null;
+let originalProperties = null; // Salviamo solo le proprietà, non l'intero materiale
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -94,36 +94,12 @@ document.addEventListener("DOMContentLoaded", () => {
     renderer.setSize(hero2.clientWidth, hero2.clientHeight);
     document.getElementById("hero2").appendChild(renderer.domElement);
 
-    //#region COMPOSER - OUTLINE EFFECT
-    const size = new THREE.Vector2(hero2.clientWidth, hero2.clientHeight);
-
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-
-    const outlinePass = new OutlinePass(
-        size,
-        scene,
-        camera
-    );
-
-    outlinePass.visibleEdgeColor.set(0xffffff);
-    outlinePass.hiddenEdgeColor.set(0x000000);
-    outlinePass.edgeThickness = 1.5;
-    outlinePass.edgeGlow = 0.7;
-    outlinePass.edgeStrength = 2.0;
-    outlinePass.pulsePeriod = 3;
-
-    composer.addPass(outlinePass);
-
-    const outputPass = new OutputPass();
-    composer.addPass(outputPass);
-    //#endregion
-
     scene.background = null; //null for transparent
 
     renderer.domElement.addEventListener('mousemove', onMouseMove, false);
     renderer.domElement.addEventListener("mousedown", onMouseClickDown, false);
     renderer.domElement.addEventListener("mouseup", onMouseClickUp);
+    renderer.domElement.addEventListener('mouseleave', onMouseLeave, false);
 
     window.addEventListener('resize', onWindowResize, false);
 
@@ -398,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
         pivot.rotation.y += 0.001
         controls.update();
 
-        composer.render();
+        renderer.render(scene, camera);
     }
 
     function onWindowResize() {
@@ -407,9 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
         camera.updateProjectionMatrix();
 
         renderer.setSize(container.clientWidth, container.clientHeight);
-        composer.setSize(container.clientWidth, container.clientHeight);
-
-        effectFXAA.uniforms['resolution'].value.set(1 / container.clientWidth, 1 / container.clientHeight);
     }
 
     function applyTextureClick(event) {
@@ -428,14 +401,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (intersects.length > 0) {
             const selectedObject = intersects[0].object;
+
+            // IMPORTANTE: Ripristina l'hover PRIMA di clonare il materiale
+            if (hoveredObject === selectedObject && originalProperties) {
+                selectedObject.material.color.copy(originalProperties.color);
+                selectedObject.material.emissive.copy(originalProperties.emissive);
+                selectedObject.material.emissiveIntensity = originalProperties.emissiveIntensity;
+                selectedObject.material.opacity = originalProperties.opacity;
+                selectedObject.material.transparent = originalProperties.transparent;
+                selectedObject.material.needsUpdate = true;
+                hoveredObject = null;
+                originalProperties = null;
+            }
+
+            // Ora clona il materiale pulito (senza hover)
             const newMaterial = selectedObject.material.clone();
 
-            // FIX: Clona la texture per questo slot specifico
-            // Ogni slot avrà la propria copia indipendente della texture
+            // Applica la texture
             newMaterial.map = textureLoader.clone();
             newMaterial.map.needsUpdate = true;
 
-            newMaterial.color = new THREE.Color(1, 1, 1);
+            // Imposta proprietà corrette per mostrare la texture
+            newMaterial.color = new THREE.Color(1, 1, 1); // Bianco per non alterare la texture
+            newMaterial.emissive = new THREE.Color(0, 0, 0); // Nessuna emissività
+            newMaterial.emissiveIntensity = 0;
+            newMaterial.opacity = 1; // Completamente opaco
+            newMaterial.transparent = false; // Non trasparente
+
             selectedObject.material = newMaterial;
             selectedObject.userData.free = false;
             selectedObject.material.needsUpdate = true;
@@ -461,8 +453,57 @@ document.addEventListener("DOMContentLoaded", () => {
         const intersects = raycaster.intersectObjects(clickableMesh, true);
 
         const newObject = intersects.length > 0 ? intersects[0].object : null;
-        outlinePass.selectedObjects = newObject ? [newObject] : [];
 
+        // Se c'è un cambio di oggetto hoverato
+        if (newObject !== hoveredObject) {
+            // Ripristina le proprietà originali se esisteva un oggetto precedente
+            if (hoveredObject && originalProperties) {
+                hoveredObject.material.color.copy(originalProperties.color);
+                hoveredObject.material.emissive.copy(originalProperties.emissive);
+                hoveredObject.material.emissiveIntensity = originalProperties.emissiveIntensity;
+                hoveredObject.material.opacity = originalProperties.opacity;
+                hoveredObject.material.transparent = originalProperties.transparent;
+                hoveredObject.material.needsUpdate = true;
+                hoveredObject = null;
+                originalProperties = null;
+            }
+
+            // Applica l'effetto hover al nuovo oggetto
+            if (newObject && newObject.material) {
+                // Salva solo le proprietà che andremo a modificare
+                originalProperties = {
+                    color: newObject.material.color.clone(),
+                    emissive: newObject.material.emissive.clone(),
+                    emissiveIntensity: newObject.material.emissiveIntensity,
+                    opacity: newObject.material.opacity,
+                    transparent: newObject.material.transparent
+                };
+
+                // Modifica direttamente il materiale esistente (la texture .map rimane intatta)
+                newObject.material.color.setHex(0xEDE2E1); // Colore giallo del tema
+                newObject.material.emissive.setHex(0xEDE2E1); // Emissività gialla
+                newObject.material.emissiveIntensity = 0.4;
+                newObject.material.opacity = 0.8; // Semi-trasparente
+                newObject.material.transparent = true;
+                newObject.material.needsUpdate = true;
+
+                hoveredObject = newObject;
+            }
+        }
+    }
+
+    function onMouseLeave() {
+        // Ripristina le proprietà quando il mouse esce dalla canvas
+        if (hoveredObject && originalProperties) {
+            hoveredObject.material.color.copy(originalProperties.color);
+            hoveredObject.material.emissive.copy(originalProperties.emissive);
+            hoveredObject.material.emissiveIntensity = originalProperties.emissiveIntensity;
+            hoveredObject.material.opacity = originalProperties.opacity;
+            hoveredObject.material.transparent = originalProperties.transparent;
+            hoveredObject.material.needsUpdate = true;
+            hoveredObject = null;
+            originalProperties = null;
+        }
     }
 
     function onMouseClickDown(event) {
