@@ -8,6 +8,7 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { openTextureEditor } from "./texture-editor.js";
 
 let textureLoader;
 let isDragging = false;
@@ -144,25 +145,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Expose functions for integration with main script
     window.applyCustomTexture = applyCustomTexture;
+    window.applyTextureFromDataUrl = applyTextureFromDataUrl;
     window.applyTemplate = applyTemplate;
     window.updateLogoScale = updateLogoScale;
     window.updateLogoRotation = updateLogoRotation;
 
-    function applyCustomTexture(file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const texture = new THREE.TextureLoader().load(e.target.result);
-            texture.anisotropy = maxAnisotropy;
-            currentLogoTexture = texture;
-
-            // NON applica automaticamente a tutto il modello
-            // L'utente deve cliccare sugli slot per applicare
-            textureLoader = texture;
-            console.log("✅ Texture pronta. Clicca sugli slot dell'ombrello per applicarla.");
-        };
-        reader.readAsDataURL(file);
+    async function applyCustomTexture(file) {
+        const editedDataUrl = await openTextureEditor(file);
+        if (!editedDataUrl) {
+            console.log("Nessuna texture applicata: operazione annullata.");
+            return null;
+        }
+        return applyTextureFromDataUrl(editedDataUrl);
     }
 
+    function applyTextureFromDataUrl(dataUrl) {
+        if (!dataUrl) return null;
+
+        const texture = new THREE.TextureLoader().load(dataUrl, () => {
+            texture.needsUpdate = true;
+        });
+        texture.anisotropy = maxAnisotropy;
+        if ('colorSpace' in texture) {
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }
+        texture.flipY = false;
+
+        currentLogoTexture = texture;
+
+        // NON applica automaticamente a tutto il modello
+        // L'utente deve cliccare sugli slot per applicare
+        textureLoader = texture;
+        console.log("Texture pronta. Clicca sugli slot dell'ombrello per applicarla.");
+        return texture;
+    }
     function applyTemplate(template) {
         // Create a canvas-based texture for template text/logo
         const canvas = document.createElement('canvas');
@@ -187,6 +203,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Create texture from canvas
         const texture = new THREE.CanvasTexture(canvas);
         texture.anisotropy = maxAnisotropy;
+        if ('colorSpace' in texture) {
+            texture.colorSpace = THREE.SRGBColorSpace;
+        }
         currentLogoTexture = texture;
 
         // NON applica automaticamente a tutto il modello
@@ -245,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Expose functions for integration with main script
     window.applyCustomTexture = applyCustomTexture;
+    window.applyTextureFromDataUrl = applyTextureFromDataUrl;
     window.applyTemplate = applyTemplate;
     window.updateLogoScale = updateLogoScale;
     window.updateLogoRotation = updateLogoRotation;
@@ -255,10 +275,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Upload file input
     if (textureUpload) {
-        textureUpload.addEventListener('change', (e) => {
+        textureUpload.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (file && file.type.startsWith('image/')) {
-                applyCustomTexture(file);
+                await applyCustomTexture(file);
             }
         });
     }
@@ -287,14 +307,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Handle dropped files
-        uploadDropZone.addEventListener('drop', (e) => {
+        uploadDropZone.addEventListener('drop', async (e) => {
             const dt = e.dataTransfer;
             const files = dt.files;
 
             if (files.length > 0) {
                 const file = files[0];
                 if (file.type.startsWith('image/')) {
-                    applyCustomTexture(file);
+                    await applyCustomTexture(file);
                     // Also update the file input
                     if (textureUpload) {
                         const dataTransfer = new DataTransfer();
@@ -487,40 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    //#region DRAG AND DROP
-    function fileInputHandler(event) {
-        const file = event.target.files[0];
-        if (file && (file.type === "image/png" || file.type === "image/jpeg")) {
-            handleFileUpload(file);
-        } else {
-            alert("Please upload a valid PNG or JPEG file.");
-        }
-    }
-
-    function handleFileUpload(file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const imageUrl = e.target.result;
-            // Crea una nuova texture ogni volta
-            textureLoader = new THREE.TextureLoader().load(imageUrl);
-            textureLoader.anisotropy = maxAnisotropy;
-            textureLoader.encoding = THREE.sRGBEncoding;
-            textureLoader.flipY = false;
-
-            console.log("✅ Nuova texture caricata. Clicca su uno slot dell'ombrello per applicarla.");
-        };
-        reader.readAsDataURL(file);
-    }
-
-
-    //#endregion DRAG AND DROP
     //#region SAVE/LOAD LISTENER
-    if (textureUpload) {
-        textureUpload.addEventListener('change', fileInputHandler);
-    } else {
-        console.warn("Campo file input '#panel-input' non trovato: upload disabilitato.");
-    }
-
     if (saveButton) {
         saveButton.addEventListener("click", () => {
             let json = model.toJSON();

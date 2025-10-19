@@ -754,6 +754,359 @@
   flex-shrink: 0;
 }
 
+/* Texture Editor Modal */
+body.texture-editor-open {
+  overflow: hidden;
+}
+
+.texture-editor-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 18, 27, 0.78);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+.texture-editor-modal {
+  width: min(760px, 95vw);
+  max-height: min(90vh, 640px);
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 28px 64px rgba(17, 24, 39, 0.35);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.texture-editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px 12px;
+  border-bottom: 1px solid rgba(16, 20, 28, 0.08);
+}
+
+.texture-editor-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--viola);
+}
+
+.texture-editor-subtitle {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(16, 20, 28, 0.6);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.texture-editor-close {
+  border: 0;
+  background: transparent;
+  color: rgba(16, 20, 28, 0.55);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.texture-editor-close:hover {
+  background: rgba(14, 140, 143, 0.12);
+  color: var(--viola);
+  transform: scale(1.05);
+}
+
+.texture-editor-content {
+  display: flex;
+  gap: 16px;
+  padding: 20px 22px;
+  flex: 1;
+  overflow: scroll;
+}
+
+.texture-editor-canvas-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f1625;
+  border-radius: 14px;
+  padding: 14px;
+  min-height: 300px;
+  flex: 1 1 auto;
+  max-width: 420px;
+}
+
+.texture-editor-canvas {
+  display: block;
+  width: min(100%, 360px);
+  height: auto;
+  border-radius: 12px;
+  background: #0f1625;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  touch-action: none;
+  user-select: none;
+}
+
+.texture-editor-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 0 0 3000px;
+}
+
+.texture-editor-control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(15, 22, 37, 0.04);
+  border: 1px solid rgba(15, 22, 37, 0.06);
+  border-radius: 10px;
+}
+
+.texture-editor-control-group.full {
+  grid-column: span 2;
+}
+
+.texture-editor-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--viola);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.texture-editor-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.texture-editor-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--teal);
+}
+
+.texture-editor-zoom-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.texture-editor-zoom-value {
+  font-weight: 700;
+  color: var(--teal);
+  min-width: 44px;
+  text-align: right;
+}
+
+.texture-editor-pill-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+
+.texture-editor-shape-btn,
+.texture-editor-fill-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 10px;
+  border: 1px solid rgba(57, 73, 104, 0.18);
+  background: rgba(14, 140, 143, 0.06);
+  color: var(--viola);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+  text-align: left;
+}
+
+.texture-editor-shape-btn:hover,
+.texture-editor-shape-btn:focus-visible,
+.texture-editor-fill-btn:hover,
+.texture-editor-fill-btn:focus-visible {
+  border-color: var(--teal);
+  box-shadow: 0 8px 18px rgba(14, 140, 143, 0.18);
+  transform: translateY(-1px);
+}
+
+.texture-editor-shape-btn {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.texture-editor-shape-btn.is-active,
+.texture-editor-fill-btn.is-active {
+  background: var(--teal);
+  color: #ffffff;
+  border-color: var(--teal);
+  box-shadow: 0 12px 22px rgba(14, 140, 143, 0.3);
+}
+
+.texture-editor-shape-btn.is-active .texture-editor-shape-icon,
+.texture-editor-fill-btn.is-active .texture-editor-fill-title,
+.texture-editor-fill-btn.is-active .texture-editor-fill-sub {
+  color: #ffffff;
+}
+
+.texture-editor-shape-icon {
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--teal);
+}
+
+.texture-editor-shape-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.texture-editor-fill-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: inherit;
+}
+
+.texture-editor-fill-sub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: rgba(57, 73, 104, 0.75);
+}
+
+.texture-editor-hint {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(16, 20, 28, 0.55);
+  transition: color 0.2s ease;
+}
+
+.texture-editor-hint.is-dragging {
+  color: var(--teal);
+}
+
+.texture-editor-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px 24px;
+  border-top: 1px solid rgba(16, 20, 28, 0.08);
+  background: rgba(246, 248, 252, 0.75);
+}
+
+.texture-editor-button {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.texture-editor-button--ghost {
+  background: transparent;
+  color: var(--viola);
+  border-color: rgba(57, 73, 104, 0.25);
+}
+
+.texture-editor-button--ghost:hover {
+  border-color: var(--viola);
+  background: rgba(57, 73, 104, 0.08);
+}
+
+.texture-editor-button--primary {
+  background: var(--teal);
+  color: #ffffff;
+  border-color: var(--teal);
+  box-shadow: 0 12px 24px rgba(14, 140, 143, 0.25);
+}
+
+.texture-editor-button--primary:hover {
+  background: var(--viola);
+  border-color: var(--viola);
+  box-shadow: 0 16px 32px rgba(90, 54, 130, 0.3);
+}
+
+.texture-editor-button:focus-visible {
+  outline: 3px solid rgba(14, 140, 143, 0.35);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .texture-editor-content {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .texture-editor-controls {
+    flex: 0 0 260px;
+  }
+}
+
+@media (max-width: 640px) {
+  .texture-editor-backdrop {
+    padding: 12px;
+  }
+
+  .texture-editor-modal {
+    width: 100%;
+    max-width: none;
+  }
+
+  .texture-editor-header {
+    padding: 18px 20px 10px;
+  }
+
+  .texture-editor-content {
+    padding: 20px;
+  }
+
+  .texture-editor-footer {
+    padding: 14px 20px 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .texture-editor-backdrop {
+    padding: 0;
+  }
+
+  .texture-editor-modal {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .texture-editor-content {
+    padding: 18px;
+  }
+
+  .texture-editor-canvas-wrapper {
+    padding: 12px;
+    min-height: 280px;
+  }
+}
+
 /* Responsive adjustments */
 @media (max-width: 991px) {
   #editorBrello {
