@@ -364,6 +364,22 @@ footer ul li {
   animation-delay: 2.66s;
 }
 
+.arrow-head {
+  animation: pulse-scale 1s infinite alternate;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@keyframes pulse-scale {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.3);
+  }
+}
+
 /* Posizionamento assoluto delle card circolari */
 .cycle-container .cardPag2 {
   position: absolute;

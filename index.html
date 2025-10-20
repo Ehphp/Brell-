@@ -234,16 +234,28 @@
   <section id="chiSiamo" aria-labelledby="chiSiamo-heading">
     <div class="chiSiamo-steps_container">
       <div class="cycle-container">
-        <svg class="cycle-arrows" viewBox="0 0 600 600" aria-hidden="true">
-
+        <svg class="cycle-arrows" viewBox="0 0 600 600" aria-hidden="true" style="overflow: visible;">
+          <defs>
+            <marker id="arrowhead1" markerWidth="10" markerHeight="7" refX="37" refY="13" orient="84">
+              <polygon class="arrow-head" points="0 0, 10 3.5, 0 7" fill="var(--cream)" />
+            </marker>
+            <marker id="arrowhead2" markerWidth="10" markerHeight="7" refX="33" refY="8" orient="214">
+              <polygon class="arrow-head" points="0 0, 10 3.5, 0 7" fill="var(--cream)" />
+            </marker>
+            <marker id="arrowhead3" markerWidth="10" markerHeight="7" refX="37" refY="13" orient="-36">
+              <polygon class="arrow-head" points="0 0, 10 3.5, 0 7" fill="var(--cream)" />
+            </marker>
+          </defs>
           <path class="arrow-path arrow-1" d="M 300 100 
-               A 200 200 0 0 1 473.2 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
-
+              A 200 200 0 0 1 473.2 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round"
+            marker-end="url(#arrowhead1)" />
           <path class="arrow-path arrow-2" d="M 473.2 400 
-               A 200 200 0 0 1 126.8 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
+              A 200 200 0 0 1 126.8 400" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round"
+            marker-end="url(#arrowhead2)" />
 
           <path class="arrow-path arrow-3" d="M 126.8 400 
-               A 200 200 0 0 1 300 100" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round" />
+              A 200 200 0 0 1 300 100" fill="none" stroke="var(--cream)" stroke-width="4" stroke-linecap="round"
+            marker-end="url(#arrowhead3)" />
         </svg>
 
         <div class="cardPag2 card1Pag2" style="--card-accent: var(--teal);" data-color="var(--teal)">
