@@ -622,7 +622,7 @@ export function init3DEditor() {
                                     0.0032031454611569643,
                                     0.03243967518210411
                                 ),
-                                side: THREE.FrontSide
+                                side: THREE.DoubleSide
                             });
                             node.material = material;
                         }
