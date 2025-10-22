@@ -243,15 +243,18 @@ footer ul li {
   width: 100%;
   gap: clamp(16px, 2vw, 28px);
   align-items: center;
-  margin: 20px 0
+  margin: 20px 0;
+  height: 50%;
+  padding: 0 20px 10rem 20px;
 }
 
 .chiSiamo-steps_container {
-  padding: 0 20px 12rem 20px;
+  padding: 0 20px 10rem 20px;
   margin-bottom: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
+  height: 50%;
 }
 
 .cardList {

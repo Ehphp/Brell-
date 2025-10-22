@@ -1,29 +1,15 @@
-/**
- * Brellò Sharing - Main Application Entry Point
- * 
- * Questo è il punto di ingresso dell'applicazione che coordina
- * l'inizializzazione di tutti i moduli.
- */
-
 import './style.css';
 
-// Import moduli
 import { initNavigation } from './modules/navigation/index.js';
-import { initEditor } from './modules/editor/index.js';
-import { initMap } from './modules/map/index.js';
 import { initForms } from './modules/forms/index.js';
 import { initUI } from './modules/ui/index.js';
 import { initAnimations } from './modules/animations/index.js';
 import { initI18n } from './modules/i18n/index.js';
 
-// Import 3D Editor (THREE.js)
-import './modules/editor/three-legacy.js';
+let editorLoaded = false;
+let mapLoaded = false;
 
-/**
- * Inizializzazione dell'applicazione
- */
 function initApp() {
-    console.log('🎨 Brellò Sharing - Initializing...');
 
     // Inizializza i18n (internazionalizzazione)
     initI18n();
@@ -40,41 +26,90 @@ function initApp() {
     // Inizializza animazioni (typing, umbrella rain, scroll animations)
     initAnimations();
 
-    console.log('✅ Brellò Sharing - Ready!');
+    console.log('✅ Brellò Sharing - Ready! (Critical modules loaded)');
 }
 
-/**
- * Inizializzazione moduli che richiedono il DOM completo
- */
-function initDOMDependentModules() {
-    // Inizializza editor 3D (upload, templates, controls)
-    initEditor();
+function lazyLoadEditor() {
+    if (editorLoaded) return;
 
-    // Inizializza mappa (Mapbox, markers, search)
-    initMap();
-}
+    const editorSection = document.getElementById('editorBrello');
+    if (!editorSection) return;
 
-// Avvia l'app al caricamento del DOM
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initApp();
-        initDOMDependentModules();
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !editorLoaded) {
+                editorLoaded = true;
+                console.log('📦 Lazy loading Editor 3D...');
+
+                Promise.all([
+                    import('./modules/editor/index.js'),
+                    import('./modules/editor/three-legacy.js')
+                ]).then(([{ initEditor }, { init3DEditor }]) => {
+                    initEditor();
+                    init3DEditor();
+                    console.log('✅ Editor 3D loaded!');
+                }).catch(err => {
+                    console.error('❌ Error loading Editor:', err);
+                });
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        rootMargin: '300px'
     });
-} else {
-    // DOM già caricato
-    initApp();
-    initDOMDependentModules();
+
+    observer.observe(editorSection);
 }
 
-// Export per debug (opzionale)
+
+function lazyLoadMap() {
+    if (mapLoaded) return;
+
+    const mapSection = document.getElementById('chiSiamo');
+    if (!mapSection) return;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !mapLoaded) {
+                mapLoaded = true;
+                console.log('📦 Lazy loading Map...');
+
+                import('./modules/map/index.js').then(({ initMap }) => {
+                    initMap();
+                    console.log('✅ Map loaded!');
+                }).catch(err => {
+                    console.error('❌ Error loading Map:', err);
+                });
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        rootMargin: '200px'
+    });
+
+    observer.observe(mapSection);
+}
+
+function initLazyModules() {
+    lazyLoadEditor();
+    lazyLoadMap();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+    initLazyModules();
+});
+
 if (import.meta.env?.DEV) {
     window.__brello__ = {
         version: '2.0.0',
         modules: {
             i18n: 'loaded',
             navigation: 'loaded',
-            editor: 'loaded',
-            map: 'loaded',
+            editor: 'lazy',
+            map: 'lazy',
             forms: 'loaded',
             ui: 'loaded',
             animations: 'loaded'

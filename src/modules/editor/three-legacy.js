@@ -17,13 +17,15 @@ let downTime = 0;
 const CLICK_MAX_MOVEMENT = 5;//pixel
 const CLICK_MAX_DURATION = 300;//millesecond
 
-// Variabili per l'effetto hover con cambio colore
 let hoveredObject = null;
-let originalProperties = null; // Salviamo solo le proprietà, non l'intero materiale
+let originalProperties = null;
 
-document.addEventListener("DOMContentLoaded", () => {
-
+export function init3DEditor() {
     const hero2 = document.getElementById("hero2");
+    if (!hero2) {
+        console.warn('⚠️ Element #hero2 not found, skipping 3D editor initialization');
+        return;
+    }
     const saveButton = document.getElementById("toggle-save");
 
     // Nuovi controlli HTML
@@ -653,5 +655,6 @@ document.addEventListener("DOMContentLoaded", () => {
         window.addEventListener("resize", onWindowResize, false);
         animate();
     }
-    //#endregion
-});
+}
+
+document.addEventListener("DOMContentLoaded", init3DEditor);
