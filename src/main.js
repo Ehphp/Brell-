@@ -89,12 +89,36 @@ function lazyLoadMap() {
                 mapLoaded = true;
                 console.log('📦 Lazy loading Map...');
 
-                import('./modules/map/index.js').then(({ initMap }) => {
-                    initMap();
-                    console.log('✅ Map loaded!');
-                }).catch(err => {
-                    console.error('❌ Error loading Map:', err);
-                });
+                // Carica Mapbox script e CSS se non già presenti
+                if (!window.mapboxgl) {
+                    const link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
+                    document.head.appendChild(link);
+
+                    const script = document.createElement('script');
+                    script.src = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js';
+                    script.onload = () => {
+                        import('./modules/map/index.js').then(({ initMap }) => {
+                            initMap();
+                            console.log('✅ Map loaded!');
+                        }).catch(err => {
+                            console.error('❌ Error loading Map:', err);
+                        });
+                    };
+                    script.onerror = () => {
+                        console.error('❌ Error loading Mapbox script');
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    // Mapbox già caricato, carica solo il modulo
+                    import('./modules/map/index.js').then(({ initMap }) => {
+                        initMap();
+                        console.log('✅ Map loaded!');
+                    }).catch(err => {
+                        console.error('❌ Error loading Map:', err);
+                    });
+                }
 
                 observer.unobserve(entry.target);
             }
