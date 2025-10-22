@@ -9,6 +9,18 @@ import { initI18n } from './modules/i18n/index.js';
 let editorLoaded = false;
 let mapLoaded = false;
 
+function hideLoadingScreen() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (!loadingScreen) return;
+
+    // Aggiungi classe per fade-out
+    loadingScreen.classList.add('hidden');
+    
+    setTimeout(() => {
+        loadingScreen.remove();
+    }, 5000);
+}
+
 function initApp() {
 
     // Inizializza i18n (internazionalizzazione)
@@ -27,6 +39,8 @@ function initApp() {
     initAnimations();
 
     console.log('✅ Brellò Sharing - Ready! (Critical modules loaded)');
+
+    hideLoadingScreen();
 }
 
 function lazyLoadEditor() {

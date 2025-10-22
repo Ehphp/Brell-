@@ -109,15 +109,86 @@
       });
     });
   </script>
+
+  <!-- Loading Screen Styles - Inline per evitare FOUC -->
+  <style>
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    }
+
+    #loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .loader-icon {
+      width: 80px;
+      height: 80px;
+      fill: var(--yellow, #F3B300);
+    }
+
+    .loader-track {
+      width: 200px;
+      height: 4px;
+      background: #f3f3f3;
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader-bar {
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(10deg, transparent, #2c2a22, transparent);
+      animation: slide 1s ease-in-out infinite;
+    }
+
+    @keyframes slide {
+      0% { left: -50%; }
+      100% { left: 100%; }
+    }
+  </style>
 </head>
 
 <body>
+  <!-- Loading Screen -->
+  <div id="loading-screen">
+    <div class="loader-container">
+      <svg class="loader-icon" viewBox="0 0 64 64" aria-hidden="true">
+        <path d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
+      </svg>
+      <div class="loader-track">
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+  </div>
   <!-- NAV -->
   <nav class="nav" role="navigation" aria-label="Navigazione principale">
     <div class="nav-container">
       <a class="text-decoration-none d-flex align-items-center brand" href="#top" aria-label="Brellò sharing">
         <svg viewBox="0 0 64 64" aria-hidden="true" width="32" height="32">
-          <path fill="var(--yellow)"
+          <path fill="#F3B300"
             d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
         </svg>
         <strong>brellò <span style="font-weight:600">sharing</span></strong>
