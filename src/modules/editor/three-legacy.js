@@ -34,7 +34,6 @@ export function init3DEditor() {
     const scaleValue = document.getElementById('scale-value');
     const rotationValue = document.getElementById('rotation-value');
     const templateCards = document.querySelectorAll('.template-btn');
-    const previewButton = document.getElementById('preview-button');
 
     const normalTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_normal-ogl.png");
     const metallicTexture = new THREE.TextureLoader().load("3d_model/outdoor-polyester-fabric_metallic.png");
@@ -308,26 +307,6 @@ export function init3DEditor() {
             }
         });
     });
-
-    // Preview button - Auto-rotate the model
-    if (previewButton) {
-        let isAutoRotating = false;
-
-        previewButton.addEventListener('click', () => {
-            isAutoRotating = !isAutoRotating;
-
-            if (isAutoRotating) {
-                controls.autoRotate = true;
-                controls.autoRotateSpeed = 2.0;
-                previewButton.innerHTML = '⏸️ Ferma rotazione';
-                previewButton.classList.add('active');
-            } else {
-                controls.autoRotate = false;
-                previewButton.innerHTML = '👁️ Anteprima 360°';
-                previewButton.classList.remove('active');
-            }
-        });
-    }
 
     // ============================================
     // END EVENT LISTENERS
@@ -643,7 +622,7 @@ export function init3DEditor() {
                                     0.0032031454611569643,
                                     0.03243967518210411
                                 ),
-                                side: THREE.DoubleSide
+                                side: THREE.FrontSide
                             });
                             node.material = material;
                         }
