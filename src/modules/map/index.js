@@ -6,6 +6,21 @@
 import { trackEvent } from '../../utils/analytics.js';
 import { toast } from '../ui/toast.js';
 
+function loadMapboxCSS() {
+    if (document.querySelector('link[href*="mapbox-gl.css"]')) {
+        return Promise.resolve();
+    }
+
+    return new Promise((resolve, reject) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css';
+        link.onload = () => resolve();
+        link.onerror = () => reject(new Error('Failed to load Mapbox CSS'));
+        document.head.appendChild(link);
+    });
+}
+
 export class MapManager {
     constructor() {
         this.mapEl = document.getElementById('map');
@@ -205,8 +220,16 @@ export class MapManager {
         });
     }
 
-    init() {
+    async init() {
         if (!this.mapEl || !window.mapboxgl) return;
+
+        try {
+            await loadMapboxCSS();
+            console.log('✅ Mapbox CSS loaded');
+        } catch (error) {
+            console.error('❌ Failed to load Mapbox CSS:', error);
+            return;
+        }
 
         mapboxgl.accessToken = this.accessToken;
 
