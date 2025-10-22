@@ -14,11 +14,11 @@ function hideLoadingScreen() {
     if (!loadingScreen) return;
 
     // Aggiungi classe per fade-out
-    loadingScreen.classList.add('hidden');
-    
+    // loadingScreen.classList.add('hidden');
+
     setTimeout(() => {
         loadingScreen.remove();
-    }, 5000);
+    }, 500000);
 }
 
 function initApp() {

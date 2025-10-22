@@ -118,13 +118,14 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #ffffff;
+      background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 9999;
       transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+      overflow: hidden;
     }
 
     #loading-screen.hidden {
@@ -132,41 +133,410 @@
       visibility: hidden;
     }
 
-    .loader-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-    }
-
-    .loader-icon {
-      width: 80px;
-      height: 80px;
-      fill: var(--yellow, #F3B300);
-    }
-
-    .loader-track {
-      width: 200px;
-      height: 4px;
-      background: #f3f3f3;
-      border-radius: 2px;
-      overflow: hidden;
+    .loader-scene {
       position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .loader-bar {
+    /* Sole */
+    .sun {
+      position: absolute;
+      top: 15%;
+      right: 20%;
+      width: 120px;
+      height: 120px;
+      background: #FFD700;
+      border-radius: 50%;
+      box-shadow: 0 0 60px rgba(255, 215, 0, 0.6);
+      animation: sunCycle 8s ease-in-out infinite;
+    }
+
+    .sun::before {
+      content: '';
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+    }
+
+    /* Nuvole */
+    .clouds {
       position: absolute;
       top: 0;
-      left: -50%;
-      width: 50%;
+      left: 0;
+      width: 100%;
       height: 100%;
-      background: linear-gradient(10deg, transparent, #2c2a22, transparent);
-      animation: slide 1s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    @keyframes slide {
-      0% { left: -50%; }
-      100% { left: 100%; }
+    .cloud {
+      position: absolute;
+      background: white;
+      border-radius: 50px;
+      opacity: 0;
+      animation: cloudFloat 8s ease-in-out infinite, cloudAppear 8s ease-in-out infinite;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: '';
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+
+    .cloud-1 {
+      width: 100px;
+      height: 40px;
+      top: 20%;
+      left: 10%;
+      animation-delay: 3.5s;
+    }
+
+    .cloud-1::before {
+      width: 50px;
+      height: 50px;
+      top: -25px;
+      left: 15px;
+    }
+
+    .cloud-1::after {
+      width: 60px;
+      height: 55px;
+      top: -30px;
+      right: 15px;
+    }
+
+    .cloud-2 {
+      width: 120px;
+      height: 45px;
+      top: 30%;
+      right: 15%;
+      animation-delay: 3.8s;
+    }
+
+    .cloud-2::before {
+      width: 55px;
+      height: 55px;
+      top: -28px;
+      left: 20px;
+    }
+
+    .cloud-2::after {
+      width: 65px;
+      height: 60px;
+      top: -32px;
+      right: 20px;
+    }
+
+    /* Pioggia */
+    .rain {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0;
+      animation: rainAppear 8s ease-in-out infinite;
+    }
+
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 20px;
+      background: linear-gradient(180deg, rgba(135, 206, 235, 0) 0%, rgba(135, 206, 235, 0.8) 100%);
+      animation: rainFall 0.8s linear infinite;
+    }
+
+    /* Genera gocce di pioggia con posizioni casuali */
+    .raindrop:nth-child(1) {
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .raindrop:nth-child(2) {
+      left: 20%;
+      animation-delay: 0.1s;
+    }
+
+    .raindrop:nth-child(3) {
+      left: 30%;
+      animation-delay: 0.2s;
+    }
+
+    .raindrop:nth-child(4) {
+      left: 40%;
+      animation-delay: 0.05s;
+    }
+
+    .raindrop:nth-child(5) {
+      left: 50%;
+      animation-delay: 0.15s;
+    }
+
+    .raindrop:nth-child(6) {
+      left: 60%;
+      animation-delay: 0.08s;
+    }
+
+    .raindrop:nth-child(7) {
+      left: 70%;
+      animation-delay: 0.18s;
+    }
+
+    .raindrop:nth-child(8) {
+      left: 80%;
+      animation-delay: 0.12s;
+    }
+
+    .raindrop:nth-child(9) {
+      left: 90%;
+      animation-delay: 0.06s;
+    }
+
+    .raindrop:nth-child(10) {
+      left: 15%;
+      animation-delay: 0.14s;
+    }
+
+    .raindrop:nth-child(11) {
+      left: 25%;
+      animation-delay: 0.09s;
+    }
+
+    .raindrop:nth-child(12) {
+      left: 35%;
+      animation-delay: 0.17s;
+    }
+
+    .raindrop:nth-child(13) {
+      left: 45%;
+      animation-delay: 0.11s;
+    }
+
+    .raindrop:nth-child(14) {
+      left: 55%;
+      animation-delay: 0.04s;
+    }
+
+    .raindrop:nth-child(15) {
+      left: 65%;
+      animation-delay: 0.16s;
+    }
+
+    .raindrop:nth-child(16) {
+      left: 75%;
+      animation-delay: 0.07s;
+    }
+
+    .raindrop:nth-child(17) {
+      left: 85%;
+      animation-delay: 0.13s;
+    }
+
+    .raindrop:nth-child(18) {
+      left: 95%;
+      animation-delay: 0.19s;
+    }
+
+    .raindrop:nth-child(19) {
+      left: 5%;
+      animation-delay: 0.03s;
+    }
+
+    .raindrop:nth-child(20) {
+      left: 32%;
+      animation-delay: 0.21s;
+    }
+
+    /* Ombrello container */
+    .umbrella-container {
+      position: relative;
+      z-index: 10;
+      animation: umbrellaFloat 3s ease-in-out infinite;
+    }
+
+    /* Ombrello SVG */
+    .umbrella {
+      width: 200px;
+      height: 200px;
+      filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+    }
+
+    .umbrella-canopy {
+      transform-origin: center;
+      animation: umbrellaOpen 8s ease-in-out infinite;
+    }
+
+    /* Animazioni */
+    @keyframes sunCycle {
+
+      0%,
+      35% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      40%,
+      95% {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes cloudAppear {
+
+      0%,
+      35% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+
+      45%,
+      90% {
+        opacity: 0.9;
+        transform: translateX(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+    }
+
+    @keyframes cloudFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) translateX(0);
+      }
+
+      50% {
+        transform: translateY(-10px) translateX(10px);
+      }
+    }
+
+    @keyframes rainAppear {
+
+      0%,
+      40% {
+        opacity: 0;
+      }
+
+      50%,
+      95% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes rainFall {
+      0% {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    @keyframes umbrellaOpen {
+
+      0%,
+      35% {
+        transform: scaleX(0.3) translateY(10px);
+      }
+
+      45%,
+      95% {
+        transform: scaleX(1) translateY(0);
+      }
+
+      100% {
+        transform: scaleX(0.3) translateY(10px);
+      }
+    }
+
+    @keyframes umbrellaFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-15px);
+      }
+    }
+
+    /* Cambio sfondo */
+    @keyframes skyChange {
+
+      0%,
+      35% {
+        background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
+      }
+
+      45%,
+      95% {
+        background: linear-gradient(135deg, #4A5568 0%, #718096 100%);
+      }
+
+      100% {
+        background: linear-gradient(135deg, #87CEEB 0%, #E0F6FF 100%);
+      }
+    }
+
+    #loading-screen {
+      animation: skyChange 8s ease-in-out infinite;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sun {
+        width: 80px;
+        height: 80px;
+        top: 10%;
+        right: 10%;
+      }
+
+      .umbrella {
+        width: 150px;
+        height: 150px;
+      }
+
+      .loader-text {
+        font-size: 18px;
+        bottom: 15%;
+      }
+
+      .cloud-1,
+      .cloud-2 {
+        transform: scale(0.7);
+      }
     }
   </style>
 </head>
@@ -174,12 +544,56 @@
 <body>
   <!-- Loading Screen -->
   <div id="loading-screen">
-    <div class="loader-container">
-      <svg class="loader-icon" viewBox="0 0 64 64" aria-hidden="true">
-        <path d="M32 6c-12.7 0-22.9 8.9-25.2 21.1-.3 1.7 1.7 2.8 3.1 1.7C14 24.8 19.4 22 26 22c5.8 0 9.8 2.1 12.9 5.1 1.3 1.2 3.5.2 3.2-1.6C40.5 14.6 36.7 6 32 6zM30 28v21.2c0 2-1.6 3.6-3.6 3.6-2.2 0-3.9-1.9-3.6-4.1.2-1.6 1.6-2.8 3.2-2.9 1-.1 1.8-.9 1.8-1.9V28h2.2z" />
-      </svg>
-      <div class="loader-track">
-        <div class="loader-bar"></div>
+    <div class="loader-scene">
+      <!-- Sole -->
+      <div class="sun"></div>
+
+      <!-- Nuvole -->
+      <div class="clouds">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+      </div>
+
+      <!-- Pioggia -->
+      <div class="rain">
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+        <div class="raindrop"></div>
+      </div>
+
+      <!-- Ombrello -->
+      <div class="umbrella-container">
+        <svg class="umbrella" viewBox="0 0 64 64" aria-hidden="true">
+          <g class="umbrella-canopy">
+            <!-- Cupola ombrello -->
+            <path fill="#F3B300"
+              d="M32 8C18.7 8 7.8 18.9 7.8 32.2c0 0.5 0.4 0.9 0.9 0.9h46.6c0.5 0 0.9-0.4 0.9-0.9C56.2 18.9 45.3 8 32 8z" />
+            <!-- Segmenti ombrello -->
+            <path fill="#E09F00" d="M32 8v25.1M20 12.5l-2 20.6M44 12.5l2 20.6M14 20l-4 13M50 20l4 13" stroke="#D89000"
+              stroke-width="0.5" />
+          </g>
+          <!-- Manico ombrello centrato -->
+          <path fill="#8B4513" d="M33 33v20c0 2-1.5 3-2.5 3s-2.5-1-2.5-3c0-1.5 1-2.5 2-2.5 0.8 0 1.5-0.7 1.5-1.5V33z" />
+          <!-- Punta manico -->
+          <circle fill="#8B4513" cx="32" cy="33" r="1.5" />
+        </svg>
       </div>
     </div>
   </div>
