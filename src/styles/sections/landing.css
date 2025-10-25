@@ -357,7 +357,7 @@ footer ul li {
 
 /* Descritpion card extraction animation */
 .descriptionCardPag.extracting-step1 {
-  transform: translateY(-250px) !important;
+  transform: translateY(-150px) !important;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
