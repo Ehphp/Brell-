@@ -10,7 +10,7 @@ let editorLoaded = false;
 let mapLoaded = false;
 
 const loadStartTime = Date.now();
-const MIN_LOADING_TIME = 5000;
+const MIN_LOADING_TIME = 8000;
 
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
