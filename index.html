@@ -118,7 +118,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #ffffff;
+      background: #2b2828;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -164,9 +164,14 @@
       animation: slide 1s ease-in-out infinite;
     }
 
-    @keyframes slide {
-      0% { left: -50%; }
-      100% { left: 100%; }
+    @keyframes progressSlide {
+      0% {
+        left: -80%;
+      }
+
+      100% {
+        left: 100%;
+      }
     }
   </style>
 </head>
@@ -345,10 +350,26 @@
           <h4>Riconsegna</h4>
         </div>
       </div>
-      <div class="descriptionCardPag" style="--card-accent: var(--teal);" data-color="var(--teal)">
-        <div class="cardSottoContainer">
-          <p>Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
-          <p>Nessuna registrazione, nessuna attesa.</p>
+      <div class="card-stack">
+        <div class="descriptionCardPag" style="--card-accent: var(--teal);">
+          <div class="cardSottoContainer">
+            <p>Trova il portaombrelli più vicino nella tua città e ritira gratuitamente il tuo ombrello.</p>
+            <p>Nessuna registrazione, nessuna attesa.</p>
+          </div>
+        </div>
+
+        <div class="descriptionCardPag" style="--card-accent: var(--rosa);">
+          <div class="cardSottoContainer">
+            <p>Usa l'ombrello per tutto il tempo necessario e restituiscilo in qualsiasi portaombrelli.</p>
+            <p>Semplice e sostenibile.</p>
+          </div>
+        </div>
+
+        <div class="descriptionCardPag" style="--card-accent: var(--yellow);">
+          <div class="cardSottoContainer">
+            <p>Contribuisci a ridurre gli sprechi condividendo gli ombrelli con la comunità.</p>
+            <p>Insieme per un futuro più green.</p>
+          </div>
         </div>
       </div>
     </div>

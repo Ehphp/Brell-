@@ -317,43 +317,64 @@ footer ul li {
   line-height: 1.2;
 }
 
-.descriptionCardPag {
-  border: 1px solid rgba(255, 241, 227, .18);
-  box-shadow: var(--shadow);
-  border-radius: 12px;
-  margin: 0;
-  color: var(--cream);
-  transform: translateY(0);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.card-stack {
+  position: relative;
+  width: 100%;
+  max-width: 40vw;
   height: 40vh;
-  background: linear-gradient(140deg,
-      color-mix(in oklab, var(--teal), #000 6%) 0%, color-mix(in oklab, var(--teal), #000 0%) 100%);
-  width: 40vw;
-  align-content: center;
-}
-.cardSottoContainer{
-  font-size: 2rem;
-  text-align: center;
 }
 
-.cardDetailDiv {
+.descriptionCardPag {
+  position: absolute;
+  width: 100%;
+  background: var(--card-accent);
+  border-radius: 30px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
+}
+
+.descriptionCardPag:nth-child(1) {
+  background: var(--card-accent);
+  z-index: 3;
+  transform: translate(15px, 10px);
+}
+
+.descriptionCardPag:nth-child(2) {
+  background: var(--card-accent);
+  z-index: 2;
+  transform: translate(0, 0);
+}
+
+.descriptionCardPag:nth-child(3) {
+  background: var(--card-accent);
+  z-index: 1;
+  transform: translate(-15px, -10px);
 }
 
 .cardSottoContainer {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-
-  flex-direction: column;
-  align-items: flex-start;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  text-align: center;
 }
+
+.cardSottoContainer p {
+  margin: 0;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 800;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.cardSottoContainer p:first-child {
+  font-weight: 800;
+}
+
 /* PATH -> ANIMATED*/
 .steps-connections {
   position: absolute;
@@ -416,17 +437,6 @@ footer ul li {
   z-index: 1;
 }
 
-.card1Pag2 {
-  top: 0;
-  left: 31%;
-}
-
-.card2Pag2 {
-  bottom: 15%;
-  right: 0;
-}
-
-
 /* Varianti cromatiche card */
 .chiSiamo-step {
   cursor: default;
@@ -435,11 +445,15 @@ footer ul li {
 .card1Pag2 {
   background: linear-gradient(140deg,
       color-mix(in oklab, var(--teal), #000 6%) 0%, color-mix(in oklab, var(--teal), #000 0%) 100%);
+  top: 0;
+  left: 31%;
 }
 
 .card2Pag2 {
   background: linear-gradient(140deg,
-      color-mix(in oklab, var(--rosa), #000 6%) 0%, color-mix(in oklab, var(--rosa), #000 0%) 100%);
+  color-mix(in oklab, var(--rosa), #000 6%) 0%, color-mix(in oklab, var(--rosa), #000 0%) 100%);
+  bottom: 15%;
+  right: 0;
 }
 
 .card3Pag2 {
