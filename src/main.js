@@ -20,10 +20,10 @@ function hideLoadingScreen() {
     const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsed);
 
     setTimeout(() => {
-        loadingScreen.classList.add('hidden');
+        // loadingScreen.classList.add('hidden');
 
         setTimeout(() => {
-            loadingScreen.remove();
+            // loadingScreen.remove();
         }, 500);
     }, remainingTime);
 }
