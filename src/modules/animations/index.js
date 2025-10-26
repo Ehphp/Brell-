@@ -16,7 +16,7 @@ export function initAnimations() {
     typing.start();
 
     // Umbrella rain
-    initUmbrellaRain();
+    // initUmbrellaRain();
 
     // Scroll-based animations
     initScrollAnimations();
