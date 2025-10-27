@@ -249,12 +249,9 @@ footer ul li {
 }
 
 .chiSiamo-steps_container {
-  padding: 0 20px 10rem 20px;
-  margin-bottom: 20px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  height: 50%;
 }
 
 .cardList {
@@ -342,7 +339,7 @@ footer ul li {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 2rem;
+  margin: 6rem 2rem;
 }
 
 .arrow-path {

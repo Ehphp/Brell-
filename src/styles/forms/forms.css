@@ -4,12 +4,11 @@
 #inserzionisti {
   position: relative;
   padding: clamp(60px, 8vh, 100px) 22px;
-  background: 
-    linear-gradient(135deg, 
-      var(--rosa) 0%, 
-      var(--teal) 50%, 
-      var(--yellow) 100%
-    );
+  background:
+    linear-gradient(135deg,
+      var(--rosa) 0%,
+      var(--teal) 50%,
+      var(--yellow) 100%);
   overflow: hidden;
 }
 
@@ -57,7 +56,7 @@
   border: none;
   border-radius: clamp(20px, 2vw, 30px);
   padding: clamp(24px, 3vw, 36px);
-  box-shadow: 
+  box-shadow:
     0 20px 60px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(20px);
@@ -75,7 +74,7 @@
 /* Effetto hover sulle card */
 .formWrap .card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 
+  box-shadow:
     0 30px 80px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
@@ -168,7 +167,7 @@
 .formWrap form textarea:focus {
   border-color: var(--teal);
   background: rgba(255, 255, 255, 1);
-  box-shadow: 
+  box-shadow:
     0 0 0 4px rgba(14, 140, 143, 0.12),
     inset 0 2px 6px rgba(0, 0, 0, 0.06);
   transform: translateY(-2px);
@@ -208,7 +207,7 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
+  box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   position: relative;
@@ -236,14 +235,14 @@
 
 .formWrap form button.btn:hover {
   transform: translateY(-3px);
-  box-shadow: 
+  box-shadow:
     0 15px 40px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .formWrap form button.btn:active {
   transform: translateY(-1px);
-  box-shadow: 
+  box-shadow:
     0 8px 20px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
@@ -299,6 +298,7 @@
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -307,29 +307,39 @@
 
 /* Stili per le etichette dei passaggi in chiSiamo */
 .chiSiamo-steps_labels {
-  width: 100%;
-  max-width: 600px;
-  margin: 2rem;
   font-family: 'Poppins', sans-serif;
   font-weight: 900;
-  font-size: 5rem;
+  font-size: 9rem;
   color: var(--cream);
   text-align: start;
+  line-height: 1;
+}
+
+.chiSiamo-steps_labels p {
+  margin: 0;
+  text-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: color 0.3s ease-out, transform 0.3s ease-out;
 }
 
 @keyframes formIconPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.05);
   }
 }
 
 @keyframes inputGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(14, 140, 143, 0);
   }
+
   50% {
     box-shadow: 0 0 0 4px rgba(14, 140, 143, 0.1);
   }
@@ -340,6 +350,7 @@
     transform: scale(0);
     opacity: 1;
   }
+
   100% {
     transform: scale(4);
     opacity: 0;
@@ -351,6 +362,7 @@
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -362,6 +374,7 @@
     opacity: 0;
     transform: translateX(30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -393,10 +406,21 @@
   animation: formFadeInUp 0.4s ease-out backwards;
 }
 
-.form-group:nth-child(1) { animation-delay: 0.1s; }
-.form-group:nth-child(2) { animation-delay: 0.15s; }
-.form-group:nth-child(3) { animation-delay: 0.2s; }
-.form-group:nth-child(4) { animation-delay: 0.25s; }
+.form-group:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.form-group:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.form-group:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.form-group:nth-child(4) {
+  animation-delay: 0.25s;
+}
 
 .btn-form {
   animation: formFadeInUp 0.5s ease-out 0.3s backwards;
@@ -426,6 +450,7 @@
   0% {
     stroke-dashoffset: 100;
   }
+
   100% {
     stroke-dashoffset: 0;
   }
@@ -451,10 +476,12 @@
     transform: translate(-50%, -50%) scale(0);
     opacity: 0;
   }
+
   50% {
     transform: translate(-50%, -50%) scale(1.2);
     opacity: 1;
   }
+
   100% {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
