@@ -9,16 +9,23 @@ import { initI18n } from './modules/i18n/index.js';
 let editorLoaded = false;
 let mapLoaded = false;
 
+const loadStartTime = Date.now();
+const MIN_LOADING_TIME = 8000;
+
 function hideLoadingScreen() {
     const loadingScreen = document.getElementById('loading-screen');
     if (!loadingScreen) return;
 
-    // Aggiungi classe per fade-out
-    loadingScreen.classList.add('hidden');
-    
+    const elapsed = Date.now() - loadStartTime;
+    const remainingTime = Math.max(0, MIN_LOADING_TIME - elapsed);
+
     setTimeout(() => {
-        loadingScreen.remove();
-    }, 5000);
+        loadingScreen.classList.add('hidden');
+
+        setTimeout(() => {
+            loadingScreen.remove();
+        }, 500);
+    }, remainingTime);
 }
 
 function initApp() {
