@@ -308,8 +308,9 @@
 /* Stili per le etichette dei passaggi in chiSiamo */
 .chiSiamo-steps_labels {
   font-family: 'Poppins', sans-serif;
+  min-width: 8rem;
   font-weight: 900;
-  font-size: 9rem;
+  font-size: 8rem;
   color: var(--cream);
   text-align: start;
   line-height: 1;
