@@ -317,114 +317,6 @@ footer ul li {
   line-height: 1.2;
 }
 
-.card-stack {
-  position: relative;
-  width: 100%;
-  max-width: 40vw;
-  height: 40vh;
-}
-
-.descriptionCardPag {
-  position: absolute;
-  width: 100%;
-  background: var(--card-accent);
-  border-radius: 30px;
-  padding: 30px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.4s ease,
-              z-index 0s 0.2s;
-  height: 100%;
-}
-
-.descriptionCardPag:nth-child(1) {
-  background: var(--card-accent);
-  z-index: 3;
-  transform: translate(15px, 10px);
-}
-
-.descriptionCardPag:nth-child(2) {
-  background: var(--card-accent);
-  z-index: 2;
-  transform: translate(0, 0);
-}
-
-.descriptionCardPag:nth-child(3) {
-  background: var(--card-accent);
-  z-index: 1;
-  transform: translate(-15px, -10px);
-}
-
-/* Descritpion card extraction animation */
-.descriptionCardPag.extracting-step1 {
-  transform: translateY(-150px) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-}
-
-.descriptionCardPag.extracting-step2 {
-  z-index: 10 !important;
-  transform: translate(15px, 10px) !important;
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-              box-shadow 0.4s ease,
-              z-index 0s 0s;
-}
-
-/* card 1 active */
-.card-stack[data-extracted="1"] .descriptionCardPag[data-card-id="2"] {
-  transform: translate(0, 0);
-  z-index: 2;
-}
-
-.card-stack[data-extracted="1"] .descriptionCardPag[data-card-id="3"] {
-  transform: translate(-15px, -10px);
-  z-index: 1;
-}
-
-/*card 2 active */
-.card-stack[data-extracted="2"] .descriptionCardPag[data-card-id="1"] {
-  transform: translate(0, 0);
-  z-index: 2;
-}
-
-.card-stack[data-extracted="2"] .descriptionCardPag[data-card-id="3"] {
-  transform: translate(-15px, -10px);
-  z-index: 1;
-}
-
-/* card 3 active */
-.card-stack[data-extracted="3"] .descriptionCardPag[data-card-id="1"] {
-  transform: translate(0, 0);
-  z-index: 2;
-}
-
-.card-stack[data-extracted="3"] .descriptionCardPag[data-card-id="2"] {
-  transform: translate(-15px, -10px);
-  z-index: 1;
-}
-
-.cardSottoContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  gap: 1rem;
-  text-align: center;
-}
-
-.cardSottoContainer p {
-  margin: 0;
-  font-size: clamp(1rem, 1.5vw, 1.2rem);
-  font-weight: 800;
-  color: var(--cream);
-  line-height: 1.3;
-}
-
-.cardSottoContainer p:first-child {
-  font-weight: 800;
-}
-
 /* PATH -> ANIMATED*/
 .steps-connections {
   position: absolute;
@@ -450,7 +342,7 @@ footer ul li {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 4rem 2rem;
+  margin: 2rem;
 }
 
 .arrow-path {

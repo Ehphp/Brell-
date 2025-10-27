@@ -305,6 +305,18 @@
   }
 }
 
+/* Stili per le etichette dei passaggi in chiSiamo */
+.chiSiamo-steps_labels {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 900;
+  font-size: 5rem;
+  color: var(--cream);
+  text-align: start;
+}
+
 @keyframes formIconPulse {
   0%, 100% {
     transform: scale(1);
